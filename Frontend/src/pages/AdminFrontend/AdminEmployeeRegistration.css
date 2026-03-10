@@ -1,0 +1,207 @@
+/* Admin Add Employee Styles - Enhanced Version */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page Background */
+.employee-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 40px 20px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Container */
+.employee-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Page Title */
+.employee-page-header {
+  margin-bottom: 30px;
+}
+
+.employee-page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Form Wrapper */
+.employee-form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.employee-form {
+  width: 100%;
+}
+
+/* Section Cards */
+.employee-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.employee-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.09);
+}
+
+/* Section Titles */
+.employee-card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 20px;
+  position: relative;
+  padding-left: 15px;
+}
+
+.employee-card-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 4px;
+  height: 20px;
+  background: #2563eb;
+  border-radius: 3px;
+}
+
+/* Grid Layout */
+.employee-grid {
+  display: grid;
+  gap: 5px;
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-inline: 5px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 3px;
+  letter-spacing: 0.3px;
+}
+
+.required {
+  color: #ef4444;
+}
+
+/* Inputs */
+.form-input,
+.form-select,
+.form-textarea {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background: #f9fafb;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-textarea {
+  resize: none;
+}
+
+/* File Inputs */
+.file-label {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.file-input {
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #eef2ff;
+  border: 1px dashed #6366f1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-input:hover {
+  background: #e0e7ff;
+}
+
+.span-full {
+  grid-column: 1 / -1;
+}
+
+/* Password Error */
+.password-error {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+/* Submit Button */
+.employee-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.employee-submit-btn {
+  padding: 14px 40px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.employee-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .employee-card {
+    padding: 20px;
+  }
+
+  .employee-page-title {
+    font-size: 24px;
+  }
+}

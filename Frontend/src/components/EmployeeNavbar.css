@@ -1,0 +1,348 @@
+/* =========================================
+   GLOBAL LAYOUT SUPPORT
+========================================= */
+
+body {
+  margin: 0;
+}
+
+.dash-main {
+  margin-left: 260px;
+  padding: 24px;
+  min-height: 100vh;
+  background: #f8fafc;
+  transition: margin-left 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   SIDEBAR (DESKTOP DEFAULT)
+========================================= */
+
+.emp-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  background: linear-gradient(180deg, #0d151c 0%, #1a2230 100%);
+  color: #fff;
+  padding: 20px 16px;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.4);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 50;
+}
+
+/* Scrollbar */
+.emp-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.emp-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
+}
+
+/* =========================================
+   BRAND
+========================================= */
+
+.emp-nav-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.emp-mobile-close-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.emp-sidebar.mobile .emp-mobile-close-btn {
+  display: flex;
+}
+
+.emp-mobile-close-btn:hover {
+  background: rgba(239, 68, 68, 0.8);
+}
+
+.emp-nav-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  background: #fff;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.emp-nav-brand-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.emp-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.emp-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  font-size: 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.emp-nav-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: #1976d2;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.2s ease;
+}
+
+.emp-nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.emp-nav-item.active {
+  background: linear-gradient(
+    90deg,
+    rgba(25, 118, 210, 0.35) 0%,
+    transparent 100%
+  );
+  color: #fff;
+  font-weight: 600;
+}
+
+.emp-nav-item.active::before {
+  transform: scaleY(1);
+}
+
+.emp-nav-item span {
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================
+   SUBMENU
+========================================= */
+
+.emp-nav-with-submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.emp-submenu {
+  margin-left: 14px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(148, 163, 184, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.emp-submenu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 7px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.65);
+  transition: all 0.2s ease;
+}
+
+.emp-submenu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.emp-submenu-item.active {
+  background: linear-gradient(
+    90deg,
+    rgba(25, 118, 210, 0.25) 0%,
+    transparent 100%
+  );
+  color: #fff;
+  font-weight: 600;
+}
+
+.emp-submenu-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: #1976d2;
+  border-radius: 2px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.emp-nav-footer {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.emp-nav-logout {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: transparent;
+  color: #e5e7eb;
+  padding: 6px 0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.emp-nav-logout:hover {
+  background: #f97316;
+  color: #0f1724;
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   MOBILE TOP BAR
+========================================= */
+
+.emp-mobile-topbar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  padding: 0 16px;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(180deg, #0d151c 0%, #1a2230 100%);
+  color: #fff;
+  z-index: 100;
+}
+
+.emp-mobile-topbar button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emp-mobile-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* =========================================
+   MOBILE SIDEBAR
+========================================= */
+
+.emp-sidebar.mobile {
+  width: 280px;
+  max-width: 85vw;
+  height: 100vh;
+  z-index: 200;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.emp-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1024px) {
+  .emp-sidebar {
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+  }
+
+  .dash-main {
+    margin-left: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .emp-mobile-topbar {
+    display: flex;
+  }
+
+  .dash-main {
+    margin-left: 0;
+    padding-top: 76px;
+  }
+}
+
+@media (max-width: 480px) {
+  .emp-sidebar.mobile {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .emp-nav-item {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .emp-nav-brand-name {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,69 @@
+/* Employee Meetings Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --primary-color: #1976d2;
+  --primary-hover: #1565c0;
+  --background-color: #f8fafc;
+  --card-background: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --purple-color: #8b5cf6;
+}
+
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+/* .emp-lineup-root {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.emp-lineup-main {
+  flex: 1;
+  margin-left: 260px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}  */
+
+.emp-lineup-root {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+.emp-lineup-content {
+  flex: 1;
+  margin-left: 260px;
+  /* same as sidebar width */
+  width: calc(100% - 260px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+@media (max-width: 1024px) {
+  .emp-lineup-content {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+  }
+}
+
+@media (max-width: 768px) {
+  .emp-lineup-content {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 76px;
+  }
+}

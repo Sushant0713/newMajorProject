@@ -1,0 +1,29 @@
+:root {
+  --bg: #f6f8fa;
+  --card-bg: #fff;
+  --muted: #7b8a90;
+  --text: #0f1724;
+  --accent: #2563eb;
+  --success: #10b981;
+  --danger: #ef4444;
+  --surface: #eef2f7;
+  --border: #e6eaee;
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  --radius: 10px;
+  --sidebar-bg: #0f1724;
+  --sidebar-text: #fff;
+  --gap: 16px;
+}
+
+.admin-lineup-root {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  font-family: "Inter", sans-serif;
+}
+
+@media (max-width: 768px) {
+  .admin-main {
+    margin-left: 0;
+  }
+}

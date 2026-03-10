@@ -1,0 +1,893 @@
+/* Employee Tracker Page Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.emp-tracker-root {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f8f9fc;
+}
+
+.emp-tracker-main {
+  flex: 1;
+  margin-left: 260px;
+  background-color: #f8f9fc;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.emp-tracker-header {
+  background: #ffffff;
+  padding: 24px 32px;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.emp-tracker-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.emp-tracker-content {
+  padding: 32px;
+}
+
+/* Filters Section */
+.emp-tracker-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.emp-tracker-search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  align-items: center;
+}
+
+.emp-tracker-search-icon {
+  position: absolute;
+  left: 12px;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.emp-tracker-search-input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.emp-tracker-search-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.emp-tracker-search-clear {
+  position: absolute;
+  right: 8px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.emp-tracker-search-clear:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.emp-tracker-filter-group {
+  display: flex;
+  align-items: center;
+}
+
+.emp-tracker-filter-select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.emp-tracker-filter-select:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.emp-tracker-date-range {
+  display: flex;
+  gap: 8px;
+}
+
+.emp-tracker-date-input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.emp-tracker-date-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.emp-tracker-clear-btn {
+  padding: 10px 16px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.emp-tracker-clear-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Status Options for Line up */
+.emp-tracker-status-options {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.emp-tracker-status-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.emp-tracker-status-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.emp-tracker-status-btn.active {
+  background: #7c3aed;
+  color: #ffffff;
+  border-color: #7c3aed;
+}
+
+/* Table Styles */
+.emp-tracker-table-wrapper {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  overflow-x: auto;
+  display: block;
+}
+
+.emp-tracker-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+  display: table;
+}
+
+.emp-tracker-table thead {
+  background: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.emp-tracker-table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.emp-tracker-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.15s ease;
+}
+
+.emp-tracker-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.emp-tracker-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.emp-tracker-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #111827;
+}
+
+.mobile-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.whatsapp-btn {
+  background: #25d366;
+  border: none;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.whatsapp-btn:hover {
+  background: #20ba5a;
+  transform: scale(1.1);
+}
+
+.emp-tracker-status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-joined {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.status-pending {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
+.status-onhold {
+  background: rgba(234, 179, 8, 0.1);
+  color: #d97706;
+}
+
+.status-drop {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.status-pipeline {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
+.status-hold {
+  background: rgba(139, 92, 246, 0.1);
+  color: #7c3aed;
+}
+
+/* Action Buttons */
+.emp-tracker-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.emp-tracker-action-btn {
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #ffffff;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.emp-tracker-action-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.emp-tracker-action-btn.edit {
+  color: #2563eb;
+  border-color: #93c5fd;
+}
+
+.emp-tracker-action-btn.view-resume {
+  color: #7c3aed;
+  border-color: #c4b5fd;
+}
+
+.emp-tracker-action-btn.drop {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.emp-tracker-action-btn.add-tracker {
+  color: #16a34a;
+  border-color: #86efac;
+}
+
+.emp-tracker-action-btn.note {
+  color: #f97316;
+  border-color: #fdba74;
+}
+
+.emp-tracker-action-btn.hold {
+  color: #7c3aed;
+  border-color: #c4b5fd;
+}
+
+.emp-tracker-action-btn.dropdown {
+  color: #6b7280;
+}
+
+.emp-tracker-dropdown-wrapper {
+  position: relative;
+}
+
+.emp-tracker-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.emp-tracker-dropdown-item {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: #ffffff;
+  text-align: left;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.emp-tracker-dropdown-item:hover {
+  background: #f9fafb;
+}
+
+/* Mobile Card View */
+.emp-tracker-mobile-cards {
+  display: none;
+}
+
+.emp-tracker-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.emp-tracker-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.emp-tracker-card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.emp-tracker-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.emp-tracker-card-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.emp-tracker-card-item .label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  min-width: 80px;
+}
+
+.emp-tracker-card-item .value {
+  font-size: 14px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.emp-tracker-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.emp-tracker-card-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.emp-tracker-card-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* Modal Styles */
+.emp-tracker-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.emp-tracker-modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.emp-tracker-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.emp-tracker-modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.emp-tracker-modal-close {
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.emp-tracker-modal-close:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.emp-tracker-modal-body {
+  padding: 24px;
+}
+
+.emp-tracker-modal-info {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.emp-tracker-form-group {
+  margin-bottom: 20px;
+}
+
+.emp-tracker-form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.emp-tracker-form-input,
+.emp-tracker-form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.emp-tracker-form-input:focus,
+.emp-tracker-form-textarea:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.emp-tracker-form-textarea {
+  resize: vertical;
+}
+
+.emp-tracker-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.emp-tracker-modal-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.emp-tracker-modal-btn.secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.emp-tracker-modal-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+.emp-tracker-modal-btn.primary {
+  background: #7c3aed;
+  color: #ffffff;
+}
+
+.emp-tracker-modal-btn.primary:hover {
+  background: #6d28d9;
+}
+
+/* Submenu Styles */
+.nav-with-submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-nav-item.with-submenu {
+  justify-content: space-between;
+}
+
+.nav-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.submenu {
+  margin-left: 44px;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.submenu-item {
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.submenu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.submenu-item.active {
+  background: rgba(25, 118, 210, 0.3);
+  color: white;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 980px) {
+  .emp-tracker-main {
+    margin-left: 0;
+  }
+
+  .dash-sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: auto;
+  }
+
+  .emp-tracker-table-wrapper {
+    display: none;
+  }
+
+  .emp-tracker-mobile-cards {
+    display: block;
+  }
+
+  .emp-tracker-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .emp-tracker-search-wrapper {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .emp-tracker-filter-group {
+    width: 100%;
+  }
+
+  .emp-tracker-filter-select {
+    width: 100%;
+  }
+
+  .emp-tracker-date-range {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .emp-tracker-date-input {
+    width: 100%;
+  }
+
+  .emp-tracker-clear-btn {
+    width: 100%;
+  }
+
+  .emp-tracker-status-options {
+    flex-direction: column;
+  }
+
+  .emp-tracker-status-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .emp-tracker-content {
+    padding: 20px 16px;
+  }
+
+  .emp-tracker-header {
+    padding: 20px 16px;
+  }
+
+  .emp-tracker-title {
+    font-size: 20px;
+  }
+
+  .emp-tracker-card {
+    padding: 16px;
+  }
+
+  .emp-tracker-modal-content {
+    margin: 10px;
+    max-width: calc(100% - 20px);
+  }
+}
+
+/* Resume Icon and Name Styling */
+.name-with-resume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resume-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.resume-icon-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Resume Modal */
+.resume-modal {
+  max-width: 500px;
+}
+
+.resume-preview-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 32px;
+  background: #f8fafc;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.resume-file-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.resume-details {
+  text-align: center;
+  width: 100%;
+}
+
+.resume-details h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 16px 0;
+  word-break: break-word;
+}
+
+.resume-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resume-meta-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.resume-meta-item svg {
+  color: #3b82f6;
+}
+
+.resume-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.resume-actions .emp-tracker-modal-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 150px;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .resume-actions {
+    flex-direction: column;
+  }
+
+  .resume-actions .emp-tracker-modal-btn {
+    width: 100%;
+  }
+}
+

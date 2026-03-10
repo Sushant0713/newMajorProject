@@ -1,0 +1,386 @@
+/* 🌈 Background with animated gradient waves */
+.admin-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+  background: linear-gradient(135deg, #001f3f, #004d7a, #008793, #00bf72, #a8eb12);
+  background-size: 500% 500%;
+  animation: bgAnimation 15s ease infinite;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ✨ Floating glowing orbs in background */
+.admin-wrapper::before,
+.admin-wrapper::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+  animation: float 12s ease-in-out infinite alternate;
+}
+
+.admin-wrapper::before {
+  width: 300px;
+  height: 300px;
+  background: #00eaff;
+  top: 10%;
+  left: 20%;
+}
+
+.admin-wrapper::after {
+  width: 350px;
+  height: 350px;
+  background: #ff0080;
+  bottom: 10%;
+  right: 15%;
+}
+
+/* 🌟 Glassmorphism login card */
+.login-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+  animation: fadeIn 1.2s ease-in-out, floatCard 6s ease-in-out infinite;
+}
+
+.login-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* 🪩 Floating animation for card */
+@keyframes floatCard {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* 🌀 Logo */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.admin-logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.admin-logo:hover {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.7);
+}
+
+/* ✍️ Text */
+.welcome-text {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.4rem;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+/* 💎 Input Fields */
+.input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 35px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.input-group:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+.input-icon {
+  margin-right: 0.6rem;
+  font-size: 1.1rem;
+  color: #38bdf8;
+}
+
+.input-group input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: white;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 🔗 Forgot Password */
+.options {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.options a {
+  color: #f1f5f9;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.options a:hover {
+  color: #00eaff;
+  text-decoration: underline;
+}
+
+/* ⚡ Divider */
+.divider {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 1.2rem 0;
+  font-size: 0.85rem;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+/* 🚀 Admin Login Button */
+.login-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+  border: none;
+  border-radius: 35px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.4), transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.login-btn:hover::before {
+  transform: translateX(100%);
+}
+
+.login-btn:hover {
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.6);
+  transform: translateY(-3px);
+}
+
+/* 🧡 Employee Login Button */
+.employee-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #f97316, #dc2626);
+  border: none;
+  border-radius: 35px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.employee-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.4), transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.employee-btn:hover::before {
+  transform: translateX(100%);
+}
+
+.employee-btn:hover {
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.6);
+  transform: translateY(-3px);
+}
+
+/* ✨ Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bgAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-25px); }
+}
+
+/* 📱 Responsive Design */
+/* @media (max-width: 500px) {
+  .login-card {
+    padding: 2rem;
+    max-width: 90%;
+  }
+  .welcome-text {
+    font-size: 1.6rem;
+  }
+  .subtitle {
+    font-size: 0.95rem;
+  }
+} */
+
+@media (max-width: 480px) {
+  .admin-wrapper {
+    padding: 12px;
+  }
+
+  .login-card {
+    padding: 1.8rem 1.5rem;
+    border-radius: 20px;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .welcome-text {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .input-group {
+    padding: 0.6rem 0.9rem;
+  }
+
+  .input-group input {
+    font-size: 0.95rem;
+  }
+
+  .login-btn,
+  .employee-btn {
+    padding: 0.85rem;
+    font-size: 1rem;
+  }
+}
+
+/* @media (max-width: 400px) {
+  .admin-logo {
+    width: 70px;
+    height: 70px;
+  }
+  .welcome-text {
+    font-size: 1.4rem;
+  }
+  .input-group input {
+    font-size: 0.9rem;
+  }
+} */
+
+@media (min-width: 481px) and (max-width: 1024px) {
+  .login-card {
+    max-width: 460px;
+    padding: 3rem 2.5rem;
+  }
+
+  .welcome-text {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .admin-wrapper::before,
+  .admin-wrapper::after {
+    filter: blur(140px);
+    opacity: 0.45;
+  }
+
+  .login-card {
+    max-width: 520px;
+  }
+}
+
+/* @media (min-width: 1200px) {
+  .login-card {
+    max-width: 500px;
+    padding: 3.5rem 3rem;
+  }
+  .welcome-text {
+    font-size: 2.2rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  .input-group input {
+    font-size: 1.05rem;
+  }
+} */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
