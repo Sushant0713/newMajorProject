@@ -37,11 +37,34 @@
   padding: 20px;
 }
 
-.section-title {
+/* CARD HEADER - title + badge side-by-side */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-header h3 {
+  margin-bottom: 0;
+}
+
+.badge {
+  background: #e0e7ff;
+  color: #3730a3;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.kpi-section-label {
   font-size: 12px;
   text-transform: uppercase;
   color: #64748b;
   font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
 }
 
 /* Export CSV */
@@ -117,8 +140,9 @@
 
 .filter-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr auto auto;
   align-items: center;
+  gap: 8px;
   margin: 16px 0;
 }
 
@@ -136,6 +160,33 @@
 .filter-row input:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.filter-row button {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #111827;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.filter-row button:last-child {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.filter-row button:last-child:hover {
+  background: #e5e7eb;
+}
+
+.filter-row button:first-of-type:hover {
+  background: #374151;
 }
 
 .filter-row input[type="date"]::-webkit-calendar-picker-indicator {
@@ -322,6 +373,8 @@ tr:hover {
   font-weight: 700;
   margin-bottom: 16px;
   color: #1f2937;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 /* DATA TYPE */
@@ -849,3 +902,35 @@ tr:hover {
   cursor: not-allowed;
 }
 
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0;
+    padding-top: 56px; /* height of the mobile top bar */
+  }
+}
+
+@media (max-width: 768px) {
+  .content-row {
+    flex-direction: column;
+  }
+
+  .data-type-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-row {
+    gap: 8px;
+  }
+
+  .kpi {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+}
+
+/* Override shared AdminHeader sticky - scroll with page like Client List */
+.main-content .admin-header {
+  position: relative;
+  top: auto;
+}

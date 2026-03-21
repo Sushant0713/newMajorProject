@@ -26,6 +26,10 @@
   --transition-slow: 0.5s ease;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Dark Mode Variables */
 .dark {
   --background-color: #111827;
@@ -89,7 +93,8 @@
 }
 
 .sidebar-collapse-btn {
-  display: none; /* Hidden by default - can be enabled if needed */
+  display: none;
+  /* Hidden by default - can be enabled if needed */
   position: absolute;
   right: 8px;
   top: 70px;
@@ -268,7 +273,9 @@
   display: flex;
   flex-direction: column;
   width: calc(100% - 260px);
+  min-width: 0;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -790,16 +797,45 @@
 }
 
 /* Color Variants for Stat Cards */
-.stat-blue .stat-icon { color: #3b82f6; }
-.stat-purple .stat-icon { color: #8b5cf6; }
-.stat-green .stat-icon { color: #22c55e; }
-.stat-indigo .stat-icon { color: #6366f1; }
-.stat-pink .stat-icon { color: #ec4899; }
-.stat-teal .stat-icon { color: #14b8a6; }
-.stat-cyan .stat-icon { color: #06b6d4; }
-.stat-red .stat-icon { color: #ef4444; }
-.stat-yellow .stat-icon { color: #eab308; }
-.stat-expense .stat-icon { color: #dc2626; }
+.stat-blue .stat-icon {
+  color: #3b82f6;
+}
+
+.stat-purple .stat-icon {
+  color: #8b5cf6;
+}
+
+.stat-green .stat-icon {
+  color: #22c55e;
+}
+
+.stat-indigo .stat-icon {
+  color: #6366f1;
+}
+
+.stat-pink .stat-icon {
+  color: #ec4899;
+}
+
+.stat-teal .stat-icon {
+  color: #14b8a6;
+}
+
+.stat-cyan .stat-icon {
+  color: #06b6d4;
+}
+
+.stat-red .stat-icon {
+  color: #ef4444;
+}
+
+.stat-yellow .stat-icon {
+  color: #eab308;
+}
+
+.stat-expense .stat-icon {
+  color: #dc2626;
+}
 
 /* Section Grid */
 .admin-section-grid {
@@ -899,12 +935,29 @@
 }
 
 /* Tailwind color classes for pipeline bars */
-.bg-blue-500 { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-.bg-purple-500 { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
-.bg-green-500 { background: linear-gradient(90deg, #22c55e, #4ade80); }
-.bg-indigo-500 { background: linear-gradient(90deg, #6366f1, #818cf8); }
-.bg-orange-500 { background: linear-gradient(90deg, #f97316, #fb923c); }
-.bg-red-500 { background: linear-gradient(90deg, #ef4444, #f87171); }
+.bg-blue-500 {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.bg-purple-500 {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+}
+
+.bg-green-500 {
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+.bg-indigo-500 {
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+}
+
+.bg-orange-500 {
+  background: linear-gradient(90deg, #f97316, #fb923c);
+}
+
+.bg-red-500 {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
 
 /* Chart Card */
 .admin-chart-card {
@@ -913,6 +966,8 @@
   box-shadow: var(--shadow-md);
   padding: 24px;
   transition: background-color var(--transition-normal);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .chart-header {
@@ -978,6 +1033,8 @@
   box-shadow: var(--shadow-md);
   padding: 24px;
   transition: background-color var(--transition-normal);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .performers-table-wrapper {
@@ -1037,10 +1094,26 @@
   font-size: 0.8rem;
 }
 
-.rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; }
-.rank-2 { background: linear-gradient(135deg, #9ca3af, #6b7280); color: white; }
-.rank-3 { background: linear-gradient(135deg, #d97706, #b45309); color: white; }
-.rank-4, .rank-5 { background: var(--background-color); color: var(--text-primary); }
+.rank-1 {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+}
+
+.rank-2 {
+  background: linear-gradient(135deg, #9ca3af, #6b7280);
+  color: white;
+}
+
+.rank-3 {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: white;
+}
+
+.rank-4,
+.rank-5 {
+  background: var(--background-color);
+  color: var(--text-primary);
+}
 
 .performer-info {
   display: flex;
@@ -1100,6 +1173,8 @@
   display: flex;
   flex-direction: column;
   transition: background-color var(--transition-normal);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .notification-count {
@@ -1148,16 +1223,38 @@
 }
 
 /* Icon background colors */
-.bg-blue-100 { background-color: rgba(59, 130, 246, 0.15); }
-.bg-yellow-100 { background-color: rgba(234, 179, 8, 0.15); }
-.bg-red-100 { background-color: rgba(239, 68, 68, 0.15); }
-.bg-green-100 { background-color: rgba(34, 197, 94, 0.15); }
+.bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+.bg-yellow-100 {
+  background-color: rgba(234, 179, 8, 0.15);
+}
+
+.bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.15);
+}
+
+.bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.15);
+}
 
 /* Icon text colors */
-.text-blue-600 { color: #2563eb; }
-.text-yellow-600 { color: #d97706; }
-.text-red-600 { color: #dc2626; }
-.text-green-600 { color: #16a34a; }
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.text-yellow-600 {
+  color: #d97706;
+}
+
+.text-red-600 {
+  color: #dc2626;
+}
+
+.text-green-600 {
+  color: #16a34a;
+}
 
 .notification-content {
   display: flex;
@@ -1215,22 +1312,38 @@
   font-size: 16px;
 }
 
-/* Responsive Adjustments */
+/* ===========================
+   Responsive Adjustments
+   Single breakpoint: 1024px
+   =========================== */
 @media (max-width: 1024px) {
-  .admin-header-center {
-    display: none;
+  /* Hide the desktop sidebar — mobile overlay used instead */
+  .admin-sidebar.desktop-only {
+    display: none !important;
   }
-}
 
-@media (max-width: 768px) {
+  /* Main content takes full width with room for mobile topbar */
+  .admin-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-top: 56px !important;
+    overflow-x: hidden;
+  }
+
+  /* Header sits at top of scroll area; admin-main padding-top already offsets mobile topbar */
   .admin-header {
     padding: 12px 16px;
+    top: 0 !important;
+  }
+
+  .admin-header-center {
+    display: none;
   }
 
   .admin-user-details {
     display: none;
   }
-  
+
   .admin-content,
   .admin-section-grid,
   .admin-bottom-grid {
@@ -1448,11 +1561,11 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.settings-toggle input:checked + .settings-toggle-slider {
+.settings-toggle input:checked+.settings-toggle-slider {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
-.settings-toggle input:checked + .settings-toggle-slider::before {
+.settings-toggle input:checked+.settings-toggle-slider::before {
   transform: translateX(22px);
 }
 
@@ -1879,4 +1992,3 @@
     justify-content: center;
   }
 }
-

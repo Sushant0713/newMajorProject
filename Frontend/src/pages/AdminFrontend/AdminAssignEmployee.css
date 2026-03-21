@@ -167,6 +167,12 @@
   background-color: #f3f4f6;
 }
 
+/* Override shared AdminHeader sticky — scroll with page like Client List */
+.assign-main-wrapper .admin-header {
+  position: relative;
+  top: auto;
+}
+
 /* ========== HEADER ========== */
 .assign-header {
   display: flex;
@@ -354,8 +360,6 @@
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   padding: 24px;
-  flex: 1;
-  min-height: 0;
 }
 
 .assign-table-card {
@@ -366,7 +370,6 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  max-height: calc(100vh - 280px);
 }
 
 .assign-table-head {
@@ -396,8 +399,6 @@
 }
 
 .assign-table-body {
-  flex: 1;
-  overflow-y: auto;
   overflow-x: auto;
 }
 
@@ -593,23 +594,23 @@
 }
 
 /* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .assign-main-wrapper {
+    margin-left: 0;
+    padding-top: 56px; /* height of the mobile top bar */
+  }
+}
+
 @media (max-width: 1200px) {
   .assign-tables-section {
     grid-template-columns: 1fr;
   }
-
-  .assign-table-card {
-    max-height: 400px;
-  }
 }
 
 @media (max-width: 768px) {
-  .assign-sidebar {
-    display: none;
-  }
-
   .assign-main-wrapper {
     margin-left: 0;
+    padding-top: 56px; /* keep offset for fixed mobile topbar */
   }
 
   .assign-header {

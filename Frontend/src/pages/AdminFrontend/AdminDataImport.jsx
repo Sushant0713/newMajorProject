@@ -233,7 +233,7 @@ const AdminDataImport = () => {
             </div>
 
             {/* KPI */}
-            <h4 className="section-title">Key Performance Indicators</h4>
+            <h4 className="kpi-section-label">Key Performance Indicators</h4>
             <div className="kpi-row">
               <div className="kpi blue" onClick={() => navigate('/admin-pass-candidates')}><FaCheckCircle /> Current pass candidate – {stats?.passedCandidates || 0}</div>
               <div className="kpi red" onClick={() => navigate('/admin-drop-candidates')}><FaTimesCircle /> Dropout – {stats?.droppedCandidates || 0}</div>
