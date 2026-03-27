@@ -26,6 +26,7 @@ import employee_clientRouter from "./routers/employee-client.router.js";
 import employee_payoutRouter from "./routers/employee-payout.router.js";
 import employee_trackerRouter from "./routers/employee-tracker.router.js";
 import employee_dataRouter from "./routers/employee-data.router.js";
+import employee_reportsRouter from "./routers/employee-reports.router.js";
 
 dotenv.config();
 
@@ -71,6 +72,7 @@ app.use('/api/employee/client', employee_clientRouter);
 app.use('/api/employee/payout', employee_payoutRouter);
 app.use('/api/employee/tracker', employee_trackerRouter);
 app.use('/api/employee/data', employee_dataRouter);
+app.use('/api/employee/reports', employee_reportsRouter);
 app.listen(process.env.PORT, () => {
     console.log("server is running at port: "+process.env.PORT);
 });
