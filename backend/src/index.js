@@ -28,6 +28,7 @@ import employee_payoutRouter from "./routers/employee-payout.router.js";
 import employee_trackerRouter from "./routers/employee-tracker.router.js";
 import employee_dataRouter from "./routers/employee-data.router.js";
 import employee_reportsRouter from "./routers/employee-reports.router.js";
+import path from "path";
 
 dotenv.config();
 
@@ -35,7 +36,9 @@ const app = express();
 
 // Get directory name for ES modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filepath = path.dirname(__filename);
+const __dirname = path.resolve();
+
 
 app.use(cors({
     origin : 'http://localhost:5173',
@@ -48,7 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from uploads directory
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-const uploadsPath = path.resolve(__dirname, "../../uploads");
+const uploadsPath = path.resolve(__filepath, "../../uploads");
 app.use("/uploads", express.static(uploadsPath));
 
 app.use("/api/auth", authRouters);
@@ -74,6 +77,14 @@ app.use('/api/employee/payout', employee_payoutRouter);
 app.use('/api/employee/tracker', employee_trackerRouter);
 app.use('/api/employee/data', employee_dataRouter);
 app.use('/api/employee/reports', employee_reportsRouter);
+
+if(process.env.NODE_ENV==="production"){
+    app.use(express.static(path.join(__dirname, "../Frontend/dist")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
+    })
+}
 app.listen(process.env.PORT, () => {
     console.log("server is running at port: "+process.env.PORT);
 });
