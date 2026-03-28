@@ -111,7 +111,6 @@ export const useAdminDataStore = create((set, get) => ({
     },
 
     fetchDataTypeDetails: async ({data_type_id}) => {
-        debugger;
         set({loading: true, error: null});
         try {
              const res = await axiosInstance.get(`/admin/data/getDataTypesDetails?data_type_id=${data_type_id}`);
@@ -125,7 +124,6 @@ export const useAdminDataStore = create((set, get) => ({
     },
 
     updateDataType: async ({data_type_id, type_name, description, is_active, employee_view_limit}) => {
-        debugger;
         set({loading: true, error: null});
         try {
             const res = await axiosInstance.put('/admin/data/updateDataType', {data_type_id, type_name, description, is_active, employee_view_limit});
@@ -137,7 +135,6 @@ export const useAdminDataStore = create((set, get) => ({
     },
 
     exportCandidateCSV: async ({data_type_id}) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post("/admin/data/exportCandidatesCSV", { data_type_id }, { responseType: "blob" });

@@ -21,7 +21,6 @@ export const useAdminJoiningStore = create((set, get) => ({
     },
 
     editJoining: async (payload) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post("/admin/joining/editJoining", payload);

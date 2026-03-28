@@ -55,8 +55,7 @@ export const addEmployee = async (req, res) => {
         bank_name, branch_name, ifsc_code,
         account_number, account_holder_name,
         password, designation,
-        percentage, show_payout,
-        status, selection_date,
+        percentage, status, selection_date,
         joining_date, view_limit,
         monthly_revenue_target, monthly_candidate_target, admin_id
       } = req.body;
@@ -160,11 +159,11 @@ export const addEmployee = async (req, res) => {
           aadhar_file_path, pan_file_path, cancelled_cheque_path,
           bank_name, branch_name, ifsc_code,
           account_number, account_holder_name, password,
-          designation, percentage, show_payout,
+          designation, percentage,
           selection_date, joining_date,
           status, view_limit
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           employee_id, fullName, first_name, middle_name || "", last_name,
           gender, dob, email, recovery_email, phone,
@@ -176,8 +175,7 @@ export const addEmployee = async (req, res) => {
           hashedPassword,
           designation,
           percentage || null,
-          show_payout,
-          selection_date,
+          selection_date || null,
           joining_date || null,
           status,
           view_limit
@@ -389,25 +387,56 @@ export const registerEmployee = async (req, res) => {
 export const getAllEmployees = async (req, res) => {
     try {
         // SQL query to fetch all employees with their PIP status
-        const query = `SELECT e.id, e.employee_id, e.full_name, e.email, e.phone, e.designation, e.status, e.salary, 
-                        e.percentage, e.joining_date,
-                        p.id AS pip_id, 
-                        p.pip_start_date, 
-                        p.pip_end_date, 
-                        p.pip_reason, 
-                        p.status AS pip_status
-                        FROM employees e 
-                        LEFT JOIN employee_pip_records p 
-                        ON e.employee_id = p.employee_id AND p.status = 'active'
-                        WHERE e.designation != 'admin'`;
+        // const query = `SELECT e.id, e.employee_id, e.full_name, e.email, e.phone, e.designation, e.status, e.salary, 
+        //                 e.percentage, e.joining_date,
+        //                 p.id AS pip_id, 
+        //                 p.pip_start_date, 
+        //                 p.pip_end_date, 
+        //                 p.pip_reason, 
+        //                 p.status AS pip_status
+        //                 FROM employees e 
+        //                 LEFT JOIN employee_pip_records p 
+        //                 ON e.employee_id = p.employee_id AND p.status = 'active'
+        //                 WHERE e.designation != 'admin'`;
+
+        const query = `SELECT 
+                      e.id, 
+                      e.employee_id, 
+                      e.full_name, 
+                      e.email, 
+                      e.phone, 
+                      e.designation, 
+                      e.status, 
+                      e.salary, 
+                      e.percentage, 
+                      e.joining_date,
+                      p.id AS pip_id, 
+                      p.pip_start_date, 
+                      p.pip_end_date, 
+                      p.pip_reason, 
+                      p.status AS pip_status,
+                      CASE 
+                          WHEN EXISTS (
+                              SELECT 1 
+                              FROM attendance_sessions a 
+                              WHERE a.employee_id COLLATE utf8mb4_unicode_ci = e.employee_id COLLATE utf8mb4_unicode_ci
+                              AND a.status = 'active'
+                          ) THEN 'active'
+                          ELSE 'expired'
+                      END AS is_online
+                  FROM employees e 
+                  LEFT JOIN employee_pip_records p 
+                      ON e.employee_id COLLATE utf8mb4_unicode_ci = p.employee_id COLLATE utf8mb4_unicode_ci
+                      AND p.status = 'active'
+                  WHERE e.designation != 'admin'`;
         const data = await executeQuery(query);
 
         // Fetch online status for each employee
-        const onlineStatus = await executeQuery(`SELECT employee_id, is_online FROM employee_online_status`);
-        const onlineStatusMap = Object.fromEntries(onlineStatus.map(row => [row.employee_id, row.is_online]));
-        data.forEach(emp => {
-            emp.is_online = onlineStatusMap[emp.employee_id] || 0;
-        });
+        // const onlineStatus = await executeQuery(`SELECT employee_id, status FROM attendance_sessions`);
+        // const onlineStatusMap = Object.fromEntries(onlineStatus.map(row => [row.employee_id, row.is_online]));
+        // data.forEach(emp => {
+        //     emp.is_online = onlineStatusMap[emp.employee_id] || 0;
+        // });
 
 
         if (data.length > 0) {
@@ -471,17 +500,10 @@ export const updateEmployee = async (req, res) => {
 
     try {
       let {
-        employee_id,
-        first_name, middle_name, last_name,
-        gender, dob, email, recovery_email,
-        phone, aadhar_address, correspondence_address,
-        pan_number, aadhar_number,
-        bank_name, branch_name, ifsc_code,
-        account_number, account_holder_name,
-        password, designation,
-        percentage, show_payout,
-        status, selection_date,
-        joining_date, view_limit,
+        employee_id, first_name, middle_name, last_name,
+        gender, dob, email, recovery_email, phone, aadhar_address, correspondence_address, pan_number, aadhar_number,
+        bank_name, branch_name, ifsc_code, account_number, account_holder_name, password, designation,
+        percentage, status, selection_date, joining_date, view_limit,
         monthly_revenue_target, monthly_candidate_target, admin_id
       } = req.body;
 
@@ -604,7 +626,6 @@ export const updateEmployee = async (req, res) => {
         "password = ?",
         "designation = ?",
         "percentage = ?",
-        "show_payout = ?",
         "selection_date = ?",
         "joining_date = ?",
         "status = ?",
@@ -633,8 +654,7 @@ export const updateEmployee = async (req, res) => {
         hashedPassword,
         designation,
         percentage || null,
-        show_payout,
-        selection_date,
+        selection_date || null,
         joining_date || null,
         status,
         view_limit
@@ -700,7 +720,7 @@ export const updateEmployee = async (req, res) => {
         });
       }
       console.error("Error updating employee:", error);
-      return res.status(500).send({message: "Failed to update employee"});
+      return res.status(500).json({message: "Failed to update employee"});
     }
   });
 };
@@ -754,43 +774,63 @@ export const deleteEmployee = async (req, res) => {
 // Function to mark PIP
 export const markAsPIP = async (req, res) => {
     try {
-        var { pip_start_date, pip_end_date, pip_reason, admin_name } = req.body;
-        var empId = req.query.empId;
+        const { pip_start_date, pip_end_date, pip_reason, admin_name } = req.body;
+        const empId = req.query.empId;
 
         // Validate required fields
-        if (!empId || !pip_start_date || !pip_end_date || !pip_reason || !admin_name) {
-        return res.status(400).json({ error: 'Please fill all required fields' });
+        if (!empId || !pip_start_date || !pip_end_date || !admin_name) {
+            return res.status(400).json({ message: "Please fill all required fields" });
         }
 
         const start = new Date(pip_start_date);
         const end = new Date(pip_end_date);
+
         if (end <= start) {
-            return res.status(400).json({ error: 'End date must be after start date' });
+            return res.status(400).json({ message: "End date must be after start date" });
         }
 
         // Check if employee has an active PIP
-        var query = `select * from employee_pip_records where employee_id = '${empId}' and status = 'active'`;
-        const existingPIP = await executeQuery(query);
+        let query = `
+            SELECT * 
+            FROM employee_pip_records 
+            WHERE employee_id = ? AND status = ?
+        `;
+
+        const existingPIP = await executeQuery(query, [empId, "active"]);
+
         if (existingPIP.length > 0) {
             return res.status(400).json({ message: "Employee has active PIP" });
         }
 
-        // SQL query to insert PIP record
-        query = `insert into employee_pip_records(employee_id, pip_start_date, pip_end_date, pip_reason, status, created_by) 
-        values('${empId}', '${pip_start_date}', '${pip_end_date}', '${pip_reason}', 'active', '${admin_name}')`;
-        const data = await executeQuery(query);
+        // Insert PIP record
+        query = `
+            INSERT INTO employee_pip_records 
+            (employee_id, pip_start_date, pip_end_date, pip_reason, status, created_by)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+
+        const params = [
+            empId,
+            pip_start_date,
+            pip_end_date,
+            pip_reason,
+            "active",
+            admin_name
+        ];
+
+        const data = await executeQuery(query, params);
 
         if (data.affectedRows > 0) {
-            res.status(200).json({ message: "Employee marked as PIP successfully" });
-        } else {
-            res.status(400).json({ message: "Failed to mark employee as PIP" });
+            return res.status(200).json({ message: "Employee marked as PIP successfully" });
         }
-        
+
+        return res.status(400).json({ message: "Failed to mark employee as PIP" });
+
     } catch (error) {
         console.error("Error during marking employee as PIP:", error);
-        res.status(400).send(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 // Function to end PIP
 export const endPIP = async (req, res) => {
@@ -798,8 +838,8 @@ export const endPIP = async (req, res) => {
         var {pip_id} = req.body;
 
         // SQL query to end PIP
-        var query = `UPDATE employee_pip_records SET status = 'completed' WHERE id = '${pip_id}' AND status = 'active'`;
-        const data = await executeQuery(query);
+        var query = `UPDATE employee_pip_records SET status = 'completed' WHERE id = ? AND status = 'active'`;
+        const data = await executeQuery(query, [pip_id]);
         if (data.affectedRows > 0) {
             res.status(200).json({ message: "PIP ended successfully" });
         } else {
@@ -807,7 +847,7 @@ export const endPIP = async (req, res) => {
         }
     } catch (error) {
         console.error("Error during ending PIP:", error);
-        res.status(400).send(error);
+        return res.status(500).json({ message: "Internal server error"});
         
     }
 }
@@ -815,25 +855,34 @@ export const endPIP = async (req, res) => {
 // Function to add LOP (Loss of Pay)
 export const addLOP = async (req, res) => {
     try {
-        var empId = req.query.empId;
-        var {lop_reason, lop_date, lop_amount} = req.body;
-    
+        const empId = req.query.empId;
+        const { lop_reason, lop_date, lop_amount } = req.body;
+
         if (!empId || !lop_reason || !lop_date || !lop_amount) {
-            return res.status(400).json({ error: 'Please fill all required fields' });
+            return res.status(400).json({ message: "Please fill all required fields" });
         }
-        // SQL query to check if employee exists
-        var query = `INSERT INTO employee_lop_records (employee_id, lop_reason, lop_date, lop_amount) VALUES ('${empId}', '${lop_reason}', '${lop_date}', ${lop_amount})`;
-        const data = await executeQuery(query);
+
+        const query = `
+            INSERT INTO employee_lop_records 
+            (employee_id, lop_reason, lop_date, lop_amount) 
+            VALUES (?, ?, ?, ?)
+        `;
+
+        const params = [empId, lop_reason, lop_date, lop_amount];
+
+        const data = await executeQuery(query, params);
+
         if (data.affectedRows > 0) {
-            res.status(200).json({ message: "LOP added successfully" });
-        } else {
-            res.status(400).json({ message: "Failed to add LOP" });
+            return res.status(200).json({ message: "LOP added successfully" });
         }
+
+        return res.status(400).json({ message: "Failed to add LOP" });
+
     } catch (error) {
         console.error("Error during adding LOP:", error);
-        res.status(400).send(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 export const getEmployeePortfolio = async (req, res) => {
     const empId = req.query.empId;

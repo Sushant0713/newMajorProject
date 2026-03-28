@@ -146,7 +146,7 @@ export default function AdminEmployee() {
     phone: emp.phone || "",
     designation: formatDesignation(emp.designation),
     salary: formatSalary(emp.salary, emp.percentage),
-    status: emp.is_online === 1 ? "Online" : "Offline",
+    status: emp.is_online === "active" ? "Online" : "Offline",
     pipStatus: emp.pip_id ? (<div style={{color: "#b71c1c"}}>PIP Active
                               <br />
                               ({formatDate(emp.pip_start_date)} - {formatDate(emp.pip_end_date)})
@@ -267,9 +267,6 @@ export default function AdminEmployee() {
   const handleCloseEndPIPModal = () => {
     setShowEndPIPModal(false);
   };
-
-  // Check if selected employee is on PIP
-  const isEmployeeOnPIP = selectedEmployee?.originalData?.pip_id ? true : false;
 
   const closePIPModal = () => {
     setShowPIPModal(false);
@@ -460,7 +457,7 @@ export default function AdminEmployee() {
                     <th>CONTACT</th>
                     <th>DESIGNATION</th>
                     <th>SALARY/PERCENTAGE</th>
-                    {/* <th>STATUS</th> */}
+                    <th>ONLINE STATUS</th>
                     <th>PIP STATUS</th>
                     <th>JOINING DATE</th>
                   </tr>
@@ -476,7 +473,6 @@ export default function AdminEmployee() {
                     paginatedEmployees.map((employee) => {
                       const employeeId = employee.originalData?.employee_id || employee.empId;
                       const isSelectedForActions = selectedEmployeeId === employeeId;
-
                       return (
                         <React.Fragment key={employeeId}>
                           <tr
@@ -504,12 +500,12 @@ export default function AdminEmployee() {
                               </span>
                             </td>
                             <td className="salary-cell">{employee.salary}</td>
-                            {/* <td>
-                              <span className={`status-badge status-${employee.status.toLowerCase()}`}>
+                            <td>
+                              <span className={`status-badge status-${employee.status === 'Online' ? 'online' : 'offline'}`}>
                                 <span className="status-dot"></span>
                                 {employee.status}
                               </span>
-                            </td> */}
+                            </td>
                             <td>
                               <span className="pip-badge">{employee.pipStatus}</span>
                             </td>
@@ -549,7 +545,7 @@ export default function AdminEmployee() {
                                       Portfolio
                                     </button>
 
-                                    {employee.isEmployeeOnPIP ? (
+                                    {employee.originalData?.pip_id? (
                                       <button
                                         className="action-bar-btn end-pip"
                                         onClick={() => handleEndPIP(employee)}

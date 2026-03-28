@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import "./lib/attendanceTracker.js";
 import authRouters from "./routers/auth.router.js";
 import admin_employeeRouters from "./routers/admin-employee.router.js";
 import admin_dashboardRouters from "./routers/admin-dashboard.router.js";

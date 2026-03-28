@@ -22,8 +22,8 @@ export default function AdminPayoutManagement() {
   const [employeeFilter, setEmployeeFilter] = useState("");
   const [processFilter, setProcessFilter] = useState("All processes");
   const [statusFilter, setStatusFilter] = useState("All statuses");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  // const [fromDate, setFromDate] = useState("");
+  // const [toDate, setToDate] = useState("");
   const adminId = sessionStorage.getItem("userId");
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showDropoutModal, setShowDropoutModal] = useState(false);
@@ -94,7 +94,7 @@ export default function AdminPayoutManagement() {
   }, [darkMode]);
 
   const applyFiltersToBackend = () => {
-    const filterData = {
+    const filter = {
       search: globalSearch || undefined,
       candidate_name: candidateFilter || undefined,
       employee_name: employeeFilter || undefined,
@@ -103,9 +103,9 @@ export default function AdminPayoutManagement() {
     };
 
     // Remove undefined values
-    Object.keys(filterData).forEach(key => filterData[key] === undefined && delete filterData[key]);
+    Object.keys(filter).forEach(key => filter[key] === undefined && delete filter[key]);
 
-    setFilters(filterData);
+    setFilters(filter);
     fetchPayouts();
     setCurrentPage(1); // Reset to first page when filters change
   };
@@ -116,8 +116,8 @@ export default function AdminPayoutManagement() {
     setEmployeeFilter("");
     setProcessFilter("All processes");
     setStatusFilter("All statuses");
-    setFromDate("");
-    setToDate("");
+    // setFromDate("");
+    // setToDate("");
     clearFilters();
     fetchPayouts();
     setCurrentPage(1);
@@ -317,6 +317,7 @@ export default function AdminPayoutManagement() {
 
     switch (currentStatus) {
       case "":
+        case "rejected":
       case "waiting_period":
         result = await generatePayout(candidateId);
         break;
@@ -439,7 +440,7 @@ export default function AdminPayoutManagement() {
                     <label className="filter-label">Candidate</label>
                     <input
                       type="text"
-                      placeholder="Candidate name or ID"
+                      placeholder="Candidate name"
                       value={candidateFilter}
                       onChange={(e) => setCandidateFilter(e.target.value)}
                       className="filter-input"
@@ -487,7 +488,7 @@ export default function AdminPayoutManagement() {
                       ))}
                     </select>
                   </div>
-                  <div className="filter-group">
+                  {/* <div className="filter-group">
                     <label className="filter-label">From Date</label>
                     <input
                       type="date"
@@ -506,7 +507,7 @@ export default function AdminPayoutManagement() {
                       className="filter-input date-input"
                       placeholder="dd-mm-yyyy"
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="filters-actions">
                   <button className="btn-clear" onClick={handleClearFilters}>
@@ -522,7 +523,7 @@ export default function AdminPayoutManagement() {
           </div>
 
           {/* Results Info */}
-          {(globalSearch || candidateFilter || employeeFilter || processFilter !== "All processes" || statusFilter !== "All statuses" || fromDate || toDate) && (
+          {(globalSearch || candidateFilter || employeeFilter || processFilter !== "All processes" || statusFilter !== "All statuses") && (
             <div className="results-info">
               <span className="material-symbols-outlined">info</span>
               Showing <strong>{payouts.length}</strong> payout{payouts.length !== 1 ? 's' : ''}

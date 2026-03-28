@@ -18,7 +18,6 @@ export const useEmployeeClientStore = create((set, get) => ({
 
     // Fetch all processes
     fetchAllProcesses: async (empId) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.get(`/employee/client/getAllProcesses?empId=${empId}`);
@@ -41,7 +40,6 @@ export const useEmployeeClientStore = create((set, get) => ({
     
     // Fetch client names
     fetchClientNames: async (empId) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.get(`/employee/client/getClientNames?employee_id=${empId}`);
@@ -75,7 +73,6 @@ export const useEmployeeClientStore = create((set, get) => ({
 
     // Fetch contact person details
     fetchContactPersonDetails: async ({employee_id}) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.get(`/employee/client/getContactPersonDetails?employee_id=${employee_id}`);

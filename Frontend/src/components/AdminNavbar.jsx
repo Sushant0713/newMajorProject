@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/OHS.jpg"; 
 import "./AdminNavbar.css";
+import { authStore } from "../store/authStore";
 
 const navItems = [
   { icon: "dashboard", label: "Dashboard", path: "/admin-dashboard" },
@@ -49,9 +50,10 @@ const navItems = [
 export default function AdminNavbar() {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const {logout} = authStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState(null);
+  
   
   useEffect(() => {
     navItems.forEach(item => {
@@ -67,7 +69,8 @@ export default function AdminNavbar() {
     setMobileOpen(false);
   }, [location.pathname]);
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
+    await logout();
     navigate("/");
   }
   

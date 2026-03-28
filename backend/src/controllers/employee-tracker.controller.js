@@ -1,162 +1,180 @@
 import { executeQuery } from "../lib/executeQuery.js";
 
 export const getLineupsEmployee = async (req, res) => {
-  const { search, processName, clientName, startDate, endDate, status} = req.body;
+  const { search, processName, clientName, startDate, endDate, status } = req.body;
   const employee_id = req.query.employee_id;
+
   try {
-        let query = `SELECT
-                  ca.id,
-                  ca.candidate_id,
-                  c.name AS candidate_name,
-                  c.phone AS candidate_phone,
-                  c.email as candidate_email,
-                  c.resume_pdf_path,
-                  p.id as process_id,
-                  p.process_name,
-                  cl.client_name,
-                  ca.assignment_status,
-                  latest_status.new_status AS latest_status,
-                  ca.created_at
-                FROM employee_assignments ea
-                JOIN candidate_assignments ca ON ca.candidate_id = ea.candidate_id
-                LEFT JOIN candidates c ON ea.candidate_id = c.id
-                LEFT JOIN processes p ON ca.process_id = p.id
-                LEFT JOIN clients cl ON p.client_id = cl.id
-                LEFT JOIN employees e ON ea.employee_id = e.employee_id
-                LEFT JOIN (
-                  SELECT candidate_id, new_status
-                  FROM (
-                    SELECT *,
-                      ROW_NUMBER() OVER (
-                          PARTITION BY candidate_id 
-                          ORDER BY changed_at DESC
-                      ) rn
-                    FROM candidate_status_history
-                  ) t
-                  WHERE rn = 1
-                ) latest_status ON latest_status.candidate_id = ca.candidate_id
-                WHERE ca.assignment_status NOT IN (
-                  'available',
-                  'joined',
-                  'clawback',
-                  'invoice',
-                  'completely_joined',
-                  'dropout'
-                )
-                AND e.employee_id = ?`;
 
-  const params = [employee_id];
-
-  if (search && search.trim()) {
-    query += `
-      AND (
-        c.name LIKE ?
-        OR ca.candidate_id LIKE ?
-        OR c.phone LIKE ?
-      )
-    `;
-    const searchTerm = `%${search.trim()}%`;
-    params.push(searchTerm, searchTerm, searchTerm);
-  }
-
-  // client name
-  if (clientName) {
-    query += " AND cl.client_name LIKE ?";
-    params.push(`${clientName}`);
-  }
-
-  // process name
-  if (processName) {
-    query += " AND p.process_name LIKE ?";
-    params.push(`${processName}`);
-  }
-
-  // created_at date range
-  if (startDate && endDate) {
-    query += " AND ca.created_at BETWEEN ? AND ?";
-    params.push(startDate, endDate);
-  }
-
-  if (status) {
-    query += " AND latest_status.new_status = ?";
-    params.push(status);
-  }
-
-  query += " ORDER BY ca.created_at DESC";
-
-  const rows = await executeQuery(query, params);
-
-  return res.status(200).json(rows);
-  } catch (error) {
-      console.error("Error while fetching line-ups:", error);
-      return res.status(500).send(error);
-  }
-};
-
-export const getJoiningsEmployee = async(req, res) =>{
-    const { search, status} = req.body;
-    const employee_id = req.query.employee_id;
-    try {
-        let query = `SELECT
-                    ca.id,
-                    ca.candidate_id,
-                    c.name AS candidate_name,
-                    c.email as candidate_email,
-                    c.phone AS candidate_phone,
-                    c.resume_pdf_path,
-                    e.first_name,
-                    e.last_name,
-                    p.id as process_id,
-                    p.process_name,
-                    p.locations,
-                    p.real_payout_amount,
-                    cl.client_name,
-                    ca.assignment_status
-                    FROM employee_assignments ea
-                    JOIN candidate_assignments ca on ca.candidate_id = ea.candidate_id
-                    LEFT JOIN candidates c ON ea.candidate_id = c.id
-                    LEFT JOIN processes p ON ca.process_id = p.id
-                    LEFT JOIN clients cl ON p.client_id = cl.id
-                    LEFT JOIN employees e ON ea.employee_id = e.employee_id
-                    WHERE ca.assignment_status IN (
-                    'joined',
-                    'clawback',
-                    'invoice',
-                    'completely_joined',
-                    'pass',
-                    'hold',
-                    'dropout'
-                    ) AND e.employee_id = ?`;
+    let query = `
+      SELECT
+        ca.id,
+        ca.candidate_id,
+        c.name AS candidate_name,
+        c.phone AS candidate_phone,
+        c.email AS candidate_email,
+        c.resume_pdf_path,
+        p.id AS process_id,
+        p.process_name,
+        cl.client_name,
+        ca.assignment_status,
+        latest_status.new_status AS latest_status,
+        ca.created_at
+      FROM candidate_assignments ca
+      JOIN (
+          SELECT candidate_id, MAX(id) AS latest_id
+          FROM employee_assignments
+          GROUP BY candidate_id
+      ) latest ON latest.candidate_id = ca.candidate_id
+      JOIN employee_assignments ea ON ea.id = latest.latest_id
+      LEFT JOIN candidates c ON c.id = ca.candidate_id
+      LEFT JOIN processes p ON p.id = ca.process_id
+      LEFT JOIN clients cl ON cl.id = p.client_id
+      LEFT JOIN (
+        SELECT candidate_id, new_status
+        FROM (
+          SELECT *,
+            ROW_NUMBER() OVER (
+              PARTITION BY candidate_id
+              ORDER BY changed_at DESC
+            ) rn
+          FROM candidate_status_history
+        ) t WHERE rn = 1
+      ) latest_status ON latest_status.candidate_id = ca.candidate_id
+      WHERE ea.employee_id = ?
+      AND ca.assignment_status NOT IN (
+        'available',
+        'joined',
+        'clawback',
+        'invoice',
+        'completely_joined',
+        'dropout'
+      )`;
 
     const params = [employee_id];
 
+    // search filter
     if (search && search.trim()) {
-        query += `
+      const searchTerm = `%${search.trim()}%`;
+      query += `
         AND (
-            c.name LIKE ?
-            OR c.phone LIKE ?
-            OR CONCAT(e.first_name, ' ', e.last_name) LIKE ?
-            OR p.process_name LIKE ?
-            OR cl.client_name LIKE ?
-            OR p.locations LIKE ?
+          c.name LIKE ?
+          OR ca.candidate_id LIKE ?
+          OR c.phone LIKE ?
         )
-        `;
-        const searchTerm = `%${search.trim()}%`;
-        params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
+      `;
+      params.push(searchTerm, searchTerm, searchTerm, searchTerm);
     }
 
+    // client filter
+    if (clientName) {
+      query += ` AND cl.client_name LIKE ?`;
+      params.push(`%${clientName}%`);
+    }
+
+    // process filter
+    if (processName) {
+      query += ` AND p.process_name LIKE ?`;
+      params.push(`%${processName}%`);
+    }
+
+    // date filter
+    if (startDate && endDate) {
+      query += ` AND ca.created_at BETWEEN ? AND ?`;
+      params.push(startDate, endDate);
+    }
+
+    // status filter
     if (status) {
-        query += " AND ca.assignment_status LIKE ?";
-        params.push(`${status}`);
+      query += ` AND latest_status.new_status = ?`;
+      params.push(status);
     }
 
-    query += " ORDER BY ca.updated_at DESC";
+    query += ` ORDER BY ca.created_at DESC`;
+
+    const rows = await executeQuery(query, params);
+
+    return res.status(200).json(rows);
+
+  } catch (error) {
+    console.error("Error while fetching line-ups:", error);
+    return res.status(500).send(error);
+  }
+};
+
+export const getJoiningsEmployee = async (req, res) => {
+  const { search, status } = req.body;
+  const employee_id = req.query.employee_id;
+
+  try {
+    let query = `
+      SELECT
+        ca.id,
+        ca.candidate_id,
+        c.name AS candidate_name,
+        c.email AS candidate_email,
+        c.phone AS candidate_phone,
+        c.resume_pdf_path,
+        p.id AS process_id,
+        p.process_name,
+        p.locations,
+        p.real_payout_amount,
+        cl.client_name,
+        ca.assignment_status
+      FROM candidate_assignments ca
+      JOIN (
+          SELECT candidate_id, MAX(id) AS latest_id
+          FROM employee_assignments
+          GROUP BY candidate_id
+      ) latest ON latest.candidate_id = ca.candidate_id
+      JOIN employee_assignments ea ON ea.id = latest.latest_id
+      LEFT JOIN candidates c ON c.id = ca.candidate_id
+      LEFT JOIN processes p ON p.id = ca.process_id
+      LEFT JOIN clients cl ON cl.id = p.client_id
+      WHERE ea.employee_id = ?
+      AND ca.assignment_status IN (
+        'joined',
+        'clawback',
+        'invoice',
+        'completely_joined',
+        'pass',
+        'hold',
+        'dropout'
+      )
+    `;
+
+    const params = [employee_id];
+
+    // search filter
+    if (search && search.trim()) {
+      const searchTerm = `%${search.trim()}%`;
+
+      query += `
+        AND (
+          c.name LIKE ?
+          OR c.phone LIKE ?
+          OR p.process_name LIKE ?
+          OR cl.client_name LIKE ?
+          OR p.locations LIKE ?
+        )
+      `;
+
+      params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
+    }
+
+    // status filter
+    if (status) {
+      query += ` AND ca.assignment_status = ?`;
+      params.push(status);
+    }
+    query += ` ORDER BY ca.updated_at DESC`;
     const rows = await executeQuery(query, params);
     return res.status(200).json(rows);
-    } catch (error) {
-        console.error("Error while fetching joinings:", error);
-        return res.status(500).send(error);
-    }
+
+  } catch (error) {
+    console.error("Error while fetching joinings:", error);
+    return res.status(500).send(error);
+  }
 };
 
 export const getProcessForEmployee = async (req, res) => {

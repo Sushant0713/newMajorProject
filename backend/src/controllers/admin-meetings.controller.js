@@ -53,13 +53,13 @@ export const addNewMeeting = async(req, res) => {
            VALUES (?, ?, ?, ?, ?, ?, ?)`;
         const addMeetingResult = await executeQuery(query, [meetingName, googleMeetLink, membersJson, description, indiaDateTime, durationMinutes, adminName]);
         if (addMeetingResult.affectedRows === 0) {
-            return res.status(200).json({message: "Failed to add new meeting"});
+            return res.status(400).json({message: "Failed to add new meeting"});
         }
 
         return res.status(200).json({message: "New meeting added successfully"});
     } catch (error) {
         console.error("Error while adding new meeting:" ,error);
-        return res.status(400).json({message: error.message || "Failed to add meeting"});
+        return res.status(500).json({message: "Internal server error"});
     }
 }
 
@@ -90,13 +90,13 @@ export const updateMeeting = async(req, res) => {
         var query = `UPDATE meetings SET meeting_name = ?, google_meet_link = ?, members = ?, description = ?, meeting_date = ?, duration_minutes = ?, status = ? WHERE id = ?`;
         const updateMeetingResult = await executeQuery(query, [meetingName, googleMeetLink, membersJson, description, indiaDateTime, durationMinutes, status, meetingId]);
         if (updateMeetingResult.affectedRows === 0) {
-            return res.status(200).json({message: "Failed to update meeting"});
+            return res.status(400).json({message: "Failed to update meeting"});
         }
 
         return res.status(200).json({message: "Meeting updated successfully"});
     } catch (error) {
         console.error("Error while updating meeting:" ,error);
-        return res.status(400).json({message: error.message || "Failed to update meeting"});
+        return res.status(500).json({message: "Internal server error"});
     }
 }
 
@@ -111,12 +111,12 @@ export const deleteMeeting = async(req, res) => {
         var query = `DELETE FROM meetings WHERE id = ?`;
         const deleteMeetingResult = await executeQuery(query, [meetingId]);
         if (deleteMeetingResult.affectedRows === 0) {
-            return res.status(200).json({message: "Failed to delete meeting"});
+            return res.status(400).json({message: "Failed to delete meeting"});
         }
         return res.status(200).json({message: "Meeting deleted successfully"});
     } catch (error) {
         console.error("Error while deleting meeting:" ,error);
-        return res.status(400).json(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
