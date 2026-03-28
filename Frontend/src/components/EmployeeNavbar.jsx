@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import logo from "../assets/OHS.jpg";
 import "./EmployeeNavbar.css";
+import { authStore } from "../store/authStore";
 
 export default function EmployeeNavbar() {
   const location = useLocation();
@@ -22,6 +23,7 @@ export default function EmployeeNavbar() {
     location.pathname.includes("joining") ||
     location.pathname.includes("lineup")
   );
+  const {logout} = authStore();
 
 
   // Close sidebar on route change (mobile)
@@ -29,7 +31,8 @@ export default function EmployeeNavbar() {
     setMobileOpen(false);
   }, [location.pathname]);
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
+    await logout();
     navigate("/employee-login");
   };
 

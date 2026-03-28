@@ -10,7 +10,6 @@ export const useEmployeeTrackerStore = create((set, get) => ({
     error: null,
 
     fetchLineUpsEmployee: async (employee_id, filters = {}) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post(`/employee/tracker/getLineupsEmployee?employee_id=${employee_id}`, filters);
@@ -39,7 +38,6 @@ export const useEmployeeTrackerStore = create((set, get) => ({
     },
 
     fetchProcessesForEmployee: async (employee_id) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.get(`/employee/tracker/getProcessForEmployee?employee_id=${employee_id}`);
@@ -58,7 +56,6 @@ export const useEmployeeTrackerStore = create((set, get) => ({
     },
 
     fetchClientsForEmployee: async (employee_id) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.get(`/employee/tracker/getClientsForEmployee?employee_id=${employee_id}`);

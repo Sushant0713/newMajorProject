@@ -220,7 +220,7 @@ export const addteam = async (req, res) => {
             connection.release();
         }
         console.error("Error while adding team:", error);
-        res.status(400).json(error);
+        res.status(500).json({ message: "Internal server error"});
     }
 }
 
@@ -288,7 +288,7 @@ export const updateTeam = async (req, res) => {
             connection.release();
         }
         console.error("Error while updating team:", error); 
-        res.status(400).json(error);
+        res.status(500).json({ message: "Internal server error"});
     }
 }
 
@@ -321,7 +321,7 @@ export const deleteTeam = async (req, res) => {
             connection.release();
         }
         console.error("Error while deleting team:", error);
-        res.status(400).json(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 

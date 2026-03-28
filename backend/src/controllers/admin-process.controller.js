@@ -147,7 +147,7 @@ export const addProcess = async (req, res) => {
     } catch (error) {
         if (connection) await connection.rollback();
         console.error('Error adding process:', error);
-        return res.status(400).json({ message: error.message || "Failed to add process" });
+        return res.status(500).json({message: "Internal server error"});
     } finally {
         if (connection) connection.release();
     }
@@ -264,7 +264,7 @@ export const updateProcess = async (req, res) => {
         invoice_clear_time, payout_type, payout_amount, real_payout_amount, new_status
     ];
 
-    if (requiredFields.some(field => !field)) {
+    if (requiredFields.some(field => field === undefined || field === null)) {
         return res.status(400).json({ message: "All process fields are required" });
     }
 
@@ -331,32 +331,13 @@ export const updateProcess = async (req, res) => {
             }
         }
 
-        // Commit transaction
         await connection.commit();
-
-        // // Fetch updated process
-        // const [updatedProcess] = await connection.query(
-        //     `SELECT p.*, c.client_name 
-        //         FROM processes p 
-        //         JOIN clients c ON p.client_id = c.id 
-        //         WHERE p.id = ?`,
-        //     [processId]
-        // );
-
-        // // Fetch updated SPOCs
-        // const [updatedSpocs] = await connection.query(
-        //     `SELECT * FROM spocs WHERE process_id = ? ORDER BY id`,
-        //     [processId]
-        // );
-
-        return res.status(200).json({
-            message: "Process updated successfully",
-        });
+        return res.status(200).json({ message: "Process updated successfully" });
 
     } catch (error) {
         if (connection) await connection.rollback();
         console.error('Error updating process:', error);
-        return res.status(400).json({ message: error.message || "Failed to update process" });
+        return res.status(500).json({message: "Internal server error"});
     } finally {
         if (connection) connection.release();
     }
@@ -373,7 +354,7 @@ export const deleteProcess = async (req, res) => {
         return res.status(200).json({ message: "Process deleted successfully" });
     } catch (error) {
         console.error("Error in deleting process:", error);
-        res.status(400).json(error);
+        return res.status(500).json({message: "Internal server error"});
     }
 }
 

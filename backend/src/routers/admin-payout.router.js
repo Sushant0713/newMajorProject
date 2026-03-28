@@ -5,8 +5,6 @@ import {
     getStatusOptions,
     getCandidateStatusHistory,
     generatePayout,
-    markClawback,
-    approvePayout,
     rejectPayout,
     batchApprove,
     exportCSV,
@@ -14,28 +12,28 @@ import {
     markInvoiceClear,
     markApproved,
     markCompletelyJoined,
-    emergencyClawback,
     markDropout,
 } from '../controllers/admin-payout.controller.js';
+import { protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/getPayouts", getPayouts);
-router.get("/getProcessNames", getProcessNames);
-router.get("/getStatusOptions", getStatusOptions);
-router.get("/getCandidateStatusHistory", getCandidateStatusHistory);
-router.post("/generatePayout", generatePayout);
-router.post("/startClawback", startClawback);
-router.post("/markClawback", markClawback);
-router.post("/markInvoiceClear", markInvoiceClear);
-router.post("/markApproved", markApproved);
-router.post("/approvePayout", approvePayout);
-router.post("/rejectPayout", rejectPayout);
-router.post("/markCompletelyJoined", markCompletelyJoined);
-router.post("/emergencyClawback", emergencyClawback);
-router.post("/markDropout", markDropout);
-router.post("/batchApprove", batchApprove);
-router.get("/exportCSV", exportCSV);
+router.post("/getPayouts", protectRoute, getPayouts);
+router.get("/getProcessNames", protectRoute, getProcessNames);
+router.get("/getStatusOptions", protectRoute, getStatusOptions);
+router.get("/getCandidateStatusHistory", protectRoute, getCandidateStatusHistory);
+router.post("/generatePayout", protectRoute, generatePayout);
+router.post("/startClawback", protectRoute, startClawback);
+router.post("/markInvoiceClear", protectRoute, markInvoiceClear);
+router.post("/markApproved", protectRoute, markApproved);
+router.post("/rejectPayout", protectRoute, rejectPayout);
+router.post("/markCompletelyJoined", protectRoute, markCompletelyJoined);
+router.post("/markDropout", protectRoute, markDropout);
+router.post("/batchApprove", protectRoute, batchApprove);
+router.get("/exportCSV", protectRoute, exportCSV);
+//router.post("/markClawback", markClawback);
+//router.post("/approvePayout", approvePayout);
+//router.post("/emergencyClawback", emergencyClawback);
 
 export default router;
 

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import toast from 'react-hot-toast';
 
 export const useAdminProcessStore = create((set, get) => ({
     processes: [],
@@ -68,11 +69,14 @@ export const useAdminProcessStore = create((set, get) => ({
     addProcess: async (processData) => {
         set({ loading: true, error: null });
         try {
-            const res = await axiosInstance.post("/admin/process/addProcess", processData);
+            const data = await axiosInstance.post("/admin/process/addProcess", processData);
             set({ loading: false });
+            toast.success(data.data.message);
             await get().fetchAllProcesses();
-            } catch (err) {
-            set({ error: err.response?.data?.message || "Failed to add process", loading: false });
+        } catch (err) {
+            const message = err.response?.data?.message || "Failed to add process";
+            toast.error(message);
+            set({ error: message, loading: false });
         }
     },
 
@@ -81,9 +85,12 @@ export const useAdminProcessStore = create((set, get) => ({
         try {
             const res = await axiosInstance.post(`/admin/process/updateProcess?processId=${processId}`, processData);
             set({ loading: false });
+            toast.success(res.data.message);
             await get().fetchAllProcesses();
         } catch (err) {
-            set({ error: err.response?.data?.message || "Failed to update process", loading: false });
+            const message = err.response?.data?.message || "Failed to update process";
+            toast.error(message);
+            set({ error: message, loading: false });
         }
     },
 
@@ -92,9 +99,12 @@ export const useAdminProcessStore = create((set, get) => ({
         try {
             const res = await axiosInstance.delete(`/admin/process/deleteProcess?processId=${processId}`);
             set({ loading: false });
+            toast.success(res.data.message);
             await get().fetchAllProcesses();
         } catch (err) {
-            set({ error: err.response?.data?.message || "Failed to delete process", loading: false });
+            const message = err.response?.data?.message || "Failed to delete process";
+            toast.error(message);
+            set({ error: message, loading: false });
         }
     },
 

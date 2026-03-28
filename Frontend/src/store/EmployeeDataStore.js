@@ -20,7 +20,6 @@ export const useEmployeeDataStore = create((set, get) => ({
     },
 
     fetchCandidates: async (employee_id, data_type_id) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post(`/employee/data/getCandidates`, {employee_id, data_type_id});
@@ -32,7 +31,6 @@ export const useEmployeeDataStore = create((set, get) => ({
     },
 
     assignCandidate: async (employee_id, candidate_id, data_type_id) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post(`/employee/data/assignCandidate?candidate_id=${candidate_id}`, {employee_id, data_type_id});

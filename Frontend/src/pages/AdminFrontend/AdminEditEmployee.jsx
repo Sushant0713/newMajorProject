@@ -36,7 +36,7 @@ export default function AdminEditEmployee() {
     designation: "",
     percentage: "",
     status: "active",
-    payoutType: "actual",
+    // payoutType: "actual",
     selectionDate: "",
     joiningDate: "",
     viewLimit: "",
@@ -86,7 +86,7 @@ export default function AdminEditEmployee() {
         designation: employee.designation || "",
         percentage: employee.percentage || "",
         status: employee.status || "active",
-        payoutType: employee.show_payout || "actual",
+        // payoutType: employee.show_payout || "actual",
         selectionDate: employee.selection_date ? employee.selection_date.split('T')[0] : "",
         joiningDate: employee.joining_date ? employee.joining_date.split('T')[0] : "",
         viewLimit: employee.view_limit || "",
@@ -160,17 +160,11 @@ export default function AdminEditEmployee() {
     formDataToSend.append("account_number", formData.accountNumber);
     formDataToSend.append("account_holder_name", formData.accountHolderName);
     formDataToSend.append("designation", formData.designation);
-    if (formData.percentage) {
-      formDataToSend.append("percentage", formData.percentage);
-    }
-    formDataToSend.append("show_payout", formData.payoutType.toLowerCase());
+    formDataToSend.append("percentage", formData.percentage);
+    // formDataToSend.append("show_payout", formData.payoutType.toLowerCase());
     formDataToSend.append("status", formData.status.toLowerCase());
-    if (formDataToSend.selectionDate){
-      formDataToSend.append("selection_date", formData.selectionDate || "");
-    }
-    if (formDataToSend.joiningDate){
-      formDataToSend.append("joining_date", formData.joiningDate || "");
-    }
+    formDataToSend.append("selection_date", formData.selectionDate || "");
+    formDataToSend.append("joining_date", formData.joiningDate || "");
     formDataToSend.append("view_limit", formData.viewLimit || "");
     formDataToSend.append("monthly_revenue_target", formData.monthlyRevenueTarget || "");
     formDataToSend.append("monthly_candidate_target", formData.monthlyCandidateTarget || "");
@@ -195,22 +189,11 @@ export default function AdminEditEmployee() {
     try {
       // Clear any previous errors
       useAdminEmployeeStore.getState().setError(null);
-      
       await updateEmployee(formDataToSend);
-      
-      // Check for errors from the store
-      const currentError = useAdminEmployeeStore.getState().error;
-      if (currentError) {
-        alert(currentError);
-        useAdminEmployeeStore.getState().setError(null);
-        return;
-      }
-      
-      // Success - navigate back to view employee page
       navigate(`/admin-view-employee?empId=${empId}`);
     } catch (err) {
       console.error("Error updating employee:", err);
-      alert("Failed to update employee. Please try again.");
+      toast.error("Failed to update employee. Please try again.");
     }
   };
 
@@ -618,7 +601,7 @@ export default function AdminEditEmployee() {
                     <option value="pending">Pending</option>
                   </select>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label className="form-label">
                     Payout Type <span className="required">*</span>
                   </label>
@@ -632,7 +615,7 @@ export default function AdminEditEmployee() {
                     <option value="actual">Actual</option>
                     <option value="fake">Fake</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label className="form-label">
                     Selection Date

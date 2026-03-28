@@ -101,12 +101,13 @@ export const getLineups = async (req, res) => {
     query += `
       AND (
         c.name LIKE ?
+        OR c.phone LIKE ?
         OR ca.candidate_id LIKE ?
         OR e.full_name LIKE ?
       )
     `;
     const searchTerm = `%${search.trim()}%`;
-    params.push(searchTerm, searchTerm, searchTerm);
+    params.push(searchTerm, searchTerm, searchTerm, searchTerm);
   }
 
   // client name

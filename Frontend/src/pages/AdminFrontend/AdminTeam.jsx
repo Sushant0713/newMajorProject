@@ -3,6 +3,7 @@ import "./AdminTeam.css";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminHeader from "../../components/AdminHeader";
 import { useAdminTeamStore } from "../../store/AdminTeamStore";
+import toast from "react-hot-toast";
 
 export default function AdminTeam() {
   const {
@@ -78,47 +79,43 @@ export default function AdminTeam() {
   // Open Edit Modal
   const openEditModal = async () => {
     if (!selectedTeam) {
-      alert("Please select a team first");
+      toast.error("Please select a team first");
       return;
     }
-    try {
-      await getTeamDetails(selectedTeam.id);
-      const details = useAdminTeamStore.getState().teamDetails;
-      await getTeamMembers(selectedTeam.id);
-      const members = useAdminTeamStore.getState().teamMembers;
-      
-      setTeamForm({
-        team_name: details?.team_name || "",
-        team_type: details?.team_type || "",
-        destination: details?.destination || "",
-        leader_id: details?.leader_id || "",
-        members: members.map((m) => ({ member_id: m.employee_id || m.id || "" })).filter(m => m.member_id),
-      });
-      setMemberSearchQuery("");
-      setShowEditModal(true);
-    } catch (error) {
-      alert("Failed to load team details");
-    }
+    await getTeamDetails(selectedTeam.id);
+    const details = useAdminTeamStore.getState().teamDetails;
+    await getTeamMembers(selectedTeam.id);
+    const members = useAdminTeamStore.getState().teamMembers;
+    
+    setTeamForm({
+      team_name: details?.team_name || "",
+      team_type: details?.team_type || "",
+      destination: details?.destination || "",
+      leader_id: details?.leader_id || "",
+      members: members.map((m) => ({ member_id: m.employee_id || m.id || "" })).filter(m => m.member_id),
+    });
+    setMemberSearchQuery("");
+    setShowEditModal(true);
   };
 
   // Open View Members Modal
   const openViewMembersModal = async () => {
     if (!selectedTeam) {
-      alert("Please select a team first");
+      toast.error("Please select a team first");
       return;
     }
     try {
       await getTeamMembers(selectedTeam.id, fromDate, toDate);
       setShowViewMembersModal(true);
     } catch (error) {
-      alert("Failed to load team members");
+      toast.error("Failed to load team members");
     }
   };
 
   // Open Delete Modal
   const openDeleteModal = () => {
     if (!selectedTeam) {
-      alert("Please select a team first");
+      toast.error("Please select a team first");
       return;
     }
     setShowDeleteModal(true);
@@ -145,19 +142,8 @@ export default function AdminTeam() {
   // Handle Add Team
   const handleAddTeam = async (e) => {
     e.preventDefault();
-    if (!teamForm.team_name || !teamForm.team_type || !teamForm.destination || !teamForm.leader_id) {
-      alert("Please fill in all required fields");
-      return;
-    }
-
     useAdminTeamStore.getState().setError(null);
     await addTeam(teamForm);
-    const currentError = useAdminTeamStore.getState().error;
-    if (currentError) {
-      alert(currentError);
-      useAdminTeamStore.getState().setError(null);
-      return;
-    }
     await getTeams({});
     setShowAddModal(false);
     setTeamForm({
@@ -172,19 +158,8 @@ export default function AdminTeam() {
   // Handle Update Team
   const handleUpdateTeam = async (e) => {
     e.preventDefault();
-    if (!teamForm.team_name || !teamForm.team_type || !teamForm.destination || !teamForm.leader_id) {
-      alert("Please fill in all required fields");
-      return;
-    }
-
     useAdminTeamStore.getState().setError(null);
     await updateTeam(selectedTeam.id, teamForm);
-    const currentError = useAdminTeamStore.getState().error;
-    if (currentError) {
-      alert(currentError);
-      useAdminTeamStore.getState().setError(null);
-      return;
-    }
     await getTeams({});
     setShowEditModal(false);
     setSelectedTeam(null);
@@ -194,12 +169,6 @@ export default function AdminTeam() {
   const handleDeleteTeam = async () => {
     useAdminTeamStore.getState().setError(null);
     await deleteTeam(selectedTeam.id);
-    const currentError = useAdminTeamStore.getState().error;
-    if (currentError) {
-      alert(currentError);
-      useAdminTeamStore.getState().setError(null);
-      return;
-    }
     await getTeams({});
     setShowDeleteModal(false);
     setSelectedTeam(null);

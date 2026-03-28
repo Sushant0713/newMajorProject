@@ -50,10 +50,10 @@ export default function Dashboard() {
   const { fetchTodaysMeetings, todaysMeetings } = useEmployeeMeetingStore();
 
   useEffect(() => {
-      if (!empId) {
-        console.error("Employee ID missing in sessionStorage");
-        return;
-      }
+      // if (!empId) {
+      //   console.error("Employee ID missing in sessionStorage");
+      //   return;
+      // }
       fetchDashboard(empId);
       fetchMonthlySuccess(empId);
       fetchTodaysMeetings(empId);

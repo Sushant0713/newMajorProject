@@ -26,7 +26,7 @@ export const totalAssignedClients = async (req, res) => {
 export const totalAssignedCandidates = async (req, res) => {
     try{
         const empId = req.query.empId;
-        var query = `SELECT COUNT(*)
+        var query = `SELECT COUNT(*) AS total_candidates
                 FROM employee_assignments ea
                 JOIN (
                     SELECT candidate_id, MAX(id) AS latest_id

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from '../lib/axios.js';
 import toast, { Toaster } from 'react-hot-toast';
+import { startHeartbeat, stopHeartbeat, registerTabCloseHandler } from "../lib/heartbeat.js";
 
 export const authStore = create((set, get) => ({
     user: null,
@@ -27,14 +28,18 @@ export const authStore = create((set, get) => ({
     },
 
     loginAsEmployee: async (email, password, navigate) => {
+        debugger;
         try {
             const res = await axiosInstance.post("/auth/loginAsEmployee", { email, password });
             if(res.data.message === "Login successful"){
                 const userData = res.data;
                 set({ user: userData });
-                toast.success("logged in successfully"); 
                 sessionStorage.setItem("userId", userData.userId);
                 sessionStorage.setItem("username", userData.username);
+                sessionStorage.setItem("sessionId", userData.sessionId);
+                startHeartbeat();
+                registerTabCloseHandler();
+                toast.success("logged in successfully"); 
                 navigate("/employee-dashboard");
             }
             else{
@@ -42,6 +47,25 @@ export const authStore = create((set, get) => ({
             }
         } catch (error) {
             toast.error(error.response.data.message);
+        }
+    },
+
+    logout: async() => {
+        try {
+            const sessionId = sessionStorage.getItem("sessionId");
+
+            stopHeartbeat();
+
+            // Await logout API before clearing storage
+            await axiosInstance.post("/auth/logout", { sessionId });
+
+            // Clear storage only after API call succeeds
+            sessionStorage.removeItem("userId");
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("sessionId");
+            set({ user: null });
+        } catch (error) {
+            toast.error(error.response.data.message || "logout failed");
         }
     },
 

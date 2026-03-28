@@ -7,13 +7,10 @@ import AdminHeader from "../../components/AdminHeader";
 
 
 export default function AdminLopManagement() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [darkMode, setDarkMode] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteRow, setDeleteRow] = useState(null);
-  const [toast, setToast] = useState(null);
   const [selectedRows, setSelectedRows] = useState(new Set());
 
   const {
@@ -26,7 +23,6 @@ export default function AdminLopManagement() {
     fetchSalaryEmployees,
     addLop,
     deleteLop,
-    setFilters,
     clearFilters
   } = adminLopStore();
 
@@ -110,18 +106,12 @@ export default function AdminLopManagement() {
       lop_amount: formAmount,
       lop_reason: formReason
     });
-
-    if (success) {
-      setShowAddModal(false);
-      setFormEmployee("");
-      setFormDate("");
-      setFormAmount("");
-      setFormReason("");
-      setFormError(null);
-      showToast("success", "LOP record added successfully");
-    } else {
-      showToast("error", "Failed to add LOP record");
-    }
+    setShowAddModal(false);
+    setFormEmployee("");
+    setFormDate("");
+    setFormAmount("");
+    setFormReason("");
+    setFormError(null);
   };
 
 
@@ -141,11 +131,6 @@ export default function AdminLopManagement() {
     } else {
       setSelectedRows(new Set());
     }
-  };
-
-  const showToast = (type, text) => {
-    setToast({ type, text });
-    setTimeout(() => setToast(null), 3000);
   };
 
   // Summary calculations
@@ -236,7 +221,7 @@ export default function AdminLopManagement() {
                   <span className="material-symbols-outlined filter-search__icon">search</span>
                   <input
                     type="text"
-                    placeholder="Search by name, ID, reason, emailID"
+                    placeholder="Search by name, ID, reason, email ID"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="filter-input filter-input--search"
@@ -277,7 +262,6 @@ export default function AdminLopManagement() {
                   value={fromDate}
                   onChange={(e) => {
                     setFromDate(e.target.value);
-                    setFilters("date_from", e.target.value);
                   }}
                   className="filter-input"
                 />
@@ -289,7 +273,6 @@ export default function AdminLopManagement() {
                   value={toDate}
                   onChange={(e) => {
                     setToDate(e.target.value);
-                    setFilters("date_to", e.target.value);
                   }}
                   className="filter-input"
                 />
@@ -500,8 +483,6 @@ export default function AdminLopManagement() {
                     await deleteLop(deleteRow.id);
                     setShowDeleteModal(false);
                     setDeleteRow(null);
-                    // Show success message (errors are handled by the store)
-                    showToast("success", "LOP record deleted successfully");
                   }}
                   disabled={loading}
                 >
@@ -511,13 +492,6 @@ export default function AdminLopManagement() {
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Toast */}
-      {toast && (
-        <div className={`toast ${toast.type}`}>
-          <p>{toast.text}</p>
         </div>
       )}
     </div>

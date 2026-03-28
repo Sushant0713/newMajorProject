@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import toast from 'react-hot-toast';
 
 export const useAdminMeetingStore = create((set, get) => ({
     meetings: [],
@@ -38,13 +39,13 @@ export const useAdminMeetingStore = create((set, get) => ({
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post("/admin/meetings/addNewMeeting", meetingData);   
+            toast.success(res.data.message);
             await get().fetchAllMeetings();
             set({ loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to add meeting",
-                loading: false,
-            });
+            const message = error.response?.data?.message || "Failed to add meeting";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 
@@ -52,13 +53,13 @@ export const useAdminMeetingStore = create((set, get) => ({
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post(`/admin/meetings/updateMeeting?meetingId=${id}`, meetingData);
+            toast.success(res.data.message);
             await get().fetchAllMeetings();
             set({ loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to update meeting",
-                loading: false,
-            });
+            const message = error.response?.data?.message || "Failed to update meeting";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 
@@ -66,15 +67,15 @@ export const useAdminMeetingStore = create((set, get) => ({
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.delete(`/admin/meetings/deleteMeeting?meetingId=${meetingId}`);
+            toast.success(res.data.message);
             set({
                 meetings: get().meetings.filter((m) => m.id !== meetingId),
                 loading: false,
             });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to delete meeting",
-                loading: false,
-            });
+            const message = error.response?.data?.message || "Failed to delete meeting";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 

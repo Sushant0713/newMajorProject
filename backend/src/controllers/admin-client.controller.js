@@ -96,12 +96,12 @@ export const assignNewEmployee = async (req, res) => {
         const newAssignment = await executeQuery(query, [clientId, employee_id]);
 
         if (newAssignment.affectedRows !== 1) {
-            return res.status(200).json({ message: "Failed to assign employee to client" });
+            return res.status(400).json({ message: "Failed to assign employee to client" });
         }
-        res.status(200).json({ message: "Employee assigned to client successfully" });
+        return res.status(200).json({ message: "Employee assigned to client successfully" });
     } catch (error) {
         console.error("Error while assigning new employee to client:", error);
-        res.status(400).send(error);
+        return res.status(500).json({message: "Internal server error"});
     }
 }
 
@@ -186,10 +186,10 @@ export const addClient = async (req, res) => {
         if(newClient.affectedRows === 0){
             return res.status(400).json({ message: "Failed to add client" });
         }
-        res.status(200).json({ message: "Client added successfully" });
+        return res.status(200).json({ message: "Client added successfully" });
     } catch (error) {
         console.error("Error while adding new client:", error);
-        res.status(400).send(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -210,17 +210,17 @@ export const updateClient = async (req, res) => {
         if (!/^[0-9+\-\(\) ]{10,20}$/.test(cp_phone)) return res.status(400).json({ message: "Invalid phone number format" });
 
         //Check if email already exists for another client
-        var query = `SELECT id FROM clients WHERE cp_email = ? AND id != ?`;
+        var query = `SELECT id, client_name FROM clients WHERE cp_email = ? AND id != ?`;
         const isEmailExist = await executeQuery(query, [cp_email, clientId]);
-        if(isEmailExist.length !== 0){
-            return res.status(200).json({ message: "Contact person email already exists for another client" });
+        if(isEmailExist.length > 0){
+            return res.status(400).json({ message: `Contact person email already exists for ${isEmailExist[0].client_name}` });
         }
 
         //Check if phone already exists for another client
-        var query = `SELECT id FROM clients WHERE cp_phone = ? AND id != ?`;
+        var query = `SELECT id, client_name FROM clients WHERE cp_phone = ? AND id != ?`;
         const isPhoneExist = await executeQuery(query, [cp_phone, clientId]);
-        if(isPhoneExist.length !== 0){
-            return res.status(200).json({ message: "Contact person phone already exists for another client" });
+        if(isPhoneExist.length > 0){
+            return res.status(400).json({ message: `Contact person phone already exists for ${isEmailExist[0].client_name}` });
         }
 
         //Query to update client details
@@ -233,7 +233,7 @@ export const updateClient = async (req, res) => {
         res.status(200).json({ message: "Client updated successfully" });
     } catch (error) {
         console.error("Error while updating client:", error);
-        res.status(400).send(error)
+        return res.status(500).json({message: "Internal server error"});
     }
 }
 
@@ -270,6 +270,6 @@ export const deletedClient = async (req, res) => {
         // In case of error, rollback the transaction
         if (connection) await connection.rollback();
         console.error("Error while deleting client:", error);
-        return res.status(400).json(error);
+        return res.status(500).json({message: "Internal server error"});
     }
 }

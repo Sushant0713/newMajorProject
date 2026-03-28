@@ -56,7 +56,6 @@ export const useAdminLineUpStore = create((set, get) => ({
   },
 
   addToTracker: async ({ candidate_id, employee_id, process_id, resume }) => {
-    debugger;
     set({ loading: true, error: null });
     try {
       const formData = new FormData();
@@ -149,7 +148,6 @@ export const useAdminLineUpStore = create((set, get) => ({
   },
 
   editLineUp: async (payload) => {
-    debugger;
     set({ loading: true, error: null });
     try {
       const res = await axiosInstance.post("/admin/lineup/editLineUp", payload);
@@ -216,7 +214,6 @@ export const useAdminLineUpStore = create((set, get) => ({
   },
 
   addCandidate: async ({name, email, gender, phone, address, experience_level, employee_id, resume}) => {
-    debugger;
     set({ loading: true, error: null });
     try {
       const formData = new FormData();
@@ -248,7 +245,6 @@ export const useAdminLineUpStore = create((set, get) => ({
   },
 
   updateCandidateStatus: async (data) => {
-    debugger;
     set({ loading: true, error: null });
     try {
       const { candidate_id, employee_id, status, reason } = data;
