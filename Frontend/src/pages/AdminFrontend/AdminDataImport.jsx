@@ -111,7 +111,7 @@ const AdminDataImport = () => {
 
   const handleViewUploadFormat = () => {
     window.open(
-      "http://localhost:5000/uploads/UploadFormat.xlsx",
+      `${import.meta.env.VITE_BACKEND_URL}/uploads/UploadFormat.xlsx`,
       "_blank"
     );
   };

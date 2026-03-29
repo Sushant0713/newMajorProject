@@ -28,7 +28,8 @@ import employee_payoutRouter from "./routers/employee-payout.router.js";
 import employee_trackerRouter from "./routers/employee-tracker.router.js";
 import employee_dataRouter from "./routers/employee-data.router.js";
 import employee_reportsRouter from "./routers/employee-reports.router.js";
-import path from "path";
+import fs from "fs";
+import db from "./lib/db.js";
 
 dotenv.config();
 
@@ -37,17 +38,26 @@ const app = express();
 // Get directory name for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __filepath = path.dirname(__filename);
-const __dirname = path.resolve();
+const rootDir = path.join(process.cwd(), "..");
 
 
 app.use(cors({
-    origin : 'http://localhost:5173',
-    // origin : 'http://192.168.1.12:5173',
-    credentials: true,
+    // origin : 'http://localhost:5173',
+    // credentials: true,
+    origin : '*',
 }));
 app.use(express.json());
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+db.getConnection((err, conn) => {
+  if (err) {
+    console.error("DB ERROR:", err);
+  } else {
+    console.log("DB CONNECTED");
+    conn.release();
+  }
+});
 
 // Serve static files from uploads directory
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -79,12 +89,18 @@ app.use('/api/employee/data', employee_dataRouter);
 app.use('/api/employee/reports', employee_reportsRouter);
 
 if(process.env.NODE_ENV==="production"){
-    app.use(express.static(path.join(__dirname, "../Frontend/dist")));
-
-    app.get("*", (req, res) => {
-        res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
-    })
+    const frontendPath = path.join(rootDir, "Frontend", "dist");
+    if (!fs.existsSync(frontendPath)) {
+        console.error("⚠️ Frontend build not found at:", frontendPath);
+    }
+    else{
+        app.use(express.static(frontendPath));
+        app.use((req, res) => {
+            res.sendFile(path.join(frontendPath, "index.html"));
+        });
+    }
 }
+
 app.listen(process.env.PORT, () => {
     console.log("server is running at port: "+process.env.PORT);
 });
