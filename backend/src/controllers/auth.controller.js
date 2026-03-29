@@ -86,11 +86,11 @@ export const logout = async(req, res) => {
             await closeSession(sessionId);
         }
         // Clear the JWT cookie
-        res.cookie("jwt", "", {maxAge: 0});
-        res.status(200).json({message: "Logged out successfully"});
+        await res.clearCookie("jwt");
+        return res.status(200).json({message: "Logged out successfully"});
     } catch (error) {
         console.error("Error in logout controller"+ error.message);
-        res.status(500).json({message: "Internal server error"});
+        return res.status(500).json({message: "Internal server error"});
     }
 };
 
@@ -163,12 +163,13 @@ export const verifyOTP = async (req, res) => {
         if (!isValid) return res.status(400).json({ message: "Invalid OTP" });
 
         // OTP is valid, clear the otp_hash cookie and set otp_verified cookie
-        res.clearCookie("otp_hash");
-        res.cookie("otp_verified", true, {
+        await res.clearCookie("otp_hash");
+        await res.cookie("otp_verified", true, {
             httpOnly: true,
             maxAge: 10 * 60 * 1000, 
-            sameSite: "strict",
-            secure: false,
+            sameSite: process.env.NODE_ENV === "development" ? "strict": "none",
+            secure: process.env.NODE_ENV === "development" ? false: true, // Set to true if using HTTPS
+            path: "/"
         });
 
         return res.json({ message: "OTP verified" });

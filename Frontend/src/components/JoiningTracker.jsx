@@ -378,7 +378,7 @@ export default function JoiningTracker ({ role, employee_id }) {
                                                         className="action-bar-btn resume"
                                                         onClick={() =>
                                                             window.open(
-                                                            `http://localhost:5000${selectedRow.resume_pdf_path}`,
+                                                            `${import.meta.env.VITE_BACKEND_URL}${selectedRow.resume_pdf_path}`,
                                                             "_blank"
                                                             )
                                                         }

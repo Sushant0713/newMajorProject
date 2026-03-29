@@ -85,7 +85,7 @@ export default function AdminViewEmployee() {
       toast.error("File not available");
       return;
     }
-    window.open(`http://localhost:5000${filePath}`, "_blank");
+    window.open(`${import.meta.env.VITE_BACKEND_URL}${filePath}`, "_blank");
   };
 
 
