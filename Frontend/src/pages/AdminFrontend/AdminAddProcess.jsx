@@ -10,8 +10,7 @@ export default function AdminAddProcess() {
   const navigate = useNavigate();
   const { addProcess, loading, error } = useAdminProcessStore();
   const { clients, fetchAllClients, loading: clientsLoading } = useAdminClientStore();
-  const [darkMode, setDarkMode] = useState(false);
-
+  
   const [form, setForm] = useState({
     client_name: "",
     process_name: "",
@@ -103,8 +102,7 @@ export default function AdminAddProcess() {
       <main className="admin-main">
         <AdminHeader
           title="Add New Process"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}

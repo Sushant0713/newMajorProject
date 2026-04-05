@@ -7,8 +7,7 @@ import { useAdminCadidateStore } from "../../store/AdminCandidateStore";
 
 
 const AdminPassCandidates = () => {
-    const [darkMode, setDarkMode] = useState(false);
-    const { fetchCandidatesByStatus } = useAdminCadidateStore();
+        const { fetchCandidatesByStatus } = useAdminCadidateStore();
     useEffect(() => {
         fetchCandidatesByStatus({ status: "pass" });
     }, []);
@@ -23,8 +22,7 @@ const AdminPassCandidates = () => {
             {/* Header */}
             <AdminHeader
                 title="Passed Candidates"
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
+                
             />
 
             <div className="pass-content">

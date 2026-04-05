@@ -10,14 +10,7 @@ import { useEmployeeMeetingStore } from "../../store/EmployeeMeetingStore.js";
 import MonthlySuccessChart from "../../components/MonthlySuccessChart.jsx";
 import EmployeeNavbar from "../../components/EmployeeNavbar.jsx";
 import toast from "react-hot-toast";
-
-  
-
-const personalTargets = [
-  { label: "Monthly Joins Target", current: 6, target: 10, color: "#22c55e" },
-  { label: "Interviews Scheduled", current: 18, target: 25, color: "#3b82f6" },
-  { label: "CVs Submitted", current: 45, target: 60, color: "#a855f7" },
-];
+// Dynamic targets loaded from API using useMemo instead of this const.
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -46,7 +39,7 @@ export default function Dashboard() {
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [activeSettingsTab, setActiveSettingsTab] = useState("notifications");
 
-  const { stats, pipeline, loading, error, fetchDashboard, successLogs, fetchMonthlySuccess, fetchEmployeeProfile, updateEmployeeProfile, profileLoading } = useEmployeeDashboardStore();
+  const { stats, pipeline, loading, error, fetchDashboard, successLogs, fetchMonthlySuccess, fetchEmployeeProfile, updateEmployeeProfile, profileLoading, monthlyTargets, fetchMonthlyTargets } = useEmployeeDashboardStore();
   const { fetchTodaysMeetings, todaysMeetings } = useEmployeeMeetingStore();
 
   useEffect(() => {
@@ -57,6 +50,7 @@ export default function Dashboard() {
       fetchDashboard(empId);
       fetchMonthlySuccess(empId);
       fetchTodaysMeetings(empId);
+      fetchMonthlyTargets(empId);
   }, []);
 
   // Fetch profile when modal opens
@@ -250,6 +244,39 @@ export default function Dashboard() {
     });
   }, []);
 
+  const dynamicPersonalTargets = useMemo(() => {
+    if (!monthlyTargets) return [];
+    
+    // Revenue Data
+    const currentRev = Number(monthlyTargets.generatedRevenue) || 0;
+    const targetRev = Number(monthlyTargets.revenueTarget) || 0;
+    const revPercent = targetRev > 0 ? Math.round((currentRev / targetRev) * 100) : (currentRev > 0 ? 100 : 0);
+    
+    // Joins Data
+    const currentJoins = Number(monthlyTargets.completelyJoined) || 0;
+    const targetJoins = Number(monthlyTargets.candidateTarget) || 0;
+    const joinsPercent = targetJoins > 0 ? Math.round((currentJoins / targetJoins) * 100) : (currentJoins > 0 ? 100 : 0);
+
+    return [
+      { 
+        label: "Monthly Joins Target", 
+        current: currentJoins, 
+        target: targetJoins, 
+        color: "#22c55e",
+        percent: joinsPercent,
+        prefix: ""
+      },
+      { 
+        label: "Monthly Revenue Target", 
+        current: currentRev, 
+        target: targetRev, 
+        color: "#3b82f6",
+        percent: revPercent,
+        prefix: "₹" 
+      }
+    ];
+  }, [monthlyTargets]);
+
   return (
     <div className="dash-root">
       <EmployeeNavbar />
@@ -419,27 +446,30 @@ export default function Dashboard() {
               </span>
             </div>
             <div className="targets-grid">
-              {personalTargets.map((t) => {
-                const percent = Math.min(
-                  100,
-                  Math.round((t.current / t.target) * 100)
-                );
+              {dynamicPersonalTargets.map((t) => {
+                const isExceeded = t.current > t.target;
+                // Cap the visual bar to 100% so it doesn't break layout
+                const displayPercent = Math.min(100, t.percent);
+                
                 return (
                   <div className="target-item" key={t.label}>
                     <div className="target-header">
-                      <span className="target-label">{t.label}</span>
+                      <span className="target-label">
+                        {t.label} 
+                        {isExceeded && <span style={{color: '#fff', backgroundColor: '#fbbf24', fontSize: '10px', padding: '2px 6px', borderRadius: '4px', marginLeft: '6px', fontWeight: 'bold'}}>EXCEEDED</span>}
+                      </span>
                       <span className="target-value">
-                        {t.current}/{t.target}
+                        {t.prefix}{t.current.toLocaleString("en-IN")} / {t.prefix}{t.target.toLocaleString("en-IN")}
                       </span>
                     </div>
                     <div className="target-bar">
                       <div
                         className="target-fill"
-                        style={{ width: `${percent}%`, background: t.color }}
+                        style={{ width: `${displayPercent}%`, background: t.color }}
                       />
                     </div>
-                    <span className="target-percent">
-                      {percent}% achieved
+                    <span className="target-percent" style={{ color: isExceeded ? '#d97706' : '#64748b', fontWeight: isExceeded ? 'bold' : 'normal' }}>
+                      {t.percent}% achieved {isExceeded && "🎉"}
                     </span>
                   </div>
                 );

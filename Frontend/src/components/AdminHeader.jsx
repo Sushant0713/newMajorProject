@@ -97,11 +97,11 @@ export default function AdminHeader({
   // Format date function
   const formatDate = (date) => {
     if (!date) return "";
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
   };
 
@@ -233,14 +233,14 @@ export default function AdminHeader({
                   <span className="material-symbols-outlined">person</span>
                   My Profile
                 </Link>
-                <button 
+                <button
                   className="dropdown-item"
                   onClick={handleSettingsClick}
                 >
                   <span className="material-symbols-outlined">settings</span>
                   Settings
                 </button>
-                <button 
+                <button
                   className="dropdown-item"
                   onClick={handleHelpClick}
                 >

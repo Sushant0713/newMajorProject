@@ -12,8 +12,7 @@ export default function ViewAdminClient() {
   const navigate = useNavigate();
   const location = useLocation();
   const { clientId } = useParams();
-  const [darkMode, setDarkMode] = useState(false);
-  const [selectedProcessId, setSelectedProcessId] = useState(null);
+    const [selectedProcessId, setSelectedProcessId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingProcessId, setEditingProcessId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -78,10 +77,6 @@ export default function ViewAdminClient() {
   }, [clientId, fetchClientDetails, fetchAssignedEmployees, fetchProcessesForClient, fetchAvailableEmployees, clearError]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   useEffect(() => {
     if (isEditModalOpen && editingProcessId) {
       loadProcessForEdit(editingProcessId);
@@ -436,7 +431,7 @@ export default function ViewAdminClient() {
   }
 
   return (
-    <div className={`view-admin-client-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`view-admin-client-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -445,8 +440,7 @@ export default function ViewAdminClient() {
         {/* Header */}
         <AdminHeader
           title="Client Details"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}

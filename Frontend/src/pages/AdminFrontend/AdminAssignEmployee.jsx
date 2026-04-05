@@ -15,8 +15,7 @@ export default function AdminAssignEmployee() {
   const [selectedEmployees, setSelectedEmployees] = useState(new Set());
   const [selectedClients, setSelectedClients] = useState(new Set());
   const [isAssigning, setIsAssigning] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-
+  
   const {
     availableEmployees,
     clients,
@@ -36,10 +35,6 @@ export default function AdminAssignEmployee() {
   }, [fetchAvailableEmployees, fetchAllClients, clearError, statusFilter, designationFilter]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   // const filteredEmployees = useMemo(() => {
   //   // Only filter by search query since status and designation are now server-side filtered
   //   return availableEmployees.filter((emp) => {
@@ -192,7 +187,7 @@ export default function AdminAssignEmployee() {
     filteredClients.length > 0 && filteredClients.every((c) => selectedClients.has(c.id));
 
   return (
-    <div className={`assign-page-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`assign-page-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -201,8 +196,7 @@ export default function AdminAssignEmployee() {
         {/* Header */}
         <AdminHeader
           title="Assign Employees to Clients"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Filter Bar */}

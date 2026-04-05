@@ -10,8 +10,7 @@ export default function AdminEditClient() {
   const navigate = useNavigate();
   const location = useLocation();
   const { clientId } = useParams();
-  const [darkMode, setDarkMode] = useState(false);
-
+  
   const { 
     clientDetails, 
     fetchClientDetails, 
@@ -59,10 +58,6 @@ export default function AdminEditClient() {
   }, [clientDetails]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -99,7 +94,7 @@ export default function AdminEditClient() {
   }
 
   return (
-    <div className={`admin-edit-client-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-edit-client-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -108,8 +103,7 @@ export default function AdminEditClient() {
         {/* Header */}
         <AdminHeader
           title="Edit Client"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Form Content */}

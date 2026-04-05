@@ -6,8 +6,7 @@ import AdminCandidateData from "../../components/AdminCandidateData";
 import { useAdminCadidateStore } from "../../store/AdminCandidateStore";
 
 const AdminDropCandidates = () => {
-    const [darkMode, setDarkMode] = useState(false);
-    const { fetchCandidatesByStatus } = useAdminCadidateStore();
+        const { fetchCandidatesByStatus } = useAdminCadidateStore();
     useEffect(() => {
         fetchCandidatesByStatus({ status: "dropout" });
     }, []);
@@ -22,8 +21,7 @@ const AdminDropCandidates = () => {
             {/* Header */}
             <AdminHeader
                 title="Dropped Candidates"
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
+                
             />
 
             <div className="drop-content">

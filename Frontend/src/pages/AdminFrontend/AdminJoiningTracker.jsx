@@ -4,8 +4,7 @@ import AdminHeader from "../../components/AdminHeader.jsx";
 import JoiningTracker from "../../components/JoiningTracker.jsx";
 
 export default function AdminJoiningTracker(){
-  const [darkMode, setDarkMode] = useState(false);
-  const admin_id = sessionStorage.getItem("userId");
+    const admin_id = sessionStorage.getItem("userId");
   return (
       <div className="joining-tracker-root">
          {/* Sidebar */}
@@ -14,8 +13,7 @@ export default function AdminJoiningTracker(){
           <main className="admin-main">
             <AdminHeader
               title="Joining Tracker"
-              darkMode={darkMode}
-              setDarkMode={setDarkMode}
+              
             />
   
             <JoiningTracker

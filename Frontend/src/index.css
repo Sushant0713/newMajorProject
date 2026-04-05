@@ -20,7 +20,7 @@
   --text-secondary: #6b7280;
   --primary-color: #135bec;
   --danger-color: #ef4444;
-  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
 }

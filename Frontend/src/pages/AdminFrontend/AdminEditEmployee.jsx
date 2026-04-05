@@ -9,8 +9,7 @@ export default function AdminEditEmployee() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const empId = searchParams.get("empId");
-  const [darkMode, setDarkMode] = useState(false);
-  const { loading, error, selectedEmployee, fetchSelectedEmployee, updateEmployee } = useAdminEmployeeStore();
+    const { loading, error, selectedEmployee, fetchSelectedEmployee, updateEmployee } = useAdminEmployeeStore();
   const admin_id = sessionStorage.getItem('userId');
   
   // Form state
@@ -99,10 +98,6 @@ export default function AdminEditEmployee() {
   }, [selectedEmployee]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -256,7 +251,7 @@ export default function AdminEditEmployee() {
   const employee = selectedEmployee && selectedEmployee.length > 0 ? selectedEmployee[0] : null;
 
   return (
-    <div className={`admin-add-employee-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-add-employee-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -265,8 +260,7 @@ export default function AdminEditEmployee() {
         {/* Header */}
         <AdminHeader
           title="Edit Employee"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Form Content */}

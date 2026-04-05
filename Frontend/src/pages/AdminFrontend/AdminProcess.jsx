@@ -10,8 +10,7 @@ export default function AdminProcess() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [clientFilter, setClientFilter] = useState("All");
-  const [darkMode, setDarkMode] = useState(false);
-  const [hoveredSpoc, setHoveredSpoc] = useState(null);
+    const [hoveredSpoc, setHoveredSpoc] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingProcessId, setEditingProcessId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -69,10 +68,6 @@ export default function AdminProcess() {
   }, [isEditModalOpen, editingProcessId]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
 
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -363,7 +358,7 @@ export default function AdminProcess() {
   };
 
   return (
-    <div className={`admin-process-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-process-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -372,8 +367,7 @@ export default function AdminProcess() {
         {/* Header */}
         <AdminHeader
           title="Process Management"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         <div className="top-section-btn">

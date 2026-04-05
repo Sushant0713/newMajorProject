@@ -27,7 +27,7 @@ export default function AdminTeam() {
   const [itemsPerPage] = useState(10);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [memberSearchQuery, setMemberSearchQuery] = useState("");
-  const [darkMode, setDarkMode] = useState(false);  
+    
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   
@@ -53,10 +53,6 @@ export default function AdminTeam() {
   }, [getTeams, getAllEmployees]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   // Handle team row click
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
@@ -311,7 +307,7 @@ export default function AdminTeam() {
   });
 
   return (
-    <div className={`admin-employee-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-employee-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -320,8 +316,7 @@ export default function AdminTeam() {
         {/* Header */}
         <AdminHeader
           title="Team Management"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}

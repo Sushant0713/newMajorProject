@@ -9,8 +9,7 @@ import fs from 'fs';
 export default function AdminViewEmployee() {
   const [searchParams] = useSearchParams();
   const empId = searchParams.get("empId");
-  const [darkMode, setDarkMode] = useState(false);
-  const { selectedEmployee, loading, error, fetchSelectedEmployee } = useAdminEmployeeStore();
+    const { selectedEmployee, loading, error, fetchSelectedEmployee } = useAdminEmployeeStore();
 
   useEffect(() => {
     if (empId) {
@@ -19,10 +18,6 @@ export default function AdminViewEmployee() {
   }, [empId, fetchSelectedEmployee]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   // Helper function to format date
   const formatDate = (dateString) => {
     if (!dateString) return "Not set";
@@ -138,7 +133,7 @@ export default function AdminViewEmployee() {
   const employee = selectedEmployee[0];
 
   return (
-    <div className={`admin-view-employee-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-view-employee-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -147,8 +142,7 @@ export default function AdminViewEmployee() {
         {/* Header */}
         <AdminHeader
           title="Employee Details"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         <div className="employee-details-title">

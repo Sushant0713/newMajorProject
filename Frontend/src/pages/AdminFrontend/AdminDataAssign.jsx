@@ -12,8 +12,7 @@ const AdminDataAssign = () => {
   const [selectedEmployees, setSelectedEmployees] = useState(new Set());
   const [selectedDataTypes, setSelectedDataTypes] = useState(new Set());
   const [isAssigning, setIsAssigning] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const {loading, error, availableEmployees, fetchAvailableEmployees, dataTypes, fetchDataTypes, bulkAssignDataTypesToEmployees} = useAdminDataStore();
+    const {loading, error, availableEmployees, fetchAvailableEmployees, dataTypes, fetchDataTypes, bulkAssignDataTypesToEmployees} = useAdminDataStore();
 
   // Fetch data on component mount and when filters change
   useEffect(() => {
@@ -22,10 +21,6 @@ const AdminDataAssign = () => {
   }, [fetchAvailableEmployees, fetchDataTypes]);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   const filteredEmployees = useMemo(() => {
     if (!Array.isArray(availableEmployees)) return [];
     const query = searchQuery.toLowerCase();
@@ -156,7 +151,7 @@ const AdminDataAssign = () => {
   const allDataTypesSelected = filteredDataTypes.length > 0 && filteredDataTypes.every((d) => selectedDataTypes.has(d.id));
 
   return (
-    <div className={`assign-page-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`assign-page-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -165,8 +160,7 @@ const AdminDataAssign = () => {
         {/* Header */}
         <AdminHeader
           title="Assign Employees to Data types"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Filter Bar */}

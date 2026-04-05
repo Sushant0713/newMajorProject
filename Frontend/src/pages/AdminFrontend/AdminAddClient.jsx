@@ -22,8 +22,7 @@ const navItems = [
 
 export default function AdminAddClient() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
-
+  
   const { addClient, loading, error, clearError } = useAdminClientStore();
 
   const [formData, setFormData] = useState({
@@ -69,8 +68,7 @@ export default function AdminAddClient() {
         {/* Header */}
         <AdminHeader
           title="Add New Client"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Form Content */}

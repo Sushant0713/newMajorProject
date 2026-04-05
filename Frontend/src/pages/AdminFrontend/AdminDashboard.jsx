@@ -32,8 +32,7 @@ export default function AdminDashboard() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [notificationsList, setNotificationsList] = useState(notifications);
+    const [notificationsList, setNotificationsList] = useState(notifications);
   const [selectedTimePeriod, setSelectedTimePeriod] = useState("This Month");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -101,10 +100,6 @@ export default function AdminDashboard() {
   }, []);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   const markNotificationRead = (id) => {
     setNotificationsList(prev =>
       prev.map(n => n.id === id ? { ...n, unread: false } : n)
@@ -114,7 +109,7 @@ export default function AdminDashboard() {
   const unreadCount = notificationsList.filter(n => n.unread).length;
 
   return (
-    <div className={`admin-dash-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-dash-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -123,8 +118,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <AdminHeader
           title="Dashboard"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Stats Cards */}

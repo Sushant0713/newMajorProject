@@ -27,8 +27,7 @@ import { useEffect } from "react";
 
 const AdminDataImport = () => {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
-  const fileInputRef = useRef(null);
+    const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [showNewTypeModal, setShowNewTypeModal] = useState(false);
   const [newTypeName, setNewTypeName] = useState('');
@@ -220,8 +219,7 @@ const AdminDataImport = () => {
         {/* Header */}
         <AdminHeader
           title="Data Import"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         <div className="data-content">

@@ -6,14 +6,9 @@ import toast from "react-hot-toast";
 
 const AdminEmployeeRegistration = () => {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
-  const { loading, error, registerEmployee } = useAdminEmployeeStore();
+    const { loading, error, registerEmployee } = useAdminEmployeeStore();
 
-  // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-  const admin_id = sessionStorage.getItem('userId');
+  // Apply dark mode  const admin_id = sessionStorage.getItem('userId');
 
   // Form state
   const [formData, setFormData] = useState({

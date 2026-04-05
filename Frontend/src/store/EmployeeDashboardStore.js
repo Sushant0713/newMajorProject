@@ -92,6 +92,16 @@ export const useEmployeeDashboardStore = create((set, get) => ({
         }
     },
 
+    monthlyTargets: null,
+    fetchMonthlyTargets: async (empId) => {
+        try {
+            const res = await axiosInstance.post('/employee/dashboard/getMonthlyTargetAchievement', { employee_id: empId });
+            set({ monthlyTargets: res.data });
+        } catch (err) {
+            console.error("Error fetching monthly targets", err);
+        }
+    },
+
     // Employee Profile functions
     employeeProfile: null,
     profileLoading: false,

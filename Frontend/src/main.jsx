@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
-import AdminLogin from './pages/AdminFrontend/AdminLogin'; 
+import AdminLogin from './pages/AdminFrontend/AdminLogin';
 import AdminPasswordReset from './pages/AdminFrontend/AdminPasswordReset';
 import AdminNewPassword from './pages/AdminFrontend/AdminNewPassword';
 import AdminVerifyOTP from './pages/AdminFrontend/AdminVerifyOTP';
@@ -11,6 +11,7 @@ import AdminDashboard from './pages/AdminFrontend/AdminDashboard';
 import AdminClient from './pages/AdminFrontend/AdminClient';
 import AdminJoiningTracker from './pages/AdminFrontend/AdminJoiningTracker';
 import AdminEmployee from './pages/AdminFrontend/AdminEmployee';
+import AdminEmployeePortfolio from './pages/AdminFrontend/AdminEmployeePortfolio';
 import AdminProcess from './pages/AdminFrontend/AdminProcess';
 import AdminAssignEmployee from './pages/AdminFrontend/AdminAssignEmployee';
 import AdminPayoutManagement from './pages/AdminFrontend/AdminPayoutManagement';
@@ -53,7 +54,7 @@ import ReviewResumeData from './pages/EmployeeFrontend/ReviewResumeData';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-    <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<AdminLogin />} />
         <Route path="/admin-forgot-password" element={<AdminPasswordReset />} />
@@ -67,6 +68,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/admin-joining-tracker" element={<AdminJoiningTracker />} />
         <Route path="/admin-lineup-tracker" element={<AdminLineUpTracker />} />
         <Route path="/admin-employees" element={<AdminEmployee />} />
+        <Route path="/employee-portfolio" element={<AdminEmployeePortfolio />} />
         <Route path="/admin-process" element={<AdminProcess />} />
         <Route path="/admin-add-process" element={<AdminAddProcess />} />
         <Route path="/admin-assign-employee" element={<AdminAssignEmployee />} />
@@ -84,7 +86,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/admin-pass-candidates" element={<AdminPassCandidates />} />
         <Route path="/admin-drop-candidates" element={<AdminDropCandidates />} />
         <Route path="/admin-data-assign" element={<AdminDataAssign />} />
-        
+
 
 
         <Route path="/employee-login" element={<EmployeeLogin />} />
@@ -92,7 +94,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/password-reset" element={<NewPassword />} />
         <Route path="/employee-dashboard" element={<Dashboard />} />
-        <Route path="/employee-recruitment" element={<RecruitmentReport/>} />
+        <Route path="/employee-recruitment" element={<RecruitmentReport />} />
         <Route path="/employee-resumeupload" element={<ResumeUpload />} />
         <Route path="/employee-clients" element={<EmployeeClient />} />
         <Route path="/employee-data" element={<EmployeeData />} />
@@ -103,7 +105,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/employee-lineup-tracker" element={<EmployeeLineUpTracker />} />
         <Route path="/employee-joining-tracker" element={<EmployeeJoiningTracker />} />
         <Route path="/employee-review-resume" element={<ReviewResumeData />} />
-        <Route path="/employee-tracker" element={<EmployeeTracker/>}/>
+        <Route path="/employee-tracker" element={<EmployeeTracker />} />
 
       </Routes>
 

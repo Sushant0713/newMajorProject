@@ -8,14 +8,9 @@ import toast from "react-hot-toast";
 
 export default function AdminAddEmployee() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
-  const { loading, error, addEmployee } = useAdminEmployeeStore();
+    const { loading, error, addEmployee } = useAdminEmployeeStore();
 
-  // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-  const admin_id = sessionStorage.getItem('userId');
+  // Apply dark mode  const admin_id = sessionStorage.getItem('userId');
 
   // Form state
   const [formData, setFormData] = useState({
@@ -140,7 +135,7 @@ export default function AdminAddEmployee() {
   };
 
   return (
-    <div className={`admin-add-employee-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-add-employee-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -149,8 +144,7 @@ export default function AdminAddEmployee() {
         {/* Header */}
         <AdminHeader
           title="Add New Employee"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Form Content */}

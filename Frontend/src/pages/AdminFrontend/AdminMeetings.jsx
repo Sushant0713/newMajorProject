@@ -9,8 +9,7 @@ import AdminHeader from "../../components/AdminHeader";
 export default function AdminMeetings() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [darkMode, setDarkMode] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deletingMeetingId, setDeletingMeetingId] = useState(null);
@@ -51,10 +50,6 @@ export default function AdminMeetings() {
   }, []);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   // Fetch employee names when meetings are loaded
   useEffect(() => {
     const fetchEmployeeNames = async () => {
@@ -452,7 +447,7 @@ export default function AdminMeetings() {
   const paginatedMeetings = filteredMeetings.slice(startIndex, endIndex);
 
   return (
-    <div className={`admin-meetings-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-meetings-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -461,8 +456,7 @@ export default function AdminMeetings() {
         {/* Header */}
         <AdminHeader
           title="Meetings Management"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}

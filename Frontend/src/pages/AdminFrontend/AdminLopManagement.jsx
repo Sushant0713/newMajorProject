@@ -9,8 +9,7 @@ import AdminHeader from "../../components/AdminHeader";
 export default function AdminLopManagement() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [darkMode, setDarkMode] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteRow, setDeleteRow] = useState(null);
   const [toast, setToast] = useState(null);
@@ -36,10 +35,6 @@ export default function AdminLopManagement() {
   }, []);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   // Filter states
   const [searchQuery, setSearchQuery] = useState("");
   const [employeeFilter, setEmployeeFilter] = useState("");
@@ -166,7 +161,7 @@ export default function AdminLopManagement() {
   );
 
   return (
-    <div className={`admin-lop-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-lop-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -175,8 +170,7 @@ export default function AdminLopManagement() {
         {/* Header */}
         <AdminHeader
           title="LOP Management"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}

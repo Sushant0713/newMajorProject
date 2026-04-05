@@ -12,8 +12,7 @@ export default function AdminClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("table"); // "table" or "card"
   const [statusFilter, setStatusFilter] = useState("All");
-  const [darkMode, setDarkMode] = useState(false);
-
+  
   const {
     clients,
     fetchAllClients,
@@ -28,10 +27,6 @@ export default function AdminClient() {
   }, []);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   const filteredClients = clients.filter((client) => {
     const matchesSearch =
       client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -105,7 +100,7 @@ export default function AdminClient() {
   const totalPages = Math.ceil(filteredClients.length / itemsPerPage);
 
   return (
-    <div className={`admin-client-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-client-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -114,8 +109,7 @@ export default function AdminClient() {
         {/* Header */}
         <AdminHeader
           title="Clients"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}

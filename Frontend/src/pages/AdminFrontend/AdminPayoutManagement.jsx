@@ -10,8 +10,7 @@ import AdminCandidateHistory from "../../components/AdminCandidateHistory.jsx";
 export default function AdminPayoutManagement() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [darkMode, setDarkMode] = useState(false);
-  const [selectedRows, setSelectedRows] = useState(new Set());
+    const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectedCandidateId, setSelectedCandidateId] = useState(null); 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedPayout, setSelectedPayout] = useState(null);
@@ -89,10 +88,6 @@ export default function AdminPayoutManagement() {
   }, []);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   const applyFiltersToBackend = () => {
     const filterData = {
       search: globalSearch || undefined,
@@ -375,7 +370,7 @@ export default function AdminPayoutManagement() {
   };
 
   return (
-    <div className={`admin-payout-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-payout-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -384,8 +379,7 @@ export default function AdminPayoutManagement() {
         {/* Header */}
         <AdminHeader
           title="Payout Management"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}

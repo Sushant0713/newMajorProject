@@ -866,7 +866,7 @@ export const getEmployeePortfolio = async (req, res) => {
 
         const dropoutRate = total > 0 ? Number((dropoutCount / total) * 100).toFixed(1) : 0;
 
-        const totalRevenue = await executeQuery(`SELECT COALESCE(SUM(p.real_payout_amount), 0) AS total_revenue
+        const totalRevenue = await executeQuery(`SELECT COALESCE(SUM(cl.approx_revenue), 0) AS total_revenue
                                                     FROM employee_assignments ea
                                                     JOIN (
                                                         SELECT candidate_id, MAX(id) AS latest_id
@@ -875,6 +875,7 @@ export const getEmployeePortfolio = async (req, res) => {
                                                     ) latest ON ea.id = latest.latest_id
                                                     JOIN candidate_assignments ca ON ca.candidate_id = ea.candidate_id
                                                     JOIN processes p ON p.id = ca.process_id
+                                                    JOIN clients cl ON cl.id = p.client_id
                                                     WHERE 
                                                         ea.employee_id = ? AND DATE(ca.updated_at) BETWEEN ? AND ? 
                                                         AND ca.assignment_status = 'completely_joined'`, [empId, start_date, end_date]);

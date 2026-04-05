@@ -95,9 +95,10 @@ export const dashboardStatistics = async (req, res) => {
     : 0;
 
     query = `SELECT 
-                COALESCE(SUM(p.real_payout_amount), 0) AS total_actual_revenue
+                COALESCE(SUM(cl.approx_revenue), 0) AS total_actual_revenue
                 FROM candidate_assignments ca
                 JOIN processes p ON ca.process_id = p.id
+                JOIN clients cl ON p.client_id = cl.id
                 WHERE ca.assignment_status = 'completely_joined'
                 AND YEAR(ca.updated_at) = YEAR(CURDATE())
                 AND MONTH(ca.updated_at) = MONTH(CURDATE())`;
@@ -188,10 +189,11 @@ export const getTopPerformers = async (req, res) => {
                     e.email as employee_email,
                     e.designation as employee_role,
                     COUNT(ca.id) as completely_joined_count,
-                    COALESCE(SUM(p.real_payout_amount), 0) as total_revenue
+                    COALESCE(SUM(cl.approx_revenue), 0) as total_revenue
                     FROM candidate_assignments ca
                     INNER JOIN employees e ON e.id = ca.assigned_by
                     LEFT JOIN processes p ON ca.process_id = p.id
+                    LEFT JOIN clients cl ON p.client_id = cl.id
                     WHERE ca.assignment_status = 'completely_joined'
                     AND DATE(ca.updated_at) BETWEEN ? AND ?
                     GROUP BY e.id, e.full_name, e.employee_id, e.email, e.designation
@@ -200,10 +202,11 @@ export const getTopPerformers = async (req, res) => {
         const topPerformers = await executeQuery(query, [start_date, end_date]);
 
         query = `SELECT 
-                        COALESCE(SUM(p.real_payout_amount), 0) as total_company_revenue,
+                        COALESCE(SUM(cl.approx_revenue), 0) as total_company_revenue,
                         COUNT(ca.id) as total_completely_joined
                     FROM candidate_assignments ca
                     LEFT JOIN processes p ON ca.process_id = p.id
+                    LEFT JOIN clients cl ON p.client_id = cl.id
                     WHERE ca.assignment_status = 'completely_joined'
                     AND DATE(ca.updated_at) BETWEEN ? AND ?`;
         const total_revenue = await executeQuery(query, [start_date, end_date]);

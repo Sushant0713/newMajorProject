@@ -28,8 +28,7 @@ export default function AdminEmployee() {
   const [showPIPModal, setShowPIPModal] = useState(false);
   const [showEndPIPModal, setShowEndPIPModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [pipForm, setPipForm] = useState({
+    const [pipForm, setPipForm] = useState({
     startDate: "",
     endDate: "",
     reason: "",
@@ -54,10 +53,6 @@ export default function AdminEmployee() {
   }, []);
 
   // Apply dark mode
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
-
   const handleCopyLink = async () => {
     await navigator.clipboard.writeText(shareUrl);
     toast.success("Link copied");
@@ -391,7 +386,7 @@ export default function AdminEmployee() {
   };
 
   return (
-    <div className={`admin-employee-root ${darkMode ? 'dark' : ''}`}>
+    <div className={`admin-employee-root`}>
       {/* Sidebar */}
       <AdminNavbar />
 
@@ -400,8 +395,7 @@ export default function AdminEmployee() {
         {/* Header */}
         <AdminHeader
           title="Employee Management"
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          
         />
 
         {/* Content */}
