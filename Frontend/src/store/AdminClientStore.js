@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import toast from 'react-hot-toast';
 
 export const useAdminClientStore = create((set, get) => ({
     loading: false,
@@ -44,14 +45,14 @@ export const useAdminClientStore = create((set, get) => ({
         set({ loading: true, error: null });
 
         try {
-        await axiosInstance.post("/admin/client/addClient", clientData);
-        await get().fetchAllClients(); // refresh list
+            const data = await axiosInstance.post("/admin/client/addClient", clientData);
+            await get().fetchAllClients(); 
+            toast.success(data.data.message);
         set({ loading: false }); // Set loading to false on success
         } catch (err) {
-        set({
-            error: err.response?.data?.message || "Failed to add client",
-            loading: false,
-        });
+            const message = err.response?.data?.message || "Failed to add client";
+            toast.error(message);
+            set({ error: message, loading: false });
         }
     },
 
@@ -60,17 +61,18 @@ export const useAdminClientStore = create((set, get) => ({
         set({ loading: true, error: null });
 
         try {
-        await axiosInstance.post(
-            `/admin/client/updateClient?clientId=${clientId}`,
-            clientData
-        );
-        await get().fetchAllClients();
-        set({ loading: false }); // Set loading to false on success
+            const data = await axiosInstance.post(
+                `/admin/client/updateClient?clientId=${clientId}`,
+                clientData
+            );
+            await get().fetchAllClients();
+            console.log(data);
+            toast.success(data.data.message);
+            set({ loading: false }); // Set loading to false on success
         } catch (err) {
-        set({
-            error: err.response?.data?.message || "Failed to update client",
-            loading: false,
-        });
+            const message = err.response?.data?.message || "Failed to update client";
+            toast.error(message);
+            set({ error: message, loading: false });
         }
     },
 
@@ -79,13 +81,15 @@ export const useAdminClientStore = create((set, get) => ({
         set({ loading: true, error: null });
 
         try {
-        await axiosInstance.delete(`/admin/client/deletedClient?clientId=${clientId}`);
-        await get().fetchAllClients(); // refresh list instead of filtering
+            await axiosInstance.delete(`/admin/client/deletedClient?clientId=${clientId}`);
+            toast.success("Client deleted successfully");
+            await get().fetchAllClients(); 
         } catch (err) {
-        set({
-            error: err.response?.data?.message || "Failed to delete client",
-            loading: false,
-        });
+            set({
+                error: err.response?.data?.message || "Failed to delete client",
+                loading: false,
+            });
+            toast.error("Failed to delete client");
         }
     },
 

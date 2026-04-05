@@ -294,7 +294,7 @@ export default function LineupTracker({ role, employee_id }) {
                             <input
                             type="text"
                             className="filter-input"
-                            placeholder="Search candidate, phone, or employee..."
+                            placeholder="Search candidate name, candidate ID, phone or employee name"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             />

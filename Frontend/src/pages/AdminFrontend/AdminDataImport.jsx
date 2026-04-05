@@ -24,6 +24,7 @@ import AdminNavbar from "../../components/AdminNavbar";
 import AdminHeader from "../../components/AdminHeader";
 import { useAdminDataStore } from "../../store/AdminDataStore";
 import { useEffect } from "react";
+import toast from 'react-hot-toast';
 
 const AdminDataImport = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const AdminDataImport = () => {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert('Please select a file');
+      toast.error('Please select a file');
       return;
     }
 
@@ -159,7 +160,7 @@ const AdminDataImport = () => {
 
   const handleEdiDataType = async() => {
     if (!editform.type_name.trim() || !editform.employee_view_limit){
-      alert('Please fill in required fields');
+      toast.error('Please fill in required fields');
       return; 
     }
     await updateDataType({

@@ -4,11 +4,9 @@ import { useAdminClientStore } from "../../store/AdminClientStore";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminHeader from "../../components/AdminHeader";
 import "./AdminAssignEmployee.css";
-
+import toast from 'react-hot-toast';
 
 export default function AdminAssignEmployee() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [designationFilter, setDesignationFilter] = useState("");
@@ -120,7 +118,7 @@ export default function AdminAssignEmployee() {
 
   const handleAssign = async () => {
     if (selectedEmployees.size === 0 || selectedClients.size === 0) {
-      alert("Please select at least one employee and one client.");
+      toast.error("Please select at least one employee and one client.");
       return;
     }
 
@@ -134,7 +132,7 @@ export default function AdminAssignEmployee() {
       const results = await bulkAssignEmployeesToClients(employeeIds, clientIds);
       
       if (results.failed === 0) {
-        alert(
+        toast.success(
           `Successfully assigned ${selectedEmployees.size} employee(s) to ${selectedClients.size} client(s)!`
         );
         // Clear selections after successful assignment
@@ -144,12 +142,12 @@ export default function AdminAssignEmployee() {
         fetchAvailableEmployees();
         fetchAllClients();
       } else {
-        alert(
+        toast.error(
           `Assignment completed with some errors.\nSuccess: ${results.success}\nFailed: ${results.failed}`
         );
       }
     } catch (err) {
-      alert("An error occurred during assignment. Please try again.");
+      toast.error("An error occurred during assignment. Please try again.");
     } finally {
       setIsAssigning(false);
     }

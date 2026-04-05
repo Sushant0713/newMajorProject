@@ -9,8 +9,8 @@ export const getProfile = async (req, res) => {
             return res.status(400).json({ message: "Admin ID is required" });
         }
 
-        var query = `SELECT * FROM admins WHERE admin_id = '${adminId}'`;
-        const adminProfile = await executeQuery(query);
+        var query = `SELECT * FROM admins WHERE admin_id = ?`;
+        const adminProfile = await executeQuery(query, [adminId]);
         if (adminProfile.length === 0) {
             return res.status(404).json({ message: "Admin profile not found" });
         }   
@@ -40,11 +40,11 @@ export const updateProfile = async (req, res) => {
         if (!address) return res.status(400).json({ message: "Address is required"});
 
         // Update query
-        var query = `UPDATE admins SET first_name = '${first_name}', middle_name = '${middle_name}', last_name = '${last_name}', 
-                    email = '${email}', recovery_email = '${recovery_email}', phone_number = '${phone_number}', address = '${address}', 
-                    updated_at = CURRENT_TIMESTAMP WHERE admin_id = '${adminId}'`;
+        var query = `UPDATE admins SET first_name = ?, middle_name = ?, last_name = ?, 
+                    email = ?, recovery_email = ?, phone_number = ?, address = ?, 
+                    updated_at = CURRENT_TIMESTAMP WHERE admin_id = ?`;
 
-        const updated_admin = await executeQuery(query);
+        const updated_admin = await executeQuery(query, [first_name, middle_name, last_name, email, recovery_email, phone_number, address, adminId]);
 
         if (updated_admin.affectedRows === 1) {
             res.status(200).json({ message: "Admin profile updated successfully" });

@@ -4,7 +4,7 @@ import "./AdminViewEmployee.css";
 import AdminNavbar from "../../components/AdminNavbar.jsx";
 import AdminHeader from "../../components/AdminHeader";
 import useAdminEmployeeStore from "../../store/AdminEmployeeStore.js";
-import fs from 'fs';
+import toast from "react-hot-toast";
 
 export default function AdminViewEmployee() {
   const [searchParams] = useSearchParams();
@@ -77,7 +77,7 @@ export default function AdminViewEmployee() {
   // Handle view file
   const handleViewFile = async (filePath) => {
     if (!filePath) {
-      alert("File not available");
+      toast.error("File not available");
       return;
     }
     window.open(`http://localhost:5000${filePath}`, "_blank");
@@ -300,12 +300,12 @@ export default function AdminViewEmployee() {
                     {employee.status ? formatGender(employee.status) : "Active"}
                   </span>
                 </div>
-                <div className="info-item">
+                {/* <div className="info-item">
                   <p className="info-label">Show Payout Type</p>
                   <p className="info-value">
                     {employee.show_payout ? formatDesignation(employee.show_payout) : "Not set"}
                   </p>
-                </div>
+                </div> */}
                 <div className="info-item">
                   <p className="info-label">Percentage</p>
                   <p className="info-value">

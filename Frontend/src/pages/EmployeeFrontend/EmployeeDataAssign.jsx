@@ -261,14 +261,6 @@ export default function EmployeeDataAssign() {
     setDragOverEmployee(null);
   };
 
-  const handleUnassign = (employeeId, candidateIds) => {
-    if (window.confirm("Are you sure you want to unassign these candidates?")) {
-      // Logic to unassign
-      console.log("Unassigning:", employeeId, candidateIds);
-      setShowUnassignModal(false);
-    }
-  };
-
   const clearFilters = () => {
     setCandidateSearch("");
     setSourceFilter("all");

@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { executeQuery } from "../lib/executeQuery.js";
 import { generateToken } from "../lib/utils.js";
 import { generateOTP, hashOTP, verifyHashedOTP, sendEmail } from "../middleware/forgotPassword.middleware.js";
+import { startSession, updateHeartbeat, closeSession } from "../middleware/attendance.middleware.js";
 
 // Function to handle admin login
 export const loginAsAdmin = async(req, res) => {
@@ -58,6 +59,7 @@ export const loginAsEmployee = async(req, res) => {
 
         // Generate token for the employee
         generateToken(data[0].employee_id, res);
+        const sessionId = await startSession(req, data[0].employee_id);
 
         var username = data[0].first_name + " " + data[0].last_name;
 
@@ -66,23 +68,55 @@ export const loginAsEmployee = async(req, res) => {
             userId: data[0].employee_id,
             username: username,
             designation: data[0].designation,
+            sessionId: sessionId
         });
 
     } catch (error) {
         console.error("Error during employee login:", error);
-        return res.status(500).send({message: "Internal server Error"});
+        console.log(error);
+        return res.status(500).send({message: "Internal server Error"}, error);
     }
 };
 
 // Function to handle logout
-export const logout = (req, res) => {
+export const logout = async(req, res) => {
     try {
+        const { sessionId } = req.body;
+        if (sessionId) {
+            await closeSession(sessionId);
+        }
         // Clear the JWT cookie
         res.cookie("jwt", "", {maxAge: 0});
         res.status(200).json({message: "Logged out successfully"});
     } catch (error) {
         console.error("Error in logout controller"+ error.message);
         res.status(500).json({message: "Internal server error"});
+    }
+};
+
+export const heartbeat = async (req, res) => {
+    console.log("Inside heartbeat api of auth controller");
+    try {
+        const { sessionId } = req.body;
+        if (!sessionId) {
+            return res.status(400).json({ message: "sessionId is required" });
+        }
+        await updateHeartbeat(sessionId);
+        return res.status(200).json({ message: "Heartbeat updated" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "error updating heartbeat"});
+    }
+};
+
+export const logoutBeacon = async (req, res) => {
+    try {
+        const { sessionId } = JSON.parse(req.body);
+        if (sessionId) await closeSession(sessionId);
+        res.status(200).end();
+    } catch (err) {
+        console.error("Beacon logout error:", err);
+        res.status(500).end();
     }
 };
 

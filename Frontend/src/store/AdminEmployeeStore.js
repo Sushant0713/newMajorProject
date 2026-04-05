@@ -33,7 +33,6 @@ const useAdminEmployeeStore = create((set, get) => ({
 
 
     fetchSelectedEmployee: async (employeeId) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.get(`/admin/employee/getEmployeeById?empId=${employeeId}`);
@@ -151,7 +150,6 @@ const useAdminEmployeeStore = create((set, get) => ({
 
 
     addEmployee: async (employeeData) => {
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post("/admin/employee/addEmployee", employeeData, {
@@ -182,14 +180,13 @@ const useAdminEmployeeStore = create((set, get) => ({
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            toast.success(res.data.message);
             set({ loading: false });
             return res.data;
         } catch (error) {
-            set({
-                error: error.response?.data?.message || error.response?.data?.error || "Failed to update employee",
-                loading: false,
-            });
-            throw error;
+            const message = error.response?.data?.message || error.response?.data?.error || "Failed to update employee";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 
@@ -214,10 +211,9 @@ const useAdminEmployeeStore = create((set, get) => ({
             const res = await axiosInstance.post(`/admin/employee/markAsPIP?empId=${employeeId}`, pipData);
             set({ loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to mark employee as PIP",
-                loading: false,
-            });
+            const message = error.response?.data?.message || "Failed to mark employee as PIP";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 
@@ -226,12 +222,12 @@ const useAdminEmployeeStore = create((set, get) => ({
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post(`/admin/employee/endPIP`, { pip_id });
+            toast.success(res.data.message);
             set({ loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to end PIP",
-                loading: false,
-            });
+            const message = error.response?.data?.message || "Failed to end PIP";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 
@@ -240,19 +236,18 @@ const useAdminEmployeeStore = create((set, get) => ({
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post(`admin/employee/addLOP?empId=${employeeId}`, lopData);
+            toast.success(res.data.message);
             set({ loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to add LOP",
-                loading: false,
-            });
+            const message = error.response?.data?.message || "Failed to add LOP";
+            toast.error(message);
+            set({ error: message, loading: false });
         }
     },
 
 
     registerEmployee: async (formDataToSend) => {
         console.log("formDataToSend: ", formDataToSend);
-        debugger;
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post("/admin/employee/registerEmployee", formDataToSend, {

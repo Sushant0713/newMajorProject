@@ -611,7 +611,7 @@ export default function AdminProcess() {
                   <div className="form-grid">
                     <div className="form-group">
                       <label htmlFor="edit_process_name" className="form-label">
-                        Process Name <span className="required">*</span>
+                        Process Name 
                       </label>
                       <input
                         type="text"
@@ -627,7 +627,7 @@ export default function AdminProcess() {
 
                     <div className="form-group">
                       <label htmlFor="edit_hiring_type" className="form-label">
-                        Hiring Type <span className="required">*</span>
+                        Hiring Type
                       </label>
                       <select
                         id="edit_hiring_type"
@@ -645,7 +645,7 @@ export default function AdminProcess() {
 
                     <div className="form-group">
                       <label htmlFor="edit_openings" className="form-label">
-                        Number of Openings <span className="required">*</span>
+                        Number of Openings 
                       </label>
                       <input
                         type="number"
@@ -662,7 +662,7 @@ export default function AdminProcess() {
 
                     <div className="form-group">
                       <label htmlFor="edit_status" className="form-label">
-                        Status <span className="required">*</span>
+                        Status 
                       </label>
                       <select
                         id="edit_status"

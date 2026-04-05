@@ -9,7 +9,7 @@ export const getAllProcesses = async (req, res) => {
                         INNER JOIN employees e ON cea.employee_id = e.id
                         INNER JOIN clients cl ON p.client_id = cl.id  
                         WHERE e.employee_id = ?
-                        AND p.status = 'Active'
+                        AND p.status = 'Active' AND cl.status = 'Active'
                         ORDER BY cea.assigned_at DESC`;
         const processes = await executeQuery(query, employee_id);
         res.status(200).json(processes);

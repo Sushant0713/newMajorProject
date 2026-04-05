@@ -34,7 +34,6 @@ export default function AdminAddEmployee() {
     designation: "",
     percentage: "",
     status: "Active",
-    payoutType: "Actual",
     selectionDate: "",
     joiningDate: "",
     viewLimit: "",
@@ -106,19 +105,10 @@ export default function AdminAddEmployee() {
     formDataToSend.append("account_holder_name", formData.accountHolderName);
     formDataToSend.append("password", formData.password);
     formDataToSend.append("designation", formData.designation);
-    if (formData.percentage) {
-      formDataToSend.append("percentage", formData.percentage);
-    }
-    if (formData.payoutType) {
-      formDataToSend.append("show_payout", formData.payoutType.toLowerCase());
-    }
+    formDataToSend.append("percentage", formData.percentage || "");
     formDataToSend.append("status", formData.status.toLowerCase());
-    if (formData.selectionDate) {
-      formDataToSend.append("selection_date", formData.selectionDate);
-    }
-    if(formData.joiningDate) {
-      formDataToSend.append("joining_date", formData.joiningDate);
-    }
+    formDataToSend.append("selection_date", formData.selectionDate || "");
+    formDataToSend.append("joining_date", formData.joiningDate || "");
     formDataToSend.append("view_limit", formData.viewLimit || "");
     formDataToSend.append("monthly_revenue_target", formData.monthlyRevenueTarget || "");
     formDataToSend.append("monthly_candidate_target", formData.monthlyCandidateTarget || "");
@@ -486,7 +476,7 @@ export default function AdminAddEmployee() {
                     <option value="pending">Pending</option>
                   </select>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label className="form-label">
                     Payout Type
                   </label>
@@ -500,7 +490,7 @@ export default function AdminAddEmployee() {
                     <option value="actual">Actual</option>
                     <option value="fake">Fake</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label className="form-label">
                     Selection Date 

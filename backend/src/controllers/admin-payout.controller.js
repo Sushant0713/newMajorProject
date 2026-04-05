@@ -9,7 +9,6 @@ export const getPayouts = async (req, res) => {
         const employee_filter = req.body.employee_name || '';
         const process_filter = req.body.process || '';
         const status_filter = req.body.status || '';
-
         var query = `SELECT
                         c.id AS candidate_id,
                         c.name AS candidate_name,
@@ -64,14 +63,14 @@ export const getPayouts = async (req, res) => {
         }
 
         if (process_filter && process_filter.trim() !== '') {
-            where_conditions.push(`p.process_name LIKE '%${process_filter}%'`);
+            where_conditions.push(`TRIM(LOWER(p.process_name)) = TRIM(LOWER('${process_filter}'))`);
         }
 
         if (status_filter && status_filter.trim() !== '') {
             if (status_filter === 'not_generated') {
                 where_conditions.push(`pay.status IS NULL`);
             } else {
-                where_conditions.push(`pay.status = '${status_filter}'`);
+                where_conditions.push(`TRIM(LOWER(pay.status)) = TRIM(LOWER('${status_filter}'))`);
             }
         }
 
@@ -84,7 +83,7 @@ export const getPayouts = async (req, res) => {
         const payouts = await executeQuery(query);
         
         if(payouts.length === 0) {
-            return res.status(200).json({ message: "No payouts found", data: [] });
+            return res.status(200).json([]);
         }
         
         res.status(200).json(payouts);
@@ -112,7 +111,7 @@ export const getProcessNames = async (req, res) => {
 // Get status options
 export const getStatusOptions = async (req, res) => {
     try {
-        const status_options = ['Payout Not Generated', 'clawback', 'invoice_clear', 'approved'];
+        const status_options = ['Payout Not Generated', 'clawback', 'invoice_clear', 'approved', 'completely_joined', 'rejected'];
         res.status(200).json(status_options);
     } catch (error) {
         console.error("Error while fetching status options:", error);
@@ -184,12 +183,22 @@ export const generatePayout = async (req, res) => {
         const { candidate_id } = req.body;
 
         const exists = await connection.query(
-            `SELECT id FROM payouts WHERE candidate_id = ?`,
+            `SELECT id, status FROM payouts WHERE candidate_id = ?`,
             [candidate_id]
         );
 
         if (exists[0].length) {
-            return res.status(400).json({ message: "Payout already exists" });
+            if (exists[0][0].status === "rejected") {
+                await connection.query(
+                    `UPDATE payouts 
+                    SET status = 'joined', updated_at = CURRENT_TIMESTAMP 
+                    WHERE id = ?`,
+                    [exists[0][0].id]
+                );
+                await updateCandidateAssignmentStatus(connection, candidate_id, "rejected");
+                await connection.commit();
+                return res.json({ message: "Rejected payout reactivated successfully" });
+            }
         }
 
         const [data] = await connection.query(`
@@ -202,7 +211,6 @@ export const generatePayout = async (req, res) => {
                 p.real_payout_amount,
                 p.clawback_duration,
                 p.invoice_clear_time,
-                e.show_payout,
                 e.percentage,
                 DATE(csh.changed_at) joined_date
             FROM candidate_status_history csh
@@ -219,12 +227,12 @@ export const generatePayout = async (req, res) => {
         }
 
         const c = data[0];
-        const base =
-            c.show_payout === "actual"
-                ? c.real_payout_amount
-                : c.payout_amount;
+        // const base =
+        //     c.show_payout === "actual"
+        //         ? c.real_payout_amount
+        //         : c.payout_amount;
 
-        const amount = (base * (c.percentage || 0)) / 100;
+        const amount = (c.real_payout_amount * (c.percentage || 0)) / 100;
 
         const joined = new Date(c.joined_date);
         const clawbackEnd = new Date(joined);
@@ -238,15 +246,14 @@ export const generatePayout = async (req, res) => {
 
         await connection.query(`
             INSERT INTO payouts
-            (candidate_id, employee_id, process_id, payout_basis, payout_type,
+            (candidate_id, employee_id, process_id, payout_type,
              employee_percentage, calculated_amount, joined_date,
              clawback_start, clawback_end, invoice_start, invoice_end, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'joined')
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'joined')
         `, [
             c.candidate_id,
             c.employee_id,
             c.process_id,
-            c.show_payout,
             c.payout_type,
             c.percentage || 0,
             amount,
@@ -295,7 +302,6 @@ export const startClawback = async (req, res) => {
                 p.real_payout_amount,
                 p.clawback_duration,
                 p.invoice_clear_time,
-                e.show_payout,
                 e.percentage,
                 DATE(csh.changed_at) AS joined_date
             FROM candidate_status_history csh
@@ -325,13 +331,13 @@ export const startClawback = async (req, res) => {
         const invoice_end = new Date(invoice_start);
         invoice_end.setDate(invoice_end.getDate() + candidate.invoice_clear_time);
 
-        const baseAmount =
-            candidate.show_payout === "actual"
-                ? candidate.real_payout_amount
-                : candidate.payout_amount;
+        // const baseAmount =
+        //     candidate.show_payout === "actual"
+        //         ? candidate.real_payout_amount
+        //         : candidate.payout_amount;
 
         const calculated_amount =
-            (baseAmount * (candidate.percentage || 0)) / 100;
+            (candidate.real_payout_amount * (candidate.percentage || 0)) / 100;
 
         await connection.query( `UPDATE payouts SET calculated_amount = ?, clawback_start = ?, clawback_end = ?, invoice_start = ?, 
                     invoice_end = ?, status = 'clawback', updated_at = NOW() WHERE candidate_id = ?`,
@@ -673,7 +679,6 @@ export const exportCSV = async (req, res) => {
           c.email AS candidate_email,
           pr.process_name,
           e.full_name AS employee_name,
-          e.show_payout AS payout_basis,
           pr.payout_type,
           pay.employee_percentage,
           pay.calculated_amount,
@@ -715,7 +720,6 @@ export const exportCSV = async (req, res) => {
       "Email",
       "Process Name",
       "Employee Name",
-      "Payout Basis",
       "Payout Type",
       "Employee Percentage",
       "Calculated Amount",
@@ -739,7 +743,6 @@ export const exportCSV = async (req, res) => {
         row.candidate_email,
         row.process_name,
         row.employee_name,
-        row.payout_basis,
         row.payout_type,
         row.employee_percentage,
         row.calculated_amount,
@@ -779,131 +782,131 @@ export const exportCSV = async (req, res) => {
   }
 };
 
-export const emergencyClawback = async (req, res) => {
-    let connection;
-    try {
-        connection = await db.promise().getConnection();
-        await connection.beginTransaction();
-        const { candidate_id, reason } = req.body;
+// export const emergencyClawback = async (req, res) => {
+//     let connection;
+//     try {
+//         connection = await db.promise().getConnection();
+//         await connection.beginTransaction();
+//         const { candidate_id, reason } = req.body;
 
-        const [payout] = await connection.query(
-            "SELECT employee_id, status FROM payouts WHERE candidate_id=?",
-            [candidate_id]
-        );
+//         const [payout] = await connection.query(
+//             "SELECT employee_id, status FROM payouts WHERE candidate_id=?",
+//             [candidate_id]
+//         );
 
-        if (!payout || !["invoice_clear", "approved"].includes(payout.status)) {
-            return res.status(400).json({ message: "Not allowed" });
-        }
+//         if (!payout || !["invoice_clear", "approved"].includes(payout.status)) {
+//             return res.status(400).json({ message: "Not allowed" });
+//         }
 
-        await connection.query(
-            `
-            UPDATE payouts
-            SET status='clawback', clawback_reason=?
-            WHERE candidate_id=?
-        `,
-            [reason, candidate_id]
-        );
+//         await connection.query(
+//             `
+//             UPDATE payouts
+//             SET status='clawback', clawback_reason=?
+//             WHERE candidate_id=?
+//         `,
+//             [reason, candidate_id]
+//         );
 
-        await updateCandidateAssignmentStatus(connection, candidate_id, "clawback");
+//         await updateCandidateAssignmentStatus(connection, candidate_id, "clawback");
 
-        await connection.query(
-            `
-            INSERT INTO candidate_status_history
-            (candidate_id, employee_id, old_status, new_status, change_reason)
-            VALUES (?, ?, ?, 'clawback', ?)
-        `,
-            [candidate_id, payout.employee_id, payout.status, reason]
-        );
+//         await connection.query(
+//             `
+//             INSERT INTO candidate_status_history
+//             (candidate_id, employee_id, old_status, new_status, change_reason)
+//             VALUES (?, ?, ?, 'clawback', ?)
+//         `,
+//             [candidate_id, payout.employee_id, payout.status, reason]
+//         );
 
-        await connection.commit();
-        res.json({ message: "Emergency clawback applied" });
+//         await connection.commit();
+//         res.json({ message: "Emergency clawback applied" });
 
-    } catch (err) {
-        await connection.rollback();
-        res.status(500).json({ message: "Error" });
-    } finally {
-        connection.release();
-    }
-};
+//     } catch (err) {
+//         await connection.rollback();
+//         res.status(500).json({ message: "Error" });
+//     } finally {
+//         connection.release();
+//     }
+// };
 
-export const markClawback = async (req, res) => {
-    let connection;
-    try {
-        connection = await db.promise().getConnection();
-        await connection.beginTransaction();
-        const { candidate_id, reason } = req.body;
-        if (!reason) return res.status(400).json({ message: "Reason required" });
+// export const markClawback = async (req, res) => {
+//     let connection;
+//     try {
+//         connection = await db.promise().getConnection();
+//         await connection.beginTransaction();
+//         const { candidate_id, reason } = req.body;
+//         if (!reason) return res.status(400).json({ message: "Reason required" });
 
-        const [payout] = await connection.query(
-            `SELECT employee_id, clawback_end FROM payouts WHERE candidate_id = ?`,
-            [candidate_id]
-        );
-        if (!payout.length) return res.status(400).json({ message: "Payout not found" });
+//         const [payout] = await connection.query(
+//             `SELECT employee_id, clawback_end FROM payouts WHERE candidate_id = ?`,
+//             [candidate_id]
+//         );
+//         if (!payout.length) return res.status(400).json({ message: "Payout not found" });
 
-        if (new Date() > new Date(payout[0].clawback_end)) {
-            return res.status(400).json({ message: "Clawback window expired" });
-        }
+//         if (new Date() > new Date(payout[0].clawback_end)) {
+//             return res.status(400).json({ message: "Clawback window expired" });
+//         }
 
-        await connection.query(`
-            UPDATE payouts
-            SET status='clawback', clawback_reason=?, updated_at=CURRENT_TIMESTAMP
-            WHERE candidate_id=?
-        `, [reason, candidate_id]);
+//         await connection.query(`
+//             UPDATE payouts
+//             SET status='clawback', clawback_reason=?, updated_at=CURRENT_TIMESTAMP
+//             WHERE candidate_id=?
+//         `, [reason, candidate_id]);
 
-        await updateCandidateAssignmentStatus(connection, candidate_id, "clawback");
+//         await updateCandidateAssignmentStatus(connection, candidate_id, "clawback");
 
-        await connection.query(`
-            INSERT INTO candidate_status_history
-            VALUES (NULL, ?, ?, 'payout_pending', 'clawback', ?, CURRENT_TIMESTAMP)
-        `, [candidate_id, payout[0].employee_id, `Clawback: ${reason}`]);
+//         await connection.query(`
+//             INSERT INTO candidate_status_history
+//             VALUES (NULL, ?, ?, 'payout_pending', 'clawback', ?, CURRENT_TIMESTAMP)
+//         `, [candidate_id, payout[0].employee_id, `Clawback: ${reason}`]);
 
-        await connection.commit();
-        res.json({ message: "Clawback marked successfully" });
-    } catch (err) {
-        connection.release();
-        res.status(500).json({ message: err.message });
-    } finally {
-        if (connection) connection.release();
-    }
-};
+//         await connection.commit();
+//         res.json({ message: "Clawback marked successfully" });
+//     } catch (err) {
+//         connection.release();
+//         res.status(500).json({ message: err.message });
+//     } finally {
+//         if (connection) connection.release();
+//     }
+// };
 
-export const approvePayout = async (req, res) => {
-    let connection;
-    try {
-        connection = await db.promise().getConnection();
-        await connection.beginTransaction();
-        const { candidate_id } = req.body;
-        const adminId = req.query.adminId;
+// export const approvePayout = async (req, res) => {
+//     let connection;
+//     try {
+//         connection = await db.promise().getConnection();
+//         await connection.beginTransaction();
+//         const { candidate_id } = req.body;
+//         const adminId = req.query.adminId;
 
-        const [payout] = await connection.query(
-            `SELECT employee_id, invoice_end FROM payouts WHERE candidate_id = ?`,
-            [candidate_id]
-        );
-        if (!payout.length) return res.status(400).json({ message: "Payout not found" });
+//         const [payout] = await connection.query(
+//             `SELECT employee_id, invoice_end FROM payouts WHERE candidate_id = ?`,
+//             [candidate_id]
+//         );
+//         if (!payout.length) return res.status(400).json({ message: "Payout not found" });
 
-        if (new Date() <= new Date(payout[0].invoice_end)) {
-            return res.status(400).json({ message: "Invoice period not completed" });
-        }
+//         if (new Date() <= new Date(payout[0].invoice_end)) {
+//             return res.status(400).json({ message: "Invoice period not completed" });
+//         }
 
-        await connection.query(`
-            UPDATE payouts
-            SET status='approved', approved_at=CURRENT_TIMESTAMP, approved_by=?
-            WHERE candidate_id=?
-        `, [adminId, candidate_id]);
+//         await connection.query(`
+//             UPDATE payouts
+//             SET status='approved', approved_at=CURRENT_TIMESTAMP, approved_by=?
+//             WHERE candidate_id=?
+//         `, [adminId, candidate_id]);
 
-        await updateCandidateAssignmentStatus(connection, candidate_id, "approved");
+//         await updateCandidateAssignmentStatus(connection, candidate_id, "approved");
 
-        await connection.query(`
-            INSERT INTO candidate_status_history
-            VALUES (NULL, ?, ?, 'payout_pending', 'approved', 'Approved by admin', CURRENT_TIMESTAMP)
-        `, [candidate_id, payout[0].employee_id]);
+//         await connection.query(`
+//             INSERT INTO candidate_status_history
+//             VALUES (NULL, ?, ?, 'payout_pending', 'approved', 'Approved by admin', CURRENT_TIMESTAMP)
+//         `, [candidate_id, payout[0].employee_id]);
 
-        await connection.commit();
-        res.json({ message: "Payout approved" });
-    } catch (err) {
-        await connection.rollback();
-        res.status(500).json({ message: err.message });
-    } finally {
-        connection.release();
-    }
-};
+//         await connection.commit();
+//         res.json({ message: "Payout approved" });
+//     } catch (err) {
+//         await connection.rollback();
+//         res.status(500).json({ message: err.message });
+//     } finally {
+//         connection.release();
+//     }
+// };

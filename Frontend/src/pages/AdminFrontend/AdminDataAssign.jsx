@@ -3,7 +3,7 @@ import { useAdminDataStore } from "../../store/AdminDataStore";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminHeader from "../../components/AdminHeader";
 import "./AdminAssignEmployee.css";
-
+import toast from 'react-hot-toast';
 
 const AdminDataAssign = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,7 +87,7 @@ const AdminDataAssign = () => {
 
   const handleAssign = async () => {
     if (selectedEmployees.size === 0 || selectedDataTypes.size === 0) {
-      alert("Please select at least one employee and one client.");
+      toast.error("Please select at least one employee and one client.");
       return;
     }
 
@@ -100,7 +100,7 @@ const AdminDataAssign = () => {
       const results = await bulkAssignDataTypesToEmployees(employeeIds, dataTypeIds);
       
       if (results.failed === 0) {
-        alert(
+        toast.success(
           `Successfully assigned ${selectedEmployees.size} employee(s) to ${selectedDataTypes.size} data type(s)!`
         );
         // Clear selections after successful assignment
@@ -110,12 +110,12 @@ const AdminDataAssign = () => {
         fetchAvailableEmployees({ status: statusFilter, designation: designationFilter });
         fetchDataTypes();
       } else {
-        alert(
+        toast.error(
           `Assignment completed with some errors.\nSuccess: ${results.success}\nFailed: ${results.failed}`
         );
       }
     } catch (err) {
-      alert("An error occurred during assignment. Please try again.");
+      toast.error("An error occurred during assignment. Please try again.");
     } finally {
       setIsAssigning(false);
     }

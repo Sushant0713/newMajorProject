@@ -399,7 +399,7 @@ export const getMonthlyTargetAchievement = async (req, res) => {
                     WHERE csh.new_status = 'interview_scheduled'
                         AND ea.employee_id = ?`;
         let interviewParams = [employee_id];
-        
+
         if (start_date && end_date) {
             query += ` AND DATE(csh.changed_at) BETWEEN ? AND ?`;
             interviewParams.push(start_date, end_date);

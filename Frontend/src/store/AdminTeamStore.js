@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import toast from 'react-hot-toast';
 
 export const useAdminTeamStore = create((set, get) => ({
     teams: [],
@@ -60,17 +61,16 @@ export const useAdminTeamStore = create((set, get) => ({
     },
 
     addTeam: async (teamData) => {
-        debugger;
         console.log(teamData);
         set({ loading: true, error: null });
         try {
-            await axiosInstance.post("/admin/team/addteam", teamData);
+            const res = await axiosInstance.post("/admin/team/addteam", teamData);
+            toast.success(res.data.message);
             set({ loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to add team",
-                loading: false,
-              });
+            const message = error.response?.data?.message || "Failed to add team";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 
@@ -90,26 +90,26 @@ export const useAdminTeamStore = create((set, get) => ({
     updateTeam: async (teamId, teamData) => {
         set({ loading: true, error: null });
         try {
-            await axiosInstance.post(`/admin/team/updateTeam?teamId=${teamId}`, teamData);
+            const res = await axiosInstance.post(`/admin/team/updateTeam?teamId=${teamId}`, teamData);
+            toast.success(res.data.message);
             set({ loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to update team",
-                loading: false,
-              });
+            const message = error.response?.data?.message || "Failed to update team";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 
     deleteTeam: async (teamId) => {
         set({ loading: true, error: null });
         try {
-            await axiosInstance.delete(`/admin/team/deleteTeam?teamId=${teamId}`);
+            const res = await axiosInstance.delete(`/admin/team/deleteTeam?teamId=${teamId}`);
+            toast.success(res.data.message);
             set({ teams: get().teams.filter(team => team.id !== teamId), loading: false });
         } catch (error) {
-            set({
-                error: error.response?.data?.message || "Failed to delete team",
-                loading: false,
-              });
+            const message =  error.response?.data?.message || "Failed to delete team";
+            toast.error(message);
+            set({ error: message,  loading: false });
         }
     },
 

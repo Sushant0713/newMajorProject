@@ -4,22 +4,23 @@ import {
         todaysAssignment, completedThisWeek, commissionRate, recruitmentPipeline, monthlySuccessLogs, employeeProfile, 
         updateEmployeeProfile, getMonthlyTargetAchievement
     } from '../controllers/employee-dashboard.controller.js';
+import { protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get('/totalAssignedClients', totalAssignedClients);
-router.get('/totalAssignedCandidates', totalAssignedCandidates);
-router.get('/totalassignedProcesses', totalassignedProcesses);
-router.get('/conversionRate', conversionRate);
-router.get('/successRate', successRate);
-router.get('/dropoutRate', dropoutRate);
-router.get('/todaysAssignment', todaysAssignment);
-router.get('/completedThisWeek', completedThisWeek);
-router.get('/commissionRate', commissionRate);
-router.get('/recruitmentPipeline', recruitmentPipeline);
-router.get('/monthlySuccessLogs', monthlySuccessLogs);
-router.post('/getMonthlyTargetAchievement', getMonthlyTargetAchievement);
-router.get('/employeeProfile', employeeProfile);
-router.put('/updateEmployeeProfile', updateEmployeeProfile);
+router.get('/totalAssignedClients', protectRoute, totalAssignedClients);
+router.get('/totalAssignedCandidates', protectRoute, totalAssignedCandidates);
+router.get('/totalassignedProcesses', protectRoute, totalassignedProcesses);
+router.get('/conversionRate', protectRoute, conversionRate);
+router.get('/successRate', protectRoute, successRate);
+router.get('/dropoutRate', protectRoute, dropoutRate);
+router.get('/todaysAssignment', protectRoute, todaysAssignment);
+router.get('/completedThisWeek', protectRoute, completedThisWeek);
+router.get('/commissionRate', protectRoute, commissionRate);
+router.get('/recruitmentPipeline', protectRoute, recruitmentPipeline);
+router.get('/monthlySuccessLogs', protectRoute, monthlySuccessLogs);
+router.post('/getMonthlyTargetAchievement', protectRoute, getMonthlyTargetAchievement);
+router.get('/employeeProfile', protectRoute, employeeProfile);
+router.put('/updateEmployeeProfile', protectRoute, updateEmployeeProfile);
 
 export default router;
