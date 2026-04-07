@@ -5,7 +5,6 @@ import {
   Calendar,
   Bell,
   ChevronDown,
-  Settings,
   HelpCircle,
   LogOut,
   User,
@@ -29,7 +28,6 @@ export default function EmployeeHeader({
   const navigate = useNavigate();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -45,28 +43,12 @@ export default function EmployeeHeader({
     status: "",
   });
   const [originalProfileData, setOriginalProfileData] = useState(null);
-  const [activeSettingsTab, setActiveSettingsTab] = useState("notifications");
   const dropdownRef = useRef(null);
   const employeeName = sessionStorage.getItem("username");
   const employeeId = sessionStorage.getItem("userId");
   const firstLetter = employeeName?.charAt(0).toUpperCase() || "U";
 
   const { fetchEmployeeProfile, updateEmployeeProfile, profileLoading, profileError } = useEmployeeDashboardStore();
-
-  // Settings State
-  const [settings, setSettings] = useState({
-    emailNotifications: true,
-    pushNotifications: true,
-    smsNotifications: false,
-    weeklyDigest: true,
-    loginAlerts: true,
-    language: "en",
-    timezone: "Asia/Kolkata",
-    dateFormat: "DD/MM/YYYY",
-    theme: "light",
-    compactMode: false,
-    autoLogout: "30",
-  });
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -161,16 +143,6 @@ export default function EmployeeHeader({
     }
   };
 
-  // Settings Handlers
-  const handleSettingChange = (setting, value) => {
-    setSettings((prev) => ({ ...prev, [setting]: value }));
-  };
-
-  const handleSaveSettings = () => {
-    alert("Settings saved successfully!");
-    setShowSettingsModal(false);
-  };
-
   return (
     <>
       <header className="employee-header">
@@ -218,16 +190,6 @@ export default function EmployeeHeader({
                   >
                     <User size={18} />
                     My Profile
-                  </button>
-                  <button
-                    className="dash-dropdown-item"
-                    onClick={() => {
-                      setShowSettingsModal(true);
-                      setShowUserDropdown(false);
-                    }}
-                  >
-                    <Settings size={18} />
-                    Settings
                   </button>
                   <button
                     className="dash-dropdown-item"
@@ -393,114 +355,6 @@ export default function EmployeeHeader({
           </div>
         </div>
       )}
-
-      {/* Settings Modal */}
-      <AnimatePresence>
-        {showSettingsModal && (
-          <motion.div
-            className="modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowSettingsModal(false)}
-          >
-            <motion.div
-              className="settings-modal-content"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="settings-modal-header">
-                <h2>Settings</h2>
-                <button className="modal-close-btn" onClick={() => setShowSettingsModal(false)}>
-                  <X size={20} />
-                </button>
-              </div>
-              <div className="settings-modal-body">
-                <div className="settings-tabs">
-                  <button
-                    className={`settings-tab ${activeSettingsTab === "notifications" ? "active" : ""}`}
-                    onClick={() => setActiveSettingsTab("notifications")}
-                  >
-                    <Bell size={18} />
-                    Notifications
-                  </button>
-                  <button
-                    className={`settings-tab ${activeSettingsTab === "appearance" ? "active" : ""}`}
-                    onClick={() => setActiveSettingsTab("appearance")}
-                  >
-                    <Settings size={18} />
-                    Appearance
-                  </button>
-                </div>
-                <div className="settings-content">
-                  {activeSettingsTab === "notifications" && (
-                    <div className="settings-section">
-                      <h4>Notification Preferences</h4>
-                      <div className="settings-option">
-                        <div className="settings-option-info">
-                          <h5>Email Notifications</h5>
-                          <p>Receive updates and alerts via email</p>
-                        </div>
-                        <label className="toggle-switch">
-                          <input
-                            type="checkbox"
-                            checked={settings.emailNotifications}
-                            onChange={(e) => handleSettingChange("emailNotifications", e.target.checked)}
-                          />
-                          <span className="toggle-slider"></span>
-                        </label>
-                      </div>
-                      <div className="settings-option">
-                        <div className="settings-option-info">
-                          <h5>Push Notifications</h5>
-                          <p>Receive browser push notifications</p>
-                        </div>
-                        <label className="toggle-switch">
-                          <input
-                            type="checkbox"
-                            checked={settings.pushNotifications}
-                            onChange={(e) => handleSettingChange("pushNotifications", e.target.checked)}
-                          />
-                          <span className="toggle-slider"></span>
-                        </label>
-                      </div>
-                    </div>
-                  )}
-                  {activeSettingsTab === "appearance" && (
-                    <div className="settings-section">
-                      <h4>Appearance Settings</h4>
-                      <div className="settings-option">
-                        <div className="settings-option-info">
-                          <h5>Language</h5>
-                          <p>Select your preferred language</p>
-                        </div>
-                        <select
-                          value={settings.language}
-                          onChange={(e) => handleSettingChange("language", e.target.value)}
-                          className="settings-select"
-                        >
-                          <option value="en">English</option>
-                          <option value="hi">Hindi</option>
-                        </select>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="settings-modal-footer">
-                <button className="profile-cancel-btn" onClick={() => setShowSettingsModal(false)}>
-                  Cancel
-                </button>
-                <button className="profile-save-btn" onClick={handleSaveSettings}>
-                  Save Settings
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Help Modal */}
       <AnimatePresence>

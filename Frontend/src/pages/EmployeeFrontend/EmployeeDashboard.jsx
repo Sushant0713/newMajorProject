@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {FileText, Calendar, CalendarDays, Briefcase, UserPlus, ClipboardList, HardDrive, TrendingUp, Award, CalendarClock, TrendingDown, 
-  ArrowRight, Bell, MapPin, Video, Clock, User,Mail, Phone, Edit, X, Check, PlayCircle, ChevronDown, Settings, HelpCircle, LogOut,
+  ArrowRight, Bell, MapPin, Video, Clock, User, Mail, Phone, Edit, X, Check, PlayCircle, ChevronDown, Settings, HelpCircle, LogOut,
+  CheckCircle2, XCircle, AlertCircle,
   } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./EmployeeDashboard.css";
@@ -14,9 +15,16 @@ import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const employeeName = sessionStorage.getItem("username");
-  const firstLetter = employeeName.charAt(0).toUpperCase();
-  const empId = sessionStorage.getItem("userId");
+  const employeeName = sessionStorage.getItem("username") || "";
+  const firstLetter = employeeName ? employeeName.charAt(0).toUpperCase() : "E";
+  const empId = sessionStorage.getItem("userId") || "";
+
+  // Redirect to login if no session
+  useEffect(() => {
+    if (!sessionStorage.getItem("username")) {
+      navigate("/employee-login");
+    }
+  }, []);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showMeetingsModal, setShowMeetingsModal] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -91,15 +99,21 @@ export default function Dashboard() {
     }
   };
 
+  const formatRate = (val) => {
+    const num = parseFloat(val);
+    if (isNaN(num)) return "0";
+    return Number.isInteger(num) ? String(num) : parseFloat(num.toFixed(1)).toString();
+  };
+
   const statCards = [
     { title: "Total Active Clients", value: stats.total_clients, color: "#60a5fa", icon: <Briefcase size={22} /> },
     { title: "Total Candidates", value: stats.total_candidates, color: "#a78bfa", icon: <UserPlus size={22} /> },
     { title: "Total Processes", value: stats.total_processes, color: "#34d399", icon: <ClipboardList size={22} /> },
     { title: "Today's Assignments", value: stats.today_assignments, color: "#06b6d4", icon: <CalendarClock size={22} /> },
-    { title: "Conversion Rate", value: `${stats.conversion_rate}%`, color: "#f472b6", icon: <TrendingUp size={22} /> },
-    { title: "Success Rate", value: `${stats.success_rate}%`, color: "#10b981", icon: <Award size={22} /> },
-    { title: "Dropout Rate", value: `${stats.dropout_rate}%`, color: "#fb7185", icon: <TrendingDown size={22} /> },
-    { title: "Commission Rate", value: `${stats.commission_rate}%`, color: "#a78bfa", icon: <HardDrive size={22} /> },
+    { title: "Conversion Rate", value: `${formatRate(stats.conversion_rate)}%`, color: "#f472b6", icon: <TrendingUp size={22} /> },
+    { title: "Success Rate", value: `${formatRate(stats.success_rate)}%`, color: "#10b981", icon: <Award size={22} /> },
+    { title: "Dropout Rate", value: `${formatRate(stats.dropout_rate)}%`, color: "#fb7185", icon: <TrendingDown size={22} /> },
+    { title: "Commission Rate", value: `${formatRate(stats.commission_rate)}%`, color: "#a78bfa", icon: <HardDrive size={22} /> },
   ];
   
   // Settings State
@@ -383,13 +397,13 @@ export default function Dashboard() {
         <section className="dash-stats">
           {statCards.map((c) => (
             <div className="stat-card" key={c.title}>
-              <div className="stat-header">
-                <span className="stat-icon" style={{ color: c.color }}>{c.icon}</span>
-                <div className="stat-title">{c.title}</div>
-              </div>
+              <span className="stat-icon" style={{ color: c.color, background: `${c.color}18` }}>
+                {c.icon}
+              </span>
               <div className="stat-value" style={{ color: c.color }}>
                 {c.value}
               </div>
+              <div className="stat-title">{c.title}</div>
             </div>
           ))}
         </section>

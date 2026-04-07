@@ -10,7 +10,6 @@ export default function AdminLopManagement() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showAddModal, setShowAddModal] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   //
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteRow, setDeleteRow] = useState(null);

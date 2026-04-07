@@ -30,6 +30,7 @@ import AdminAddClient from './pages/AdminFrontend/AdminAddClient';
 import ViewAdminClient from './pages/AdminFrontend/ViewAdminClient';
 import AdminEditClient from './pages/AdminFrontend/AdminEditClient';
 import AdminAddProcess from './pages/AdminFrontend/AdminAddProcess';
+import AdminProcessView from './pages/AdminFrontend/AdminProcessView';
 import AdminPassCandidates from './pages/AdminFrontend/AdminPassCandidates';
 import AdminDropCandidates from './pages/AdminFrontend/AdminDropCandidates';
 import AdminDataAssign from './pages/AdminFrontend/AdminDataAssign';
@@ -71,6 +72,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/employee-portfolio" element={<AdminEmployeePortfolio />} />
         <Route path="/admin-process" element={<AdminProcess />} />
         <Route path="/admin-add-process" element={<AdminAddProcess />} />
+        <Route path="/admin-process-view/:processId" element={<AdminProcessView />} />
         <Route path="/admin-assign-employee" element={<AdminAssignEmployee />} />
         <Route path="/admin-payout-management" element={<AdminPayoutManagement />} />
         <Route path="/admin-meetings" element={<AdminMeetings />} />

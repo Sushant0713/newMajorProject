@@ -1777,4 +1777,64 @@ details[open] .filters-arrow {
   .dropout-options {
     grid-template-columns: 1fr;
   }
+
+  /* Filter grid: 2 columns on tablet */
+  .filters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-group:first-child {
+    grid-column: span 2;
+  }
+
+  /* Filter action buttons stretch full width */
+  .filters-actions {
+    flex-direction: column;
+  }
+
+  .filters-actions .btn-clear,
+  .filters-actions .btn-apply {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Header export/batch buttons wrap */
+  .header-actions-right {
+    flex-wrap: wrap;
+  }
+
+  .header-actions-right .btn-secondary,
+  .header-actions-right .btn-success {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+  }
 }
+
+@media (max-width: 480px) {
+  /* Filter grid: single column on mobile */
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-group:first-child {
+    grid-column: span 1;
+  }
+
+  /* Summary cards: 2 columns on small mobile */
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Header action buttons full-width stacked */
+  .header-actions-right {
+    flex-direction: column;
+  }
+
+  .header-actions-right .btn-secondary,
+  .header-actions-right .btn-success {
+    width: 100%;
+  }
+}
+

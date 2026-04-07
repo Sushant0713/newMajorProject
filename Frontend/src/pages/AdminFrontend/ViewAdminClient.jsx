@@ -221,8 +221,7 @@ export default function ViewAdminClient() {
 
   const handleActionView = () => {
     if (selectedProcessId) {
-      // TODO: Implement view functionality
-      console.log("View process:", selectedProcessId);
+      navigate(`/admin-process-view/${selectedProcessId}`);
     }
   };
 

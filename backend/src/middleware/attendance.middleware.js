@@ -16,7 +16,7 @@ export const startSession = async (req, employeeId) => {
         total_minutes = TIMESTAMPDIFF(MINUTE, login_time, NOW()),
         status='expired'
         WHERE employee_id=? AND status='active'
-    `,[employeeId]);
+    `, [employeeId]);
     if (temp.affectedRows > 0) {
         console.log(`Previous active session expired for employee: ${employeeId}`);
     }
@@ -25,8 +25,8 @@ export const startSession = async (req, employeeId) => {
         INSERT INTO attendance_sessions
         (employee_id, login_time, last_activity_time, device, browser)
         VALUES (?, NOW(), NOW(), ?, ?)
-    `,[employeeId, deviceType, browserName]);
-    
+    `, [employeeId, deviceType, browserName]);
+
     return result.insertId;
 };
 

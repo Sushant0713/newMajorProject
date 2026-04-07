@@ -144,6 +144,29 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+/* Eye toggle button */
+.eye-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.4rem;
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.25s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.eye-toggle:hover {
+  color: #38bdf8;
+  transform: scale(1.15);
+}
+
+.eye-toggle:focus {
+  outline: none;
+}
+
 /* 🔗 Forgot Password */
 .options {
   display: flex;

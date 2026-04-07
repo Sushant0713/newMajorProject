@@ -7,6 +7,7 @@ export const useAdminProcessStore = create((set, get) => ({
     selectedProcess: null,
     spocs: [],
     clientNames: [],
+    processCandidates: [],
     loading: false,
     error: null,
 
@@ -59,10 +60,22 @@ export const useAdminProcessStore = create((set, get) => ({
             const res = await axiosInstance.get(`/admin/process/getProcessSpocs?processId=${processId}`);
             set({ spocs: res.data, loading: false });
         } catch (err) {
-            set({
-                error: err.response?.data?.message || "Failed to fetch process spocs",
-                loading: false,
-            });
+            // 404 means no SPOCs — not a real error
+            set({ spocs: [], loading: false });
+        }
+    },
+
+    fetchProcessCandidates: async (processId, candidateName = "") => {
+        set({ loading: true, error: null });
+        try {
+            const body = candidateName ? { candidate_name: candidateName } : {};
+            const res = await axiosInstance.post(
+                `/admin/process/getProcessCandidates?process_id=${processId}`,
+                body
+            );
+            set({ processCandidates: Array.isArray(res.data) ? res.data : [], loading: false });
+        } catch (err) {
+            set({ processCandidates: [], loading: false });
         }
     },
 
@@ -112,6 +125,7 @@ export const useAdminProcessStore = create((set, get) => ({
         set({
           selectedProcess: null,
           spocs: [],
+          processCandidates: [],
           error: null,
           loading: false,
         }),

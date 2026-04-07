@@ -7,7 +7,7 @@ export default function AdminLineUpTracker(){
     const admin_id = sessionStorage.getItem("userId");
 
   return (
-    <div className={`admin-lineup-root ${darkMode ? "dark" : ""}`}>
+    <div className="admin-lineup-root">
        {/* Sidebar */}
         <AdminNavbar />
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./AdminProcess.css";
 import AdminNavbar from "../../components/AdminNavbar.jsx";
 import AdminHeader from "../../components/AdminHeader.jsx";
@@ -7,6 +7,7 @@ import { useAdminProcessStore } from "../../store/AdminProcessStore";
 
 export default function AdminProcess() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [clientFilter, setClientFilter] = useState("All");
@@ -337,8 +338,7 @@ export default function AdminProcess() {
 
   const handleActionView = () => {
     if (selectedProcessId) {
-      // TODO: Implement view functionality
-      console.log("View process:", selectedProcessId);
+      navigate(`/admin-process-view/${selectedProcessId}`);
     }
   };
 
