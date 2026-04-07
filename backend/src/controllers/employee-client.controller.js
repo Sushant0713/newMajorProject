@@ -79,29 +79,83 @@ export const getLocations = async (req, res) => {
     }
 }
 
+// export const getStats = async (req, res) => {
+//     const {employee_id} = req.body;
+//     try {
+//         let query = `SELECT COUNT(*) AS total_processes FROM processes p
+//                         JOIN client_employee_assignments cea ON cea.client_id = p.client_id
+//                         JOIN employees e ON e.id = cea.employee_id
+//                         WHERE p.status = 'active' AND e.employee_id = ?`;
+//         const totalProcesses = await executeQuery(query, [employee_id]);
+
+//         query = `SELECT COALESCE(SUM(p.openings), 0) AS total_openings FROM processes p
+//                     JOIN client_employee_assignments cea ON cea.client_id = p.client_id
+//                     JOIN employees e ON e.id = cea.employee_id
+//                     WHERE p.status = 'Active' AND e.employee_id = ?`;
+//         const totalOpenings = await executeQuery(query, [employee_id]);
+
+//         query = `SELECT COUNT(*) AS filled_positions FROM candidate_assignments ca
+//                 JOIN processes p ON p.id = ca.process_id
+//                 JOIN client_employee_assignments cea ON cea.client_id = p.client_id
+//                 JOIN employees e ON e.id = cea.employee_id
+//                 WHERE ca.assignment_status IN ('joined','clawback','invoice','completely_joined') AND p.status = 'Active' AND cea.employee_id = ?`;
+//         const filledPositions = await executeQuery(query, [employee_id]);
+
+//         const fillRate = totalOpenings[0].total_openings > 0 ? (filledPositions[0].filled_positions / totalOpenings[0].total_openings) * 100 : 0;
+
+//         res.status(200).json({
+//             total_processes: totalProcesses[0].total_processes,
+//             total_openings: totalOpenings[0].total_openings,
+//             filled_positions: filledPositions[0].filled_positions,
+//             fill_rate: fillRate
+//         });
+//     } catch (error) {
+//         console.error("Error while fetching stats:", error);
+//         res.status(400).send(error);
+//     }
+// }
+
 export const getStats = async (req, res) => {
-    const {employee_id} = req.body;
+    const { employee_id } = req.body;
     try {
-        let query = `SELECT COUNT(*) AS total_processes FROM processes p
-                        JOIN client_employee_assignments cea ON cea.client_id = p.client_id
-                        JOIN employees e ON e.id = cea.employee_id
-                        WHERE p.status = 'active' AND e.employee_id = ?`;
+        // Total Processes
+        let query = `SELECT COUNT(*) AS total_processes 
+                     FROM processes p
+                     JOIN clients cl ON p.client_id = cl.id
+                     JOIN client_employee_assignments cea ON cea.client_id = p.client_id
+                     JOIN employees e ON e.id = cea.employee_id
+                     WHERE p.status = 'Active' 
+                     AND cl.status = 'Active'
+                     AND e.employee_id = ?`;
         const totalProcesses = await executeQuery(query, [employee_id]);
 
-        query = `SELECT COALESCE(SUM(p.openings), 0) AS total_openings FROM processes p
-                    JOIN client_employee_assignments cea ON cea.client_id = p.client_id
-                    JOIN employees e ON e.id = cea.employee_id
-                    WHERE p.status = 'Active' AND e.employee_id = ?`;
+        // Total Openings
+        query = `SELECT COALESCE(SUM(p.openings), 0) AS total_openings 
+                 FROM processes p
+                 JOIN clients cl ON p.client_id = cl.id
+                 JOIN client_employee_assignments cea ON cea.client_id = p.client_id
+                 JOIN employees e ON e.id = cea.employee_id
+                 WHERE p.status = 'Active' 
+                 AND cl.status = 'Active'
+                 AND e.employee_id = ?`;
         const totalOpenings = await executeQuery(query, [employee_id]);
 
-        query = `SELECT COUNT(*) AS filled_positions FROM candidate_assignments ca
-                JOIN processes p ON p.id = ca.process_id
-                JOIN client_employee_assignments cea ON cea.client_id = p.client_id
-                JOIN employees e ON e.id = cea.employee_id
-                WHERE ca.assignment_status IN ('joined','clawback','invoice','completely_joined') AND p.status = 'Active' AND cea.employee_id = ?`;
+        // Filled Positions
+        query = `SELECT COUNT(*) AS filled_positions 
+                 FROM candidate_assignments ca
+                 JOIN processes p ON p.id = ca.process_id
+                 JOIN clients cl ON p.client_id = cl.id
+                 JOIN client_employee_assignments cea ON cea.client_id = p.client_id
+                 JOIN employees e ON e.id = cea.employee_id
+                 WHERE ca.assignment_status IN ('joined','clawback','invoice','completely_joined') 
+                 AND p.status = 'Active' 
+                 AND cl.status = 'Active'
+                 AND e.employee_id = ?`;
         const filledPositions = await executeQuery(query, [employee_id]);
 
-        const fillRate = totalOpenings[0].total_openings > 0 ? (filledPositions[0].filled_positions / totalOpenings[0].total_openings) * 100 : 0;
+        const fillRate = totalOpenings[0].total_openings > 0
+            ? (filledPositions[0].filled_positions / totalOpenings[0].total_openings) * 100
+            : 0;
 
         res.status(200).json({
             total_processes: totalProcesses[0].total_processes,
@@ -113,7 +167,7 @@ export const getStats = async (req, res) => {
         console.error("Error while fetching stats:", error);
         res.status(400).send(error);
     }
-}
+};
 
 export const getContactPersonDetails = async (req, res) => {
     const employee_id = req.query.employee_id;
