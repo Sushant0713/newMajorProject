@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: iAM@3000
+      MYSQL_DATABASE: ownhrsolution-forworkbench4
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    container_name: backend_app
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: iAM@3000
+      MYSQL_DATABASE: ownhrsolution-forworkbench4
+      JWT_SECRET: your_jwt_secret_key_here
+      COMPANY_EMAIL: your_email@gmail.com
+      COMPANY_APP_PASSWORD: your_app_password_here
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    volumes:
+      - ./uploads:/app/uploads  # Mount uploads folder
+
+  frontend:
+    build: ./Frontend
+    container_name: frontend_app
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
