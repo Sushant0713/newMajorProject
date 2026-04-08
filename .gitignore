@@ -6,8 +6,7 @@ Frontend/node_modules/
 backend/.env
 .env
 
-# Docker compose and database dump files
-database_dump.sql
+
 
 # Build output
 Frontend/dist/
