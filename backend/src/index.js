@@ -78,6 +78,6 @@ app.use('/api/employee/payout', employee_payoutRouter);
 app.use('/api/employee/tracker', employee_trackerRouter);
 app.use('/api/employee/data', employee_dataRouter);
 app.use('/api/employee/reports', employee_reportsRouter);
-app.listen(process.env.PORT,'0.0.0.0', () => {
+app.listen(5000,'0.0.0.0', () => {
     console.log("server is running at port: "+process.env.PORT);
 });
