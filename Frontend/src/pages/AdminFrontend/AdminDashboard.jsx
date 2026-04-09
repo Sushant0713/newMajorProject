@@ -167,7 +167,7 @@ export default function AdminDashboard() {
             transition={{ delay: 0.5 }}
           >
             <div className="card-header-with-action">
-              <h3 className="admin-card-title">Recruitment Pipelinedd</h3>
+              <h3 className="admin-card-title">Recruitment Pipeline</h3>
               <button className="card-action-btn">
                 <span className="material-symbols-outlined">open_in_new</span>
               </button>
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
             transition={{ delay: 0.5 }}
           >
             <div className="chart-header">
-              <h3 className="admin-card-title">Monthly Success Rate</h3>
+              <h3 className="admin-card-title">Monthly Success Rate %</h3>
             </div>
             <div className="chart-container">
               {monthlySuccessData.length > 0 ? (
