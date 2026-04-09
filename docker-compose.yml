@@ -25,7 +25,7 @@ services:
       JWT_SECRET: your_jwt_secret_key_here
       COMPANY_EMAIL: your_email@gmail.com
       COMPANY_APP_PASSWORD: your_app_password_here
-      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URL: https://hchsjobs.space
     ports:
       - "5000:5000"
     depends_on:
@@ -43,7 +43,7 @@ services:
     depends_on:
       - backend
     volumes:
-    - /etc/letsencrypt:/etc/letsencrypt
-    
+      - /etc/letsencrypt:/etc/letsencrypt
+
 volumes:
   mysql_data:
