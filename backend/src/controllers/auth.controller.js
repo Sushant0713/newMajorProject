@@ -167,7 +167,7 @@ export const verifyOTP = async (req, res) => {
         res.cookie("otp_verified", true, {
             httpOnly: true,
             maxAge: 10 * 60 * 1000, 
-            sameSite: "strict",
+            sameSite: "lex",
             secure: false,
         });
 
