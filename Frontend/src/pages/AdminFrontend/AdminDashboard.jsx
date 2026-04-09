@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+// Test deployment - CI/CD working! Added on 2026-04-09
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./AdminDashboard.css";
@@ -205,7 +206,7 @@ export default function AdminDashboard() {
             transition={{ delay: 0.5 }}
           >
             <div className="chart-header">
-              <h3 className="admin-card-title">Monthly Success Rate %%</h3>
+              <h3 className="admin-card-title">Monthly Success Rate</h3>
             </div>
             <div className="chart-container">
               {monthlySuccessData.length > 0 ? (
