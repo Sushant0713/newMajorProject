@@ -400,10 +400,12 @@ export default function Dashboard() {
               <span className="stat-icon" style={{ color: c.color, background: `${c.color}18` }}>
                 {c.icon}
               </span>
-              <div className="stat-value" style={{ color: c.color }}>
-                {c.value}
+              <div className="stat-info">
+                <div className="stat-value" style={{ color: c.color }}>
+                  {c.value}
+                </div>
+                <div className="stat-title">{c.title}</div>
               </div>
-              <div className="stat-title">{c.title}</div>
             </div>
           ))}
         </section>
