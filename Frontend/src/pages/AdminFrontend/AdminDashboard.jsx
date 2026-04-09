@@ -167,7 +167,7 @@ export default function AdminDashboard() {
             transition={{ delay: 0.5 }}
           >
             <div className="card-header-with-action">
-              <h3 className="admin-card-title">Recruitment Pipelined</h3>
+              <h3 className="admin-card-title">Recruitment Pipelinedd</h3>
               <button className="card-action-btn">
                 <span className="material-symbols-outlined">open_in_new</span>
               </button>
