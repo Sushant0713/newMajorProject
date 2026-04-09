@@ -17,7 +17,7 @@ export const hashOTP = async (otp, res) => {
     res.cookie("otp_hash", hashedOtp, {
         maxAge: 10 * 60 * 1000, // 2 minutes
         httpOnly: true,
-        sameSite: "lex",
+        sameSite: "lax",
         secure: false,
     });
 }
