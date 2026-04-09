@@ -381,7 +381,8 @@
 
   .user-dropdown {
     width: 180px;
-    right: 0;
+    right: auto;
+    left: 0;
   }
 }
 
@@ -398,6 +399,12 @@
 
   .notification-dropdown {
     width: 280px;
-    right: -60px;
+    right: auto;
+    left: -40px;
+  }
+  
+  .user-dropdown {
+     right: auto;
+     left: 0;
   }
 }
