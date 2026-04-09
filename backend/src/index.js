@@ -40,7 +40,8 @@ const __dirname = path.dirname(__filename);
 app.use(cors({
     origin : ['http://localhost:5173',
                 'http://localhost',
-                "http://187.127.148.45"
+                "http://187.127.148.45",
+                "https://hchsjobs.space",
             
     // origin : 'http://192.168.1.12:5173',
     ],
