@@ -25,7 +25,7 @@ const resumeStorage = multer.diskStorage({
 // File filter to allow only specific file types
 const uploadResume = multer({ 
     storage: resumeStorage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+    limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
     fileFilter: (req, file, cb) => {
         const allowedTypes = [
             "application/pdf",
