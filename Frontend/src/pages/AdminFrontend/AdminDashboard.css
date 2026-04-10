@@ -26,7 +26,9 @@
   --transition-slow: 0.5s ease;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -1288,7 +1290,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   padding: 12px;
   margin-top: 12px;
@@ -1317,6 +1319,7 @@
    Single breakpoint: 1024px
    =========================== */
 @media (max-width: 1024px) {
+
   /* Hide the desktop sidebar — mobile overlay used instead */
   .admin-sidebar.desktop-only {
     display: none !important;
