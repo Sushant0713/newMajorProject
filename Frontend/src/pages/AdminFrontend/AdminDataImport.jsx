@@ -25,6 +25,7 @@ import AdminHeader from "../../components/AdminHeader";
 import { useAdminDataStore } from "../../store/AdminDataStore";
 import { useEffect } from "react";
 import toast from 'react-hot-toast';
+import { BASE_URL } from "../../lib/axios";
 
 const AdminDataImport = () => {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ const AdminDataImport = () => {
 
   const handleViewUploadFormat = () => {
     window.open(
-      "http://localhost:5000/uploads/UploadFormat.xlsx",
+      `${BASE_URL}/uploads/UploadFormat.xlsx`,
       "_blank"
     );
   };

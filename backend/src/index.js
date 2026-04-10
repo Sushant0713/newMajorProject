@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser"; 
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -38,12 +38,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(cors({
-    origin : ['http://localhost:5173',
-                'http://localhost',
-                "https://187.127.148.45",
-                "https://hchsjobs.space",
-            
-    // origin : 'http://192.168.1.12:5173',
+    origin: ['http://localhost:5173',
+        'http://localhost',
+        "https://187.127.148.45",
+        "https://hchsjobs.space",
+
+        // origin : 'http://192.168.1.12:5173',
     ],
     credentials: true,
 }));
@@ -53,7 +53,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Serve static files from uploads directory
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-const uploadsPath = path.resolve(__dirname, "../../uploads");
+const uploadsPath = path.resolve(__dirname, "../uploads");
 app.use("/uploads", express.static(uploadsPath));
 
 app.use("/api/auth", authRouters);
@@ -79,6 +79,6 @@ app.use('/api/employee/payout', employee_payoutRouter);
 app.use('/api/employee/tracker', employee_trackerRouter);
 app.use('/api/employee/data', employee_dataRouter);
 app.use('/api/employee/reports', employee_reportsRouter);
-app.listen(5000,'0.0.0.0', () => {
-    console.log("server is running at port: "+process.env.PORT);
+app.listen(5000, '0.0.0.0', () => {
+    console.log("server is running at port: " + process.env.PORT);
 });

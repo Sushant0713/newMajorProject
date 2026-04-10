@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "./LineupTracker.css";
 import { useAdminLineUpStore } from "../store/AdminLineUpStore.js";
 import { useEmployeeTrackerStore } from "../store/EmployeeTrackerStore.js";
+import { BASE_URL } from "../lib/axios.js";
 
 const availableStatuses = [
   { value: "pass", label: "Pass" },
@@ -470,7 +471,7 @@ export default function LineupTracker({ role, employee_id }) {
                                         className="action-bar-btn resume"
                                         onClick={() =>
                                             window.open(
-                                            `http://localhost:5000${selectedRow.resume_pdf_path}`,
+                                            `${BASE_URL}${selectedRow.resume_pdf_path}`,
                                             "_blank"
                                             )
                                         }

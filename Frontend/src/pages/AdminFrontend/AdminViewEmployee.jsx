@@ -5,6 +5,7 @@ import AdminNavbar from "../../components/AdminNavbar.jsx";
 import AdminHeader from "../../components/AdminHeader";
 import useAdminEmployeeStore from "../../store/AdminEmployeeStore.js";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../../lib/axios.js";
 
 export default function AdminViewEmployee() {
   const [searchParams] = useSearchParams();
@@ -80,7 +81,7 @@ export default function AdminViewEmployee() {
       toast.error("File not available");
       return;
     }
-    window.open(`http://localhost:5000${filePath}`, "_blank");
+    window.open(`${BASE_URL}${filePath}`, "_blank");
   };
 
 

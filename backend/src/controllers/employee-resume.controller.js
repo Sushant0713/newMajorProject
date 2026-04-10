@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // Set up multer for single resume upload
 const resumeStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadPath = path.resolve(__dirname, '../uploads/resumes'); 
+        const uploadPath = path.resolve(__dirname, '../../uploads/resumes');
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -23,7 +23,7 @@ const resumeStorage = multer.diskStorage({
 });
 
 // File filter to allow only specific file types
-const uploadResume = multer({ 
+const uploadResume = multer({
     storage: resumeStorage,
     limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
     fileFilter: (req, file, cb) => {
