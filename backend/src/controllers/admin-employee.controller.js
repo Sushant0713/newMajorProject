@@ -958,7 +958,13 @@ export const employeeCallHistory = async (req, res) => {
     const empId = req.query.empId;
     const { start_date, end_date } = req.body;
     try {
-        let  query =`SELECT * FROM candidate_call_logs WHERE employee_id = ? AND DATE(call_date) BETWEEN ? AND ? ORDER BY call_date DESC`;
+        let  query =`
+            SELECT ccl.*, c.name AS candidate_name 
+            FROM candidate_call_logs ccl 
+            LEFT JOIN candidates c ON ccl.candidate_id = c.id 
+            WHERE ccl.employee_id = ? AND DATE(ccl.call_date) BETWEEN ? AND ? 
+            ORDER BY ccl.call_date DESC
+        `;
         const callHistory = await executeQuery(query, [empId, start_date, end_date]);
         return res.status(200).json(callHistory);
     } catch (error) {
