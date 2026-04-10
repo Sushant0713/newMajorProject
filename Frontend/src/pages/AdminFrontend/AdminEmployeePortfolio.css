@@ -69,8 +69,10 @@
 
 @media (max-width: 640px) {
   .portfolio-header-actions {
-    flex-direction: column; /* Force everything to stack */
-    align-items: stretch; /* Make filters fill width */
+    flex-direction: column;
+    /* Force everything to stack */
+    align-items: stretch;
+    /* Make filters fill width */
   }
 }
 
@@ -144,10 +146,12 @@
   font-size: 0.875rem;
   outline: none;
   font-weight: 500;
-  color-scheme: dark; /* Helps native input elements adapt to dark mode */
+  color-scheme: dark;
+  /* Helps native input elements adapt to dark mode */
 }
 
 /* Force calendar picker icon to be visible */
+/* see */
 .date-input-group input::-webkit-calendar-picker-indicator {
   cursor: pointer;
   opacity: 0.8;
@@ -321,7 +325,8 @@
 
 @media (max-width: 480px) {
   .portfolio-card {
-    padding: 12px; /* reduced from 14px */
+    padding: 12px;
+    /* reduced from 14px */
     gap: 10px;
   }
 }
@@ -360,8 +365,8 @@
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
-  .charts-grid > div {
+
+  .charts-grid>div {
     grid-column: span 1 !important;
   }
 }
@@ -510,9 +515,11 @@
   -webkit-overflow-scrolling: touch;
   width: 100%;
   min-width: 0;
-  margin: 0 -12px; /* Pull table out to edge on mobile to save space */
+  margin: 0 -12px;
+  /* Pull table out to edge on mobile to save space */
   padding: 0 12px;
-  box-sizing: content-box; /* Let the padding extend the scroll area */
+  box-sizing: content-box;
+  /* Let the padding extend the scroll area */
 }
 
 @media (min-width: 481px) {
@@ -525,7 +532,8 @@
 
 .history-table {
   width: 100%;
-  min-width: 450px; /* Reduced slightly from 480px to be gentler on small screens */
+  min-width: 450px;
+  /* Reduced slightly from 480px to be gentler on small screens */
   border-collapse: collapse;
 }
 
@@ -552,6 +560,7 @@
 }
 
 @media (max-width: 640px) {
+
   .history-table th,
   .history-table td {
     padding: 8px 6px;
@@ -841,7 +850,8 @@
   font-size: 0.875rem;
   font-weight: 700;
   color: #374151;
-  word-break: break-word; /* Ensure long emails don't overflow */
+  word-break: break-word;
+  /* Ensure long emails don't overflow */
 }
 
 .value.highlight {
@@ -883,7 +893,8 @@
   .interaction-item {
     gap: 10px;
     padding: 12px !important;
-    flex-wrap: wrap; /* Allow wrapping if text is too long */
+    flex-wrap: wrap;
+    /* Allow wrapping if text is too long */
   }
 }
 
@@ -891,7 +902,8 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 0; /* Important for text truncation */
+  min-width: 0;
+  /* Important for text truncation */
   flex: 1;
 }
 
