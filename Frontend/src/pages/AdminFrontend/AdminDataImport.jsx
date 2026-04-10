@@ -74,12 +74,13 @@ const AdminDataImport = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) {
-      toast.error('Please select a file');
+    if (!selectedTypeId) {
+      toast.error('Please select a Data Type first');
       return;
     }
-    if (!selectedTypeId) {
-      toast.error('Please select a Data Type');
+    if (!selectedFile) {
+      // Open file picker if no file selected
+      fileInputRef.current.click();
       return;
     }
 
@@ -270,24 +271,25 @@ const AdminDataImport = () => {
                   </select>
                 </div>
 
-                <div className="upload-box">
+                <div className="upload-box" onClick={handleFileClick} style={{ cursor: 'pointer' }}>
                   <input
                     type="file"
                     ref={fileInputRef}
                     className="hidden-file-input"
                     accept=".xlsx,.xls,.csv"
                     onChange={handleFileChange}
+                    onClick={(e) => e.stopPropagation()}
                   />
 
                   <i className="fas fa-file-excel upload-icon"></i>
 
                   <p className="title">
-                    {selectedFile ? selectedFile.name : 'No file selected'}
+                    {selectedFile ? selectedFile.name : 'Click here or choose a file'}
                   </p>
 
                   <p
                     className="link"
-                    onClick={handleFileClick}
+                    onClick={(e) => { e.stopPropagation(); handleFileClick(); }}
                     style={{ cursor: 'pointer' }}
                   >
                     Choose File
@@ -295,10 +297,10 @@ const AdminDataImport = () => {
 
                   <button
                     className="btn-primary"
-                    onClick={handleUpload}
+                    onClick={(e) => { e.stopPropagation(); handleUpload(); }}
                     disabled={loading}
                   >
-                    {loading ? 'Uploading...' : 'Upload File'}
+                    {loading ? 'Uploading...' : selectedFile ? 'Upload File' : 'Select File'}
                   </button>
                 </div>
 
