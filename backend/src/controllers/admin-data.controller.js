@@ -37,6 +37,9 @@ export const importData = async(req, res) => {
     if (!employee_id) {
         return res.status(400).json({ message: 'employee_id is required' });
     }
+    if (!data_type_id) {
+        return res.status(400).json({ message: 'data_type_id is required' });
+    }
 
     const duplicateCandidates  = [];
     const invalidCandidates = [];

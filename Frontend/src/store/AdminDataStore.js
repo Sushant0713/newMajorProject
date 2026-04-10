@@ -46,9 +46,10 @@ export const useAdminDataStore = create((set, get) => ({
             return data;
         } catch (error) {
             console.error(error);
+            const errorMessage = error.response?.data?.message || error.message || "Failed to import candidate data";
             set({
                 loading: false,
-                error: error.message,
+                error: errorMessage,
             });
             return null;
         }

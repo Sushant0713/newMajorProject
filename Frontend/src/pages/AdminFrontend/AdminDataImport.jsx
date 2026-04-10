@@ -78,6 +78,10 @@ const AdminDataImport = () => {
       toast.error('Please select a file');
       return;
     }
+    if (!selectedTypeId) {
+      toast.error('Please select a Data Type');
+      return;
+    }
 
     await importCandidates({
       file: selectedFile,
@@ -292,7 +296,7 @@ const AdminDataImport = () => {
                   <button
                     className="btn-primary"
                     onClick={handleUpload}
-                    disabled={loading || !selectedFile}
+                    disabled={loading}
                   >
                     {loading ? 'Uploading...' : 'Upload File'}
                   </button>
