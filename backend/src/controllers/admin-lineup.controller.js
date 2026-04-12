@@ -12,7 +12,8 @@ const __dirname = path.dirname(__filename);
 // Multer storage for resumes
 const resumeStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.resolve(__dirname, "../../../uploads/resumes");
+    // const uploadPath = path.resolve(__dirname, "../../../uploads/resumes");
+    const uploadPath = "/app/uploads/resumes";
 
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
@@ -36,7 +37,8 @@ function getUploadedResumePath(file, candidateId) {
     throw new Error('Only PDF, DOC, and DOCX files are allowed');
   }
 
-  const uploadDir = path.resolve(__dirname, '../../../uploads/resumes');
+  //const uploadDir = path.resolve(__dirname, '../../../uploads/resumes');
+  const uploadDir = "/app/uploads/resumes";
   const fileName = `${candidateId}_resume${ext}`;
   const targetPath = path.join(uploadDir, fileName);
 

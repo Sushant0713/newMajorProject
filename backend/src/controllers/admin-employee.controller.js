@@ -14,7 +14,8 @@ const __dirname = path.dirname(__filename);
 // Multer storage for resumes
 const employeeStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.resolve(__dirname, "../../../uploads/temp");
+    //const uploadPath = path.resolve(__dirname, "../../../uploads/temp");
+    const uploadPath = "/app/uploads/temp";
 
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
@@ -126,7 +127,8 @@ export const addEmployee = async (req, res) => {
       const employee_id = `${prefix}${String(nextId).padStart(3, "0")}`;
 
       // ---------------- MOVE FILES ----------------
-      const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      //const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      const uploadDir = "/app/uploads/employees";
 
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
@@ -312,7 +314,8 @@ export const registerEmployee = async (req, res) => {
       const employee_id = `EMP${String(nextId).padStart(3, "0")}`;
 
       // Move files permanently
-      const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      //const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      const uploadDir = "/app/uploads/employees";
 
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
@@ -566,7 +569,8 @@ export const updateEmployee = async (req, res) => {
 
       // ---------------- FILE HANDLING ----------------
       const files = req.files;
-      const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      //const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      const uploadDir = "/app/uploads/employees";
 
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
