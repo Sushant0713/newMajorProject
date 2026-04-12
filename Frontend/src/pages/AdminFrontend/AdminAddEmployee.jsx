@@ -10,7 +10,8 @@ export default function AdminAddEmployee() {
   const navigate = useNavigate();
     const { loading, error, addEmployee } = useAdminEmployeeStore();
 
-  // Apply dark mode  const admin_id = sessionStorage.getItem('userId');
+  // Apply dark mode  
+  const admin_id = sessionStorage.getItem('userId');
 
   // Form state
   const [formData, setFormData] = useState({

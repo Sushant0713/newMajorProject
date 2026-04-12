@@ -42,6 +42,7 @@ const employeeUpload = multer({
 export const addEmployee = async (req, res) => {
   employeeUpload(req, res, async (err) => {
     if (err) {
+      console.error("Multer error:", err);
       return res.status(400).json({message: "File upload failed"});
     }
 
@@ -96,7 +97,7 @@ export const addEmployee = async (req, res) => {
       // ---------------- FILE CHECK ----------------
       const files = req.files;
 
-      if (!files || !files.aadhar_pic || !files.pan_pic || !files.cancelled_cheque_pic) {
+      if (!files || !files.aadhar_pic?.length || !files.pan_pic?.length || !files.cancelled_cheque_pic?.length) {
         return res.status(400).json({
           message: "All documents (Aadhar, PAN, Cheque) are required"
         });
@@ -235,6 +236,7 @@ export const addEmployee = async (req, res) => {
 export const registerEmployee = async (req, res) => {
   employeeUpload(req, res, async (err) => {
     if (err) {
+      console.error("Multer error:", err);
       return res.status(400).json({message: "File upload failed"});
     }
 
@@ -285,7 +287,7 @@ export const registerEmployee = async (req, res) => {
 
       const files = req.files;
 
-      if (!files || !files.aadhar_pic || !files.pan_pic || !files.cancelled_cheque_pic) {
+      if (!files || !files.aadhar_pic?.length || !files.pan_pic?.length || !files.cancelled_cheque_pic?.length) {
         return res.status(400).json({
           message: "All documents (Aadhar, PAN, Cheque) are required"
         });
@@ -495,6 +497,7 @@ export const getEmployeeById = async (req, res) => {
 export const updateEmployee = async (req, res) => {
   employeeUpload(req, res, async (err) => {
     if (err) {
+      console.error("Multer error:", err);
       return res.status(400).json({
         message: err.message || "File upload failed",
       });
