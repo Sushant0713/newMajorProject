@@ -544,7 +544,7 @@ export default function AdminAddEmployee() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">
-                    Mothly Candidate Target(in ₹)<span className="required">*</span>
+                    Mothly Candidate Target<span className="required">*</span>
                   </label>
                   <input
                     type="number"
