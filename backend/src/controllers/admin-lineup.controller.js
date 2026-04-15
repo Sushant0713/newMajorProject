@@ -427,15 +427,19 @@ export const addToTracker = async (req, res) => {
       await connection.beginTransaction();
       const [employeeIdINT] = await connection.query(`SELECT id FROM employees WHERE employee_id = ?`, [employee_id]);
       const employee_id_int = employeeIdINT.length ? employeeIdINT[0].id : null;
-      const resumePath = getUploadedResumePath(req.file, candidate_id);
 
-      if (resumePath) {
-        await connection.query(
-          `UPDATE candidates 
-          SET resume_pdf_path = ? 
-          WHERE id = ?`,
-          [resumePath, candidate_id]
-        );
+      let resumePath = null;
+      if (req.file) {
+        resumePath = getUploadedResumePath(req.file, candidate_id);
+
+        if (resumePath) {
+          await connection.query(
+            `UPDATE candidates 
+            SET resume_pdf_path = ? 
+            WHERE id = ?`,
+            [resumePath, candidate_id]
+          );
+        }
       }
 
       // 1. Update candidate assignment
