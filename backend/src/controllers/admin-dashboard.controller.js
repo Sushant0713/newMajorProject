@@ -115,10 +115,6 @@ export const dashboardStatistics = async (req, res) => {
                 AND YEAR(updated_at) = YEAR(CURRENT_DATE())`;
     const thisMonthCompleted = await executeQuery(query);
 
-    query = `SELECT dt.type_name, COUNT(cd.id) as candidate_count FROM data_types dt LEFT JOIN candidates_data cd ON dt.id = cd.type_id
-                GROUP BY dt.id, dt.type_name ORDER BY candidate_count DESC LIMIT 5`;
-    const dataTypeBreakdown = await executeQuery(query);
-
     query = `SELECT e.employee_id, e.full_name, e.designation,
                 COUNT(ea.id) as total_assignments,
                 SUM(CASE WHEN ea.status = 'completed' THEN 1 ELSE 0 END) as completed,
@@ -164,7 +160,6 @@ export const dashboardStatistics = async (req, res) => {
         dropout_count,
         thisMonthAssignments: thisMonthAssignments[0].this_month_assignments,
         thisMonthCompleted: thisMonthCompleted[0].this_month_completed,
-        dataTypeBreakdown,
         employeePerformance,
         employeeAssignmentSummary
     });
