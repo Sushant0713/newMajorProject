@@ -31,7 +31,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ./uploads:/app/uploads  # Mount uploads folder
+      - /home/ubuntu/uploads:/app/uploads   # <-- HOST VOLUME HERE
 
   frontend:
     build: ./Frontend

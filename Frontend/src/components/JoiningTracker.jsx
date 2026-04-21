@@ -91,7 +91,7 @@ export default function JoiningTracker ({ role, employee_id }) {
     };
 
     const handleCall = async(mobile) => {
-        await addCallLog({candidate_id: selectedCandidateId, employee_id: admin_id});
+        await addCallLog({candidate_id: selectedCandidateId, employee_id: employee_id});
         window.location.href = `tel:${mobile}`;
     };
 

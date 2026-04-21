@@ -357,7 +357,7 @@ export default function LineupTracker({ role, employee_id }) {
                             <label className="lineup-filter-label">Status</label>
                             <select
                                 className="filter-select"
-                                value={selectedStatus}
+                                value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value)}
                                 >
                                 <option value="">Select Status</option>

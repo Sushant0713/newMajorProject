@@ -422,17 +422,17 @@ export default function EmployeeClient() {
                       <tbody>
                         {paginatedProcesses.map((process) => (
                           <tr key={process.id}>
-                            <td className="process-name-cell">{process.processName}</td>
-                            <td>{process.clientName}</td>
-                            <td>
+                            <td data-label="Process Name" className="process-name-cell">{process.processName}</td>
+                            <td data-label="Client Name">{process.clientName}</td>
+                            <td data-label="Hiring Type">
                               <span className={`emp-client-badge ${process.hiringType.toLowerCase()}`}>
                                 {process.hiringType}
                               </span>
                             </td>
-                            <td>{process.openings}</td>
-                            <td>₹{process.salary}</td>
-                            <td>₹{process.approxRevenue.toLocaleString()}</td>
-                            <td>
+                            <td data-label="Openings">{process.openings}</td>
+                            <td data-label="Salary">₹{process.salary}</td>
+                            <td data-label="Revenue">₹{process.approxRevenue.toLocaleString()}</td>
+                            <td data-label="Location(s)">
                               <div className="location-cell">
                                 <MapPin size={14} />
                                 {process.locations && process.locations.length > 0 
@@ -440,7 +440,7 @@ export default function EmployeeClient() {
                                   : process.location || "N/A"}
                               </div>
                             </td>
-                            <td>
+                            <td data-label="Action">
                               <button
                                 className="emp-client-view-btn"
                                 onClick={() => handleViewDetails(process.id)}

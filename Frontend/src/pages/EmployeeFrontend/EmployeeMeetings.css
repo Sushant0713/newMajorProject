@@ -192,13 +192,6 @@
 
 @media (max-width: 1024px) {
   .emp-meetings-main {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-  }
-}
-
-@media (max-width: 768px) {
-  .emp-meetings-main {
     margin-left: 0;
     width: 100%;
     padding-top: 76px;
@@ -377,7 +370,7 @@
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--border-color);
-  overflow: hidden;
+  /* overflow:hidden removed — it clips meeting action buttons on mobile */
   margin: 0 28px 24px;
 }
 
@@ -560,9 +553,10 @@
   border-top: 1px solid var(--border-color);
 }
 
-.action-btn {
-  display: inline-flex;
+.meeting-action-btn {
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 10px 16px;
   border-radius: 8px;
@@ -571,21 +565,22 @@
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
+  white-space: nowrap;
 }
 
-.action-btn.primary {
+.meeting-action-btn.primary {
   background: var(--primary-color);
   color: white;
   flex: 1;
 }
 
-.action-btn.primary:hover:not(:disabled) {
+.meeting-action-btn.primary:hover:not(:disabled) {
   background: var(--primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
-.action-btn.primary:disabled {
+.meeting-action-btn.primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -684,15 +679,26 @@
 
   .meetings-card {
     margin: 0 16px 24px;
+    /* Make sure card border-radius doesn't clip buttons */
+    overflow: visible;
+  }
+
+  .meetings-list {
+    /* Override overflow-y:auto on mobile — browser coerces overflow-x to auto too, clipping buttons */
+    overflow: visible;
+    max-height: none;
+    padding: 16px;
   }
 
   .meeting-actions {
     flex-direction: column;
+    gap: 8px;
   }
 
-  .action-btn {
+  .meeting-action-btn {
     width: 100%;
     justify-content: center;
+    box-sizing: border-box;
   }
 }
 
@@ -743,5 +749,31 @@
 
   .stat-value {
     font-size: 1.5rem;
+  }
+
+  /* Reduce card outer margin on very small screens */
+  .meetings-card {
+    margin: 0 8px 16px;
+  }
+
+  /* Reduce list padding to give button more room */
+  .meetings-list {
+    padding: 12px;
+  }
+
+  .meeting-item {
+    padding: 14px;
+  }
+
+  /* Ensure button never clips */
+  .meeting-action-btn {
+    width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.8125rem;
   }
 }

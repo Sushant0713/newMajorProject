@@ -523,16 +523,16 @@ export default function EmployeeReports() {
                       <tr><td colSpan={5} style={{ textAlign: "center", color: "#94a3b8" }}>No client data available</td></tr>
                     ) : filteredClientData.map((client, index) => (
                       <tr key={index}>
-                        <td className="client-name">{client.client}</td>
-                        <td className="joins-count">{client.joins}</td>
-                        <td>{client.cvs}</td>
-                        <td>
+                        <td data-label="Client" className="client-name">{client.client}</td>
+                        <td data-label="Joins" className="joins-count">{client.joins}</td>
+                        <td data-label="CVs Worked">{client.cvs}</td>
+                        <td data-label="Success Rate">
                           <div className="success-bar">
                             <div className="success-fill" style={{ width: `${client.success}%` }} />
                             <span className="success-text">{client.success}%</span>
                           </div>
                         </td>
-                        <td><span className="status-badge active">Active</span></td>
+                        <td data-label="Status"><span className="status-badge active">Active</span></td>
                       </tr>
                     ))}
                   </tbody>
@@ -573,12 +573,12 @@ export default function EmployeeReports() {
                     <tbody>
                       {performanceData.slice(-6).map((data, index) => (
                         <tr key={index}>
-                          <td className="month-cell">{data.month}</td>
-                          <td className="joins-cell">{data.joins}</td>
-                          <td>{data.interviews}</td>
-                          <td>{data.cvs}</td>
-                          <td>{data.target}</td>
-                          <td>
+                          <td data-label="Month" className="month-cell">{data.month}</td>
+                          <td data-label="Joins" className="joins-cell">{data.joins}</td>
+                          <td data-label="Interviews">{data.interviews}</td>
+                          <td data-label="CVs">{data.cvs}</td>
+                          <td data-label="Target">{data.target}</td>
+                          <td data-label="Status">
                             <span className={`status-badge ${data.target > 0 && data.joins >= data.target ? "success" : "warning"}`}>
                               {data.target > 0 && data.joins >= data.target ? "Achieved" : "In Progress"}
                             </span>

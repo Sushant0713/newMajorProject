@@ -172,13 +172,6 @@
 
 @media (max-width: 1024px) {
   .emp-payout-main {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-  }
-}
-
-@media (max-width: 768px) {
-  .emp-payout-main {
     margin-left: 0;
     width: 100%;
     padding-top: 76px;

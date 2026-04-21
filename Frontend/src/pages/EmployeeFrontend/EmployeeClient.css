@@ -485,13 +485,15 @@
 .emp-client-search-icon {
   position: absolute;
   left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #6b7280;
   pointer-events: none;
 }
 
 .emp-client-search-input {
   width: 100%;
-  padding: 10px 16px 10px 40px;
+  padding: 10px 44px 10px 40px;
   border: 1px solid #d1d5db;
   border-radius: 20px;
   font-size: 14px;
@@ -513,6 +515,8 @@
 .emp-client-search-clear {
   position: absolute;
   right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   background: #f3f4f6;
   border: none;
   border-radius: 50%;
@@ -1201,104 +1205,246 @@
 
 @media (max-width: 1024px) {
   .emp-client-main {
-    margin-left: 240px;
-  }
-  
-  .emp-client-filters-row {
-    flex-direction: column;
-  }
-
-  .emp-client-filters-row .emp-client-search-container {
-    width: 100%;
-    min-width: auto;
-  }
-
-  .emp-client-pagination {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .emp-client-pagination-info {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .emp-client-pagination-buttons {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 768px) {
-  .emp-client-main {
     margin-left: 0;
     padding-top: 76px;
   }
-}
 
-@media (max-width: 640px) {
   .emp-client-content {
-    padding: 20px 16px;
+    padding: 16px 12px;
   }
 
-  .emp-client-header {
-    padding: 20px 16px;
+  /* Tabs: wrap and shrink */
+  .emp-client-tabs {
+    flex-wrap: wrap;
+    gap: 4px;
   }
 
-  .emp-client-header-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+  .emp-client-tab {
+    padding: 8px 12px;
+    font-size: 13px;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
   }
 
-  .emp-client-title {
-    font-size: 20px;
-  }
-
+  /* Stats: 2 columns on tablet */
   .emp-client-stats {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
-  .emp-client-stat-card {
-    padding: 16px;
+  /* Filters stack vertically */
+  .emp-client-filters-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .emp-client-search-container {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .emp-client-filter-select {
+    width: 100%;
+  }
+
+  .emp-client-clear-filters {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Table: horizontal scroll with reduced min-width */
+  .emp-client-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .emp-client-table {
+    min-width: 560px;
   }
 
   .emp-client-table th,
   .emp-client-table td {
-    padding: 12px 16px;
+    padding: 10px 12px;
     font-size: 13px;
   }
 
-  .emp-client-detail-grid {
+  /* Client list grid: single column */
+  .emp-client-list-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Contacts table */
+  .emp-client-contacts-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .emp-client-contacts-table table {
+    min-width: 500px;
+  }
+
+  /* Modal responsive */
+  .emp-client-modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
   }
 
   .emp-client-modal-content {
-    margin: 10px;
-    max-width: calc(100% - 20px);
-    max-height: 95vh;
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 16px 16px 0 0;
   }
 
   .emp-client-modal-header {
-    padding: 20px;
-  }
-
-  .emp-client-modal-body {
-    padding: 20px;
-  }
-
-  .emp-client-modal-footer {
     padding: 16px 20px;
   }
 
-  .emp-client-detail-section {
+  .emp-client-modal-body {
     padding: 16px;
-    margin-bottom: 20px;
+  }
+
+  .emp-client-modal-footer {
+    padding: 14px 16px;
   }
 
   .emp-client-detail-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
+
+  .emp-client-detail-section {
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* Pagination */
+  .emp-client-pagination {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .emp-client-pagination-info {
+    justify-content: space-between;
+  }
+
+  .emp-client-pagination-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
+
+@media (max-width: 480px) {
+  .emp-client-content {
+    padding: 12px 10px;
+  }
+
+  /* Stats: full width single column */
+  .emp-client-stats {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .emp-client-stat-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .emp-client-stat-value {
+    font-size: 20px;
+  }
+
+  /* Tabs wrap to two row grid */
+  .emp-client-tab {
+    padding: 8px 10px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  /* Table becomes card layout */
+  .emp-client-table {
+    min-width: unset;
+  }
+
+  .emp-client-table thead {
+    display: none;
+  }
+
+  .emp-client-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .emp-client-table td {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 8px;
+    font-size: 12px;
+    border-bottom: none;
+  }
+
+  .emp-client-table td::before {
+    content: attr(data-label);
+    font-size: 10px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+
+  /* Action cell takes full width */
+  .emp-client-table td:last-child {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 8px;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .emp-client-table td:last-child::before {
+    display: none;
+  }
+
+  .emp-client-view-btn {
+    width: 100%;
+    text-align: center;
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  /* Detail grid single column on tiny screens */
+  .emp-client-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .emp-client-modal-header h2 {
+    font-size: 17px;
+  }
+
+  .emp-client-detail-section h3 {
+    font-size: 15px;
+  }
+
+  /* Pagination simplified */
+  .emp-client-pagination-buttons {
+    gap: 4px;
+  }
+
+  .emp-client-pagination-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    min-width: 34px;
+  }
+}
+

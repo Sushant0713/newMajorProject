@@ -189,7 +189,7 @@ export default function EmployeeMeetings() {
 
                 <div className="meeting-actions">
                   <button
-                    className="action-btn primary"
+                    className="meeting-action-btn primary"
                     onClick={() => handleJoinMeeting(meeting)}
                     disabled={meeting.status === "Completed"}
                   >

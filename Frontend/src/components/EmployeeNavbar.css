@@ -305,18 +305,7 @@ body {
 ========================================= */
 
 @media (max-width: 1024px) {
-  .emp-sidebar {
-    width: 240px;
-    min-width: 240px;
-    max-width: 240px;
-  }
-
-  .dash-main {
-    margin-left: 240px;
-  }
-}
-
-@media (max-width: 768px) {
+  /* Switch to mobile mode at 1024px — matching admin behaviour */
   .desktop-only {
     display: none;
   }

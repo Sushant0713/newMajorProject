@@ -435,7 +435,7 @@
 
 .emp-data-assign-search-input {
   width: 100%;
-  padding: 10px 16px 10px 40px;
+  padding: 10px 44px 10px 40px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
@@ -988,16 +988,10 @@
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1024px) {
   .emp-data-assign-main {
     margin-left: 0;
-  }
-
-  .dash-sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    min-height: auto;
+    padding-top: 76px;
   }
 
   .emp-data-assign-content {

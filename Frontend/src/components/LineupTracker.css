@@ -68,11 +68,22 @@
   align-items: center;
 }
 
+/* Row 2: From/To/Status on line 1, clear+Apply right-aligned on line 2 */
 .lineup-filter-row-two {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 0.5fr 0.5fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
   align-items: center;
+}
+
+/* clear button: place at column 2 of the second implicit row */
+.lineup-filter-row-two>div:nth-child(4) {
+  grid-column: 2;
+}
+
+/* Apply button: place at column 3 of the second implicit row */
+.lineup-filter-row-two>div:nth-child(5) {
+  grid-column: 3;
 }
 
 .lineup-filter-item {
@@ -80,12 +91,13 @@
   flex-direction: column;
 }
 
+/* All filter controls share the same height */
 .filter-search,
 .filter-select,
 .filter-date,
-.filter-action .btn-primary
-.filter-action .btn-close{
-  height: 44px; /* 🔑 single source of truth */
+.filter-action .btn-primary,
+.filter-action .btn-close {
+  height: 42px;
 }
 
 .lineup-filter-label {
@@ -101,64 +113,114 @@
   display: flex;
   align-items: center;
   border-radius: 6px;
-  /* padding: 0 12px; */
+  border: 1px solid #d1d5db;
+  padding: 0 12px;
   height: 42px;
+  background-color: var(--card-bg);
+  transition: all 0.2s ease;
+}
+
+.filter-search:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .filter-search .search-icon {
+  /* Override global .search-icon { position:absolute } leaking from EmployeePayout.css */
+  position: static !important;
+  left: unset !important;
+  top: unset !important;
+  transform: none !important;
   font-size: 20px;
   color: #9ca3af;
   margin-right: 8px;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .filter-input {
   background: transparent;
-  /* border: 1px solid var(--muted); */
-  outline: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   color: var(--text);
   font-size: 0.9rem;
   width: 100%;
 }
 
+.filter-input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .filter-select {
   height: 42px;
-  /* background: #1c1c1c; */
-  /* border: 1px solid var(--muted); */
+  border: 1px solid #d1d5db;
   border-radius: 6px;
   color: var(--text);
   padding: 0 12px;
   font-size: 0.9rem;
   cursor: pointer;
+  background: var(--card-bg);
+  transition: border-color 0.2s ease;
+}
+
+/* only show focus ring on keyboard navigation, not on mouse click */
+.filter-select:focus-visible {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .filter-date {
   height: 42px;
-  background: var(--card-background);
-  /* border: 1px solid var(--muted); */
+  border: 1px solid #d1d5db;
   border-radius: 6px;
   color: var(--text);
   padding: 0 12px;
   font-size: 0.9rem;
   cursor: pointer;
+  background: var(--card-bg, #fff);
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  color-scheme: light;
+}
+
+/* only show focus ring on keyboard navigation, not on mouse click */
+.filter-date:focus-visible {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .filter-date::-webkit-calendar-picker-indicator {
-  filter: invert(1);
   cursor: pointer;
+  /* No opacity or filter override — let the browser render the native icon naturally */
 }
 
 .filter-action {
   display: flex;
+  align-items: flex-end;
   justify-content: flex-start;
 }
 
-.filter-action .btn-primary, 
-.filter-action .btn-close{
-  height: 42px;
-  margin-top: 20px;
-  padding: 0 22px;
+.filter-action .btn-primary,
+.filter-action .btn-close {
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0 12px !important;
   font-weight: 600;
   white-space: nowrap;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  width: 100%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
 }
 
 .filter-input::placeholder {
@@ -348,11 +410,30 @@
 }
 
 /*Modals */
-.drop-header { background: #fef2f2; color: #b91c1c; }
-.hold-header { background: #fff7ed; color: #c2410c; }
-.pass-header { background: #ecfdf5; color: #065f46; }
-.note-header { background: #eef2ff; color: #3730a3; }
-.resume-header { background: #f0f9ff; color: #075985; }
+.drop-header {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.hold-header {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.pass-header {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.note-header {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.resume-header {
+  background: #f0f9ff;
+  color: #075985;
+}
 
 .modal-info {
   font-size: 0.9rem;
@@ -426,6 +507,7 @@
   margin-top: 4px;
 }
 
+
 .edit-lineup-modal .form-group {
   margin-bottom: 14px;
 }
@@ -466,28 +548,18 @@
   .line-up-table-container {
     overflow-x: auto;
   }
-  
+
   .line-up-table {
     min-width: 800px;
   }
 
+  /* Row 1: compact 3-column */
   .lineup-filter-row-one {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr;
   }
 
-  .lineup-filter-row-two {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .filter-action {
-    justify-content: stretch;
-  }
-
-  .filter-action .btn-primary,
-  .filter-action .btn-close {
-    width: 100%;
-    margin-top: 5px;
-  }
+  /* Row 2: 3-column layout stays the same at tablet */
+  /* buttons stay right-aligned on row 2 via nth-child rules */
 
   .action-buttons-bar {
     flex-wrap: wrap;
@@ -521,24 +593,26 @@
     min-width: 700px;
   }
 
-  .lineup-filter-row-one, 
-  .lineup-filter-row-two {
+  /* Row 1: single column */
+  .lineup-filter-row-one {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .filter-action {
-    justify-content: stretch;
+  /* Row 2: single column — reset nth-child placements so buttons stack naturally */
+  .lineup-filter-row-two {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .filter-action .btn-primary {
-    width: 100%;
-    margin-top: 5px;
+  .lineup-filter-row-two>div:nth-child(4),
+  .lineup-filter-row-two>div:nth-child(5) {
+    grid-column: 1;
   }
 
+  .filter-action .btn-primary,
   .filter-action .btn-close {
     width: 100%;
-    margin-top: 5px;
   }
 
   .inline-action-row td {

@@ -139,29 +139,51 @@
 .filter-select,
 .joining-filter-action .btn-primary,
 .joining-filter-action .btn-clear {
-  height: 44px;
+  height: 42px;
 }
 
 .filter-search {
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--muted);
+  border: 1px solid #d1d5db;
   border-radius: 6px;
+  padding: 0 12px;
+  background: var(--card-background);
+  transition: all 0.2s ease;
+}
+
+.filter-search:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
 .filter-search .search-icon {
+  /* Override global .search-icon { position:absolute } leaking from EmployeePayout.css */
+  position: static !important;
+  left: unset !important;
+  top: unset !important;
+  transform: none !important;
   font-size: 20px;
   color: #9ca3af;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .filter-input {
-  border: none;
-  outline: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   background: transparent;
   width: 100%;
   font-size: 0.9rem;
   color: var(--text);
+}
+
+.filter-input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .filter-input::placeholder {
@@ -169,13 +191,23 @@
 }
 
 .filter-select {
+  height: 42px;
   border-radius: 6px;
-  border: 1px solid var(--muted);
+  border: 1px solid #d1d5db;
   padding: 0 12px;
   font-size: 0.9rem;
   color: var(--text);
   cursor: pointer;
-  background: transparent;
+  background: var(--card-background);
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
 .joining-filter-action {

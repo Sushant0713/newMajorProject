@@ -859,7 +859,10 @@
   font-size: 1rem;
 }
 
-/* Responsive Design */
+/* ═══════════════════════════════════════════
+   Responsive Design
+═══════════════════════════════════════════ */
+
 @media (max-width: 1400px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -871,51 +874,68 @@
 }
 
 @media (max-width: 1024px) {
-  .achievement-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .filters-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .reports-tabs {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-  }
-
-  .tab-btn {
-    white-space: nowrap;
-  }
-}
-
-@media (max-width: 768px) {
-  .dash-sidebar {
-    transform: translateX(-100%);
-  }
-
   .emp-reports-main {
     margin-left: 0;
+    padding-top: 76px;
   }
 
+  /* Header */
   .emp-reports-header {
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     align-items: flex-start;
+    padding: 16px 16px;
+  }
+
+  .header-title {
+    font-size: 1.375rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.8125rem;
   }
 
   .header-actions {
     width: 100%;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .btn-secondary,
   .btn-primary {
-    width: 100%;
+    flex: 1;
     justify-content: center;
+    min-width: 120px;
   }
 
+  /* Content */
+  .emp-reports-content {
+    padding: 16px;
+  }
+
+  /* Stats: 2 col */
   .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  /* Filters stack */
+  .filters-grid {
     grid-template-columns: 1fr;
   }
 
@@ -927,20 +947,265 @@
     width: 100%;
   }
 
+  /* Tabs */
+  .reports-tabs {
+    margin-bottom: 16px;
+  }
+
+  .tab-btn {
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    gap: 6px;
+  }
+
+  /* Chart cards */
+  .chart-card {
+    padding: 16px;
+  }
+
+  .chart-title {
+    font-size: 1rem;
+    margin-bottom: 14px;
+  }
+
+  /* Chart overflows — wrap in scrollable container */
+  .chart-card svg {
+    overflow: visible;
+    min-width: 340px;
+  }
+
+  .chart-card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Tables */
   .reports-table {
     display: block;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
   }
 
+  .client-table-section {
+    padding: 16px;
+  }
+
+  /* Activity items */
   .activity-item {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 12px;
+    gap: 12px;
   }
 
-  .activity-arrow {
-    display: none;
+  .activities-section {
+    padding: 16px;
+    margin-top: 16px;
+  }
+
+  /* Recent activities tab */
+  .activities-header {
+    padding: 16px 16px 14px;
+  }
+
+  .activities-list-container {
+    padding: 14px 16px;
+  }
+
+  .activity-card {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .activity-icon-square {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
   }
 }
+
+@media (max-width: 640px) {
+  .emp-reports-content {
+    padding: 12px;
+  }
+
+  /* Stats: still 2 col but tighter */
+  .stats-grid {
+    gap: 10px;
+  }
+
+  .stat-value {
+    font-size: 1.375rem;
+  }
+
+  .stat-label {
+    font-size: 0.8125rem;
+  }
+
+  /* Tabs: icon only hint */
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 0.8125rem;
+  }
+
+  /* Charts */
+  .chart-card {
+    padding: 14px;
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: 0.9375rem;
+  }
+
+  /* achievements */
+  .achievement-value {
+    font-size: 1.625rem;
+  }
+
+  /* activities */
+  .activity-arrow-icon {
+    display: none;
+  }
+
+  .activity-description {
+    font-size: 0.875rem;
+  }
+
+  .activity-date {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .emp-reports-content {
+    padding: 10px 8px;
+  }
+
+  /* Header button row: stack vertically */
+  .header-actions {
+    flex-direction: column;
+  }
+
+  .btn-secondary,
+  .btn-primary {
+    width: 100%;
+  }
+
+  /* Stats: single column */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  /* Tab: icon only */
+  .tab-btn {
+    padding: 8px 10px;
+    font-size: 0;          /* hide text */
+    gap: 0;
+  }
+
+  .tab-btn svg {
+    flex-shrink: 0;
+    font-size: initial;    /* keep icon size */
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Table: card layout */
+  .reports-table {
+    white-space: normal;
+  }
+
+  .reports-table thead {
+    display: none;
+  }
+
+  .reports-table tbody tr {
+    display: block;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    background: var(--card-background);
+  }
+
+  .reports-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.8125rem;
+    white-space: normal;
+  }
+
+  .reports-table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .reports-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+
+  /* success bar on mobile */
+  .success-bar {
+    max-width: 100px;
+  }
+
+  /* achievement cards */
+  .achievement-value {
+    font-size: 1.5rem;
+  }
+
+  /* chart cards */
+  .chart-card svg {
+    min-width: 300px;
+  }
+}
+
+@media (max-width: 360px) {
+  .emp-reports-header {
+    padding: 12px;
+  }
+
+  .header-title {
+    font-size: 1.2rem;
+  }
+
+  .emp-reports-content {
+    padding: 8px 6px;
+  }
+
+  .tab-btn {
+    padding: 7px 8px;
+  }
+
+  .chart-card {
+    padding: 10px;
+  }
+}
+
 
 /* Chart Animations and Interactions */
 .line-chart .chart-line {

@@ -58,13 +58,15 @@
 .emp-tracker-search-icon {
   position: absolute;
   left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #6b7280;
   pointer-events: none;
 }
 
 .emp-tracker-search-input {
   width: 100%;
-  padding: 10px 16px 10px 40px;
+  padding: 10px 44px 10px 40px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
@@ -82,6 +84,8 @@
 .emp-tracker-search-clear {
   position: absolute;
   right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   background: #f3f4f6;
   border: none;
   border-radius: 50%;
@@ -696,16 +700,10 @@
 }
 
 /* Responsive Design */
-@media (max-width: 980px) {
+@media (max-width: 1024px) {
   .emp-tracker-main {
     margin-left: 0;
-  }
-
-  .dash-sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    min-height: auto;
+    padding-top: 76px;
   }
 
   .emp-tracker-table-wrapper {
