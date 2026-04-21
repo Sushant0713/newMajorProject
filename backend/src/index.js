@@ -35,7 +35,7 @@ const app = express();
 
 // Get directory name for ES modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+//const __dirname = path.dirname(__filename);
 
 app.use(cors({
     origin: ['http://localhost:5173',
@@ -53,7 +53,8 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Serve static files from uploads directory
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-const uploadsPath = path.resolve(__dirname, "../uploads");
+//const uploadsPath = path.resolve(__dirname, "../uploads");
+const uploadsPath = "/app/uploads";
 app.use("/uploads", express.static(uploadsPath));
 
 app.use("/api/auth", authRouters);

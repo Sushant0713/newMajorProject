@@ -53,65 +53,61 @@ import EmployeeJoiningTracker from './pages/EmployeeFrontend/EmployeeJoiningTrac
 import ReviewResumeData from './pages/EmployeeFrontend/ReviewResumeData';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Toaster position="top-right" reverseOrder={false} />
-      <Routes>
-        <Route path="/" element={<AdminLogin />} />
-        <Route path="/admin-forgot-password" element={<AdminPasswordReset />} />
-        <Route path="/admin-verify-otp" element={<AdminVerifyOTP />} />
-        <Route path="/admin-password-reset" element={<AdminNewPassword />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin-clients" element={<AdminClient />} />
-        <Route path="/admin-add-client" element={<AdminAddClient />} />
-        <Route path="/admin-client-details/:clientId" element={<ViewAdminClient />} />
-        <Route path="/admin-edit-client/:clientId" element={<AdminEditClient />} />
-        <Route path="/admin-joining-tracker" element={<AdminJoiningTracker />} />
-        <Route path="/admin-lineup-tracker" element={<AdminLineUpTracker />} />
-        <Route path="/admin-employees" element={<AdminEmployee />} />
-        <Route path="/employee-portfolio" element={<AdminEmployeePortfolio />} />
-        <Route path="/admin-process" element={<AdminProcess />} />
-        <Route path="/admin-add-process" element={<AdminAddProcess />} />
-        <Route path="/admin-process-view/:processId" element={<AdminProcessView />} />
-        <Route path="/admin-assign-employee" element={<AdminAssignEmployee />} />
-        <Route path="/admin-payout-management" element={<AdminPayoutManagement />} />
-        <Route path="/admin-meetings" element={<AdminMeetings />} />
-        <Route path="/admin-lop-management" element={<AdminLopManagement />} />
-        <Route path="/admin-add-employee" element={<AdminAddEmployee />} />
-        <Route path="/employee-registration-form" element={<AdminEmployeeRegistration />} />
-        <Route path="/admin-edit-employee" element={<AdminEditEmployee />} />
-        <Route path="/admin-view-employee" element={<AdminViewEmployee />} />
-        <Route path="/admin-candidates" element={<AdminCandidates />} />
-        <Route path="/admin-profile" element={<AdminProfile />} />
-        <Route path="/admin-teams" element={<AdminTeam />} />
-        <Route path="/admin-data-import" element={<AdminDataImport />} />
-        <Route path="/admin-pass-candidates" element={<AdminPassCandidates />} />
-        <Route path="/admin-drop-candidates" element={<AdminDropCandidates />} />
-        <Route path="/admin-data-assign" element={<AdminDataAssign />} />
+  <BrowserRouter>
+    <Toaster position="top-right" reverseOrder={false} />
+    <Routes>
+      <Route path="/" element={<AdminLogin />} />
+      <Route path="/admin-forgot-password" element={<AdminPasswordReset />} />
+      <Route path="/admin-verify-otp" element={<AdminVerifyOTP />} />
+      <Route path="/admin-password-reset" element={<AdminNewPassword />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/admin-clients" element={<AdminClient />} />
+      <Route path="/admin-add-client" element={<AdminAddClient />} />
+      <Route path="/admin-client-details/:clientId" element={<ViewAdminClient />} />
+      <Route path="/admin-edit-client/:clientId" element={<AdminEditClient />} />
+      <Route path="/admin-joining-tracker" element={<AdminJoiningTracker />} />
+      <Route path="/admin-lineup-tracker" element={<AdminLineUpTracker />} />
+      <Route path="/admin-employees" element={<AdminEmployee />} />
+      <Route path="/employee-portfolio" element={<AdminEmployeePortfolio />} />
+      <Route path="/admin-process" element={<AdminProcess />} />
+      <Route path="/admin-add-process" element={<AdminAddProcess />} />
+      <Route path="/admin-process-view/:processId" element={<AdminProcessView />} />
+      <Route path="/admin-assign-employee" element={<AdminAssignEmployee />} />
+      <Route path="/admin-payout-management" element={<AdminPayoutManagement />} />
+      <Route path="/admin-meetings" element={<AdminMeetings />} />
+      <Route path="/admin-lop-management" element={<AdminLopManagement />} />
+      <Route path="/admin-add-employee" element={<AdminAddEmployee />} />
+      <Route path="/employee-registration-form" element={<AdminEmployeeRegistration />} />
+      <Route path="/admin-edit-employee" element={<AdminEditEmployee />} />
+      <Route path="/admin-view-employee" element={<AdminViewEmployee />} />
+      <Route path="/admin-candidates" element={<AdminCandidates />} />
+      <Route path="/admin-profile" element={<AdminProfile />} />
+      <Route path="/admin-teams" element={<AdminTeam />} />
+      <Route path="/admin-data-import" element={<AdminDataImport />} />
+      <Route path="/admin-pass-candidates" element={<AdminPassCandidates />} />
+      <Route path="/admin-drop-candidates" element={<AdminDropCandidates />} />
+      <Route path="/admin-data-assign" element={<AdminDataAssign />} />
 
 
 
-        <Route path="/employee-login" element={<EmployeeLogin />} />
-        <Route path="/forgot-password" element={<PasswordReset />} />
-        <Route path="/verify-otp" element={<VerifyOTP />} />
-        <Route path="/password-reset" element={<NewPassword />} />
-        <Route path="/employee-dashboard" element={<Dashboard />} />
-        <Route path="/employee-recruitment" element={<RecruitmentReport />} />
-        <Route path="/employee-resumeupload" element={<ResumeUpload />} />
-        <Route path="/employee-clients" element={<EmployeeClient />} />
-        <Route path="/employee-data" element={<EmployeeData />} />
-        <Route path="/employee-data-assign" element={<EmployeeDataAssign />} />
-        <Route path="/employee-meetings" element={<EmployeeMeetings />} />
-        <Route path="/employee-payout" element={<EmployeePayout />} />
-        <Route path="/employee-reports" element={<EmployeeReports />} />
-        <Route path="/employee-lineup-tracker" element={<EmployeeLineUpTracker />} />
-        <Route path="/employee-joining-tracker" element={<EmployeeJoiningTracker />} />
-        <Route path="/employee-review-resume" element={<ReviewResumeData />} />
-        <Route path="/employee-tracker" element={<EmployeeTracker />} />
+      <Route path="/employee-login" element={<EmployeeLogin />} />
+      <Route path="/forgot-password" element={<PasswordReset />} />
+      <Route path="/verify-otp" element={<VerifyOTP />} />
+      <Route path="/password-reset" element={<NewPassword />} />
+      <Route path="/employee-dashboard" element={<Dashboard />} />
+      <Route path="/employee-recruitment" element={<RecruitmentReport />} />
+      <Route path="/employee-resumeupload" element={<ResumeUpload />} />
+      <Route path="/employee-clients" element={<EmployeeClient />} />
+      <Route path="/employee-data" element={<EmployeeData />} />
+      <Route path="/employee-data-assign" element={<EmployeeDataAssign />} />
+      <Route path="/employee-meetings" element={<EmployeeMeetings />} />
+      <Route path="/employee-payout" element={<EmployeePayout />} />
+      <Route path="/employee-reports" element={<EmployeeReports />} />
+      <Route path="/employee-lineup-tracker" element={<EmployeeLineUpTracker />} />
+      <Route path="/employee-joining-tracker" element={<EmployeeJoiningTracker />} />
+      <Route path="/employee-review-resume" element={<ReviewResumeData />} />
+      <Route path="/employee-tracker" element={<EmployeeTracker />} />
 
-      </Routes>
-
-      <Toaster />
-    </BrowserRouter>
-  </React.StrictMode>,
+    </Routes>
+  </BrowserRouter>
 );

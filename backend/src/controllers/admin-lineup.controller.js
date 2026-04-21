@@ -12,7 +12,8 @@ const __dirname = path.dirname(__filename);
 // Multer storage for resumes
 const resumeStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.resolve(__dirname, "../../../uploads/resumes");
+    // const uploadPath = path.resolve(__dirname, "../../../uploads/resumes");
+    const uploadPath = "/app/uploads/resumes";
 
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
@@ -36,7 +37,8 @@ function getUploadedResumePath(file, candidateId) {
     throw new Error('Only PDF, DOC, and DOCX files are allowed');
   }
 
-  const uploadDir = path.resolve(__dirname, '../../../uploads/resumes');
+  //const uploadDir = path.resolve(__dirname, '../../../uploads/resumes');
+  const uploadDir = "/app/uploads/resumes";
   const fileName = `${candidateId}_resume${ext}`;
   const targetPath = path.join(uploadDir, fileName);
 
@@ -425,6 +427,20 @@ export const addToTracker = async (req, res) => {
       await connection.beginTransaction();
       const [employeeIdINT] = await connection.query(`SELECT id FROM employees WHERE employee_id = ?`, [employee_id]);
       const employee_id_int = employeeIdINT.length ? employeeIdINT[0].id : null;
+
+      let resumePath = null;
+      if (req.file) {
+        resumePath = getUploadedResumePath(req.file, candidate_id);
+
+        if (resumePath) {
+          await connection.query(
+            `UPDATE candidates 
+            SET resume_pdf_path = ? 
+            WHERE id = ?`,
+            [resumePath, candidate_id]
+          );
+        }
+      }
 
       // 1. Update candidate assignment
       // await connection.query(

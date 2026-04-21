@@ -10,7 +10,8 @@ export default function AdminAddEmployee() {
   const navigate = useNavigate();
     const { loading, error, addEmployee } = useAdminEmployeeStore();
 
-  // Apply dark mode  const admin_id = sessionStorage.getItem('userId');
+  // Apply dark mode  
+  const admin_id = sessionStorage.getItem('userId');
 
   // Form state
   const [formData, setFormData] = useState({
@@ -543,7 +544,7 @@ export default function AdminAddEmployee() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">
-                    Mothly Candidate Target(in ₹)<span className="required">*</span>
+                    Mothly Candidate Target<span className="required">*</span>
                   </label>
                   <input
                     type="number"

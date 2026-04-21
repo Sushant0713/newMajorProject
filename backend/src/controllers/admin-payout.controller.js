@@ -204,7 +204,7 @@ export const generatePayout = async (req, res) => {
         const [data] = await connection.query(`
             SELECT 
                 c.id candidate_id,
-                csh.employee_id,
+                ea.employee_id,
                 ca.process_id,
                 p.payout_type,
                 p.payout_amount,
@@ -217,7 +217,13 @@ export const generatePayout = async (req, res) => {
             JOIN candidates c ON c.id = csh.candidate_id
             JOIN candidate_assignments ca ON ca.candidate_id = c.id
             JOIN processes p ON p.id = ca.process_id
-            JOIN employees e ON e.employee_id = csh.employee_id
+            JOIN (
+                SELECT candidate_id, MAX(id) AS latest_id
+                FROM employee_assignments
+                GROUP BY candidate_id
+            ) latest_ea ON latest_ea.candidate_id = c.id
+            JOIN employee_assignments ea ON ea.id = latest_ea.latest_id
+            JOIN employees e ON e.employee_id = ea.employee_id
             WHERE c.id = ? AND csh.new_status = 'joined'
             ORDER BY csh.id DESC LIMIT 1
         `, [candidate_id]);
@@ -295,20 +301,27 @@ export const startClawback = async (req, res) => {
         const query = `
             SELECT 
                 c.id AS candidate_id,
-                csh.employee_id,
+                ea.employee_id,
                 ca.process_id,
                 p.payout_type,
                 p.payout_amount,
                 p.real_payout_amount,
                 p.clawback_duration,
                 p.invoice_clear_time,
+                e.show_payout,
                 e.percentage,
                 DATE(csh.changed_at) AS joined_date
             FROM candidate_status_history csh
             JOIN candidates c ON c.id = csh.candidate_id
             JOIN candidate_assignments ca ON ca.candidate_id = c.id
             JOIN processes p ON p.id = ca.process_id
-            JOIN employees e ON e.employee_id = csh.employee_id
+            JOIN (
+                SELECT candidate_id, MAX(id) AS latest_id
+                FROM employee_assignments
+                GROUP BY candidate_id
+            ) latest_ea ON latest_ea.candidate_id = c.id
+            JOIN employee_assignments ea ON ea.id = latest_ea.latest_id
+            JOIN employees e ON e.employee_id = ea.employee_id
             WHERE c.id = ?
               AND csh.new_status = 'joined'
             ORDER BY csh.id DESC

@@ -14,7 +14,8 @@ const __dirname = path.dirname(__filename);
 // Multer storage for resumes
 const employeeStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.resolve(__dirname, "../../../uploads/temp");
+    //const uploadPath = path.resolve(__dirname, "../../../uploads/temp");
+    const uploadPath = "/app/uploads/temp";
 
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
@@ -41,6 +42,7 @@ const employeeUpload = multer({
 export const addEmployee = async (req, res) => {
   employeeUpload(req, res, async (err) => {
     if (err) {
+      console.error("Multer error:", err);
       return res.status(400).json({message: "File upload failed"});
     }
 
@@ -95,7 +97,7 @@ export const addEmployee = async (req, res) => {
       // ---------------- FILE CHECK ----------------
       const files = req.files;
 
-      if (!files || !files.aadhar_pic || !files.pan_pic || !files.cancelled_cheque_pic) {
+      if (!files || !files.aadhar_pic?.length || !files.pan_pic?.length || !files.cancelled_cheque_pic?.length) {
         return res.status(400).json({
           message: "All documents (Aadhar, PAN, Cheque) are required"
         });
@@ -126,7 +128,8 @@ export const addEmployee = async (req, res) => {
       const employee_id = `${prefix}${String(nextId).padStart(3, "0")}`;
 
       // ---------------- MOVE FILES ----------------
-      const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      //const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      const uploadDir = "/app/uploads/employees";
 
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
@@ -233,6 +236,7 @@ export const addEmployee = async (req, res) => {
 export const registerEmployee = async (req, res) => {
   employeeUpload(req, res, async (err) => {
     if (err) {
+      console.error("Multer error:", err);
       return res.status(400).json({message: "File upload failed"});
     }
 
@@ -283,7 +287,7 @@ export const registerEmployee = async (req, res) => {
 
       const files = req.files;
 
-      if (!files || !files.aadhar_pic || !files.pan_pic || !files.cancelled_cheque_pic) {
+      if (!files || !files.aadhar_pic?.length || !files.pan_pic?.length || !files.cancelled_cheque_pic?.length) {
         return res.status(400).json({
           message: "All documents (Aadhar, PAN, Cheque) are required"
         });
@@ -312,7 +316,8 @@ export const registerEmployee = async (req, res) => {
       const employee_id = `EMP${String(nextId).padStart(3, "0")}`;
 
       // Move files permanently
-      const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      //const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      const uploadDir = "/app/uploads/employees";
 
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
@@ -492,6 +497,7 @@ export const getEmployeeById = async (req, res) => {
 export const updateEmployee = async (req, res) => {
   employeeUpload(req, res, async (err) => {
     if (err) {
+      console.error("Multer error:", err);
       return res.status(400).json({
         message: err.message || "File upload failed",
       });
@@ -566,7 +572,8 @@ export const updateEmployee = async (req, res) => {
 
       // ---------------- FILE HANDLING ----------------
       const files = req.files;
-      const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      //const uploadDir = path.resolve(__dirname, "../../../uploads/employees");
+      const uploadDir = "/app/uploads/employees";
 
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
