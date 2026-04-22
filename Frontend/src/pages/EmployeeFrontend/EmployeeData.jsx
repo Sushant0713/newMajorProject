@@ -145,19 +145,18 @@ export default function EmployeeData() {
                         handleRowClick(c);
                       }}
                     >
-                      View details
+                      Add to Lineup
                     </button>
                   </div>
                 )}
 
                 {/* EXPANDED DETAIL ROW */}
-                {isExpanded && (
+                {/* {isExpanded && (
                   <div className="detail-panel">
                     <div className="detail-top">
                       <div>
                         <h3>{c.name}</h3>
                         <p className="phone">{c.phone}</p>
-                        {/* <p className="ring">Ring {c.ring}</p> */}
                       </div>
 
                       <span className="status-badge">
@@ -191,7 +190,7 @@ export default function EmployeeData() {
                       </button>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             );
           })}

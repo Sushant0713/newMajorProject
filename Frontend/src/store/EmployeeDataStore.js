@@ -34,12 +34,15 @@ export const useEmployeeDataStore = create((set, get) => ({
         set({ loading: true, error: null });
         try {
             const res = await axiosInstance.post(`/employee/data/assignCandidate?candidate_id=${candidate_id}`, {employee_id, data_type_id});
-            // set((state) => ({candidates: state.candidates.filter((c) => c.id !== candidate_id), loading: false,}));
+            set((state) => ({
+                candidates: state.candidates.filter((c) => c.id !== candidate_id),
+                loading: false
+            }));
             set((state) => ({ loading: false }));
             toast.success(res.data.message);
         } catch (error) {
             console.error(error);
-            set({ loading: false, error: error.message, candidates: [] });
+            set({ loading: false, error: error.message});
         }
     },
 

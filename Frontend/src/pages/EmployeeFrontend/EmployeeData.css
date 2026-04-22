@@ -80,11 +80,23 @@
 }
 
 .view-btn {
+  background-color: #1976d2 !important; /* blue */
+  color: #ffffff !important; /* white text */
   border: none;
-  background: transparent;
-  color: #2563eb;
+  padding: 8px 16px;
+  border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.view-btn:hover {
+  background-color: #176dc4 !important; /* darker blue on hover */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.view-btn:active {
+  background-color: #176dc4 !important; /* even darker when clicked */
 }
 
 /* Expanded panel */
