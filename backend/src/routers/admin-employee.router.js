@@ -17,6 +17,6 @@ router.post('/addLOP', protectRoute, addLOP);
 router.post('/getEmployeePortfolio', protectRoute, getEmployeePortfolio);
 router.post('/employeeCallHistory', protectRoute, employeeCallHistory);
 router.post('/completedCandidates', protectRoute, completedCandidates);
-router.post('/registerEmployee', protectRoute, registerEmployee);
+router.post('/registerEmployee', registerEmployee);
 
 export default router;
