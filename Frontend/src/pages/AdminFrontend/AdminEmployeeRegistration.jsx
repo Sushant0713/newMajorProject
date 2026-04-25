@@ -108,7 +108,8 @@ const AdminEmployeeRegistration = () => {
       toast.success("Employee added successfully");
     } catch (err) {
       console.error("Error adding employee:", err);
-      toast.error("Failed to add employee. Please try again.");
+      const errorMsg = err.response?.data?.message || err.message || "Failed to add employee. Please try again.";
+      toast.error(errorMsg);
     }
   };
 

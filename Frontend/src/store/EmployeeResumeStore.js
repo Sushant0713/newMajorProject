@@ -12,9 +12,6 @@ export const useEmployeeResumeStore = create((set, get) => ({
         "/employee/resume/handleResumeUpload",
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
           onUploadProgress: onProgress,
         }
       );
