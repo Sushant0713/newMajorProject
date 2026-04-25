@@ -1895,12 +1895,11 @@
   }
 
   .quick-filters {
-    flex-direction: column;
+    padding-bottom: 8px; /* Give touch scroll some space */
   }
 
   .quick-filter-btn {
-    width: 100%;
-    justify-content: center;
+    /* Keep their original padding and let them organically size */
   }
 
   .search-filter-bar {

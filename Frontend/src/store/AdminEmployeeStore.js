@@ -152,11 +152,7 @@ const useAdminEmployeeStore = create((set, get) => ({
     addEmployee: async (employeeData) => {
         set({ loading: true, error: null });
         try {
-            const res = await axiosInstance.post("/admin/employee/addEmployee", employeeData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const res = await axiosInstance.post("/admin/employee/addEmployee", employeeData);
             toast.success(res.data.message);
             set({ loading: false });
             return res.data;
@@ -175,11 +171,7 @@ const useAdminEmployeeStore = create((set, get) => ({
     updateEmployee: async (employeeData) => {
         set({ loading: true, error: null });
         try {
-            const res = await axiosInstance.put(`/admin/employee/updateEmployee`, employeeData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const res = await axiosInstance.put(`/admin/employee/updateEmployee`, employeeData);
             toast.success(res.data.message);
             set({ loading: false });
             return res.data;
@@ -250,11 +242,7 @@ const useAdminEmployeeStore = create((set, get) => ({
         console.log("formDataToSend: ", formDataToSend);
         set({ loading: true, error: null });
         try {
-            const res = await axiosInstance.post("/admin/employee/registerEmployee", formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const res = await axiosInstance.post("/admin/employee/registerEmployee", formDataToSend);
 
             set({ loading: false });
             return res.data;

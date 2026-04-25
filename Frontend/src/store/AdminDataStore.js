@@ -32,9 +32,7 @@ export const useAdminDataStore = create((set, get) => ({
             formData.append('employee_id', employee_id);
             formData.append('data_type_id', data_type_id);
 
-            const res = await axiosInstance.post('/admin/data/importData', formData,{
-                headers: { "Content-Type": "multipart/form-data" },
-            });
+            const res = await axiosInstance.post('/admin/data/importData', formData);
             const data = await res.data;
             set({
                 loading: false,

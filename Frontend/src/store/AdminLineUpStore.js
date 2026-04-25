@@ -64,9 +64,7 @@ export const useAdminLineUpStore = create((set, get) => ({
       formData.append("process_id", process_id);
       formData.append("resume", resume);
 
-      await axiosInstance.post("/admin/lineup/addToTracker", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axiosInstance.post("/admin/lineup/addToTracker", formData);
       set({ loading: false });
     } catch (err) {
       console.error(err);
@@ -168,9 +166,7 @@ export const useAdminLineUpStore = create((set, get) => ({
       formData.append("candidate_id", candidate_id);
       formData.append("resume", file);
 
-      await axiosInstance.post("/admin/lineup/addResume", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axiosInstance.post("/admin/lineup/addResume", formData);
 
       set({ loading: false });
     } catch (err) {
@@ -226,10 +222,7 @@ export const useAdminLineUpStore = create((set, get) => ({
       formData.append("employee_id", employee_id);
       formData.append("resume", resume);
 
-      const res = await axiosInstance.post("/admin/lineup/addCandidate", formData,
-        {
-          headers: { "Content-Type": "multipart/form-data", },
-        });
+      const res = await axiosInstance.post("/admin/lineup/addCandidate", formData);
         
       toast.success(res.data.message);
       set({ loading: false });

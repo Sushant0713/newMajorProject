@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 import "./lib/attendanceTracker.js";
 import authRouters from "./routers/auth.router.js";
 import admin_employeeRouters from "./routers/admin-employee.router.js";
@@ -52,9 +53,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Serve static files from uploads directory
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-//const uploadsPath = path.resolve(__dirname, "../uploads");
-const uploadsPath = "/app/uploads";
+const uploadsPath = fs.existsSync("/app/uploads") 
+    ? "/app/uploads" 
+    : path.resolve(__dirname, "../../uploads");
 app.use("/uploads", express.static(uploadsPath));
 
 app.use("/api/auth", authRouters);

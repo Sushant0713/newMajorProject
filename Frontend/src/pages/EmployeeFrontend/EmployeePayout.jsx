@@ -217,65 +217,6 @@ export default function EmployeePayout() {
             </button>
           </div>
 
-          {/* Quick Status Filters */}
-          <div className="quick-filters">
-            <button
-              className={`quick-filter-btn ${statusFilter === "All" ? "active" : ""}`}
-              onClick={() => setStatusFilter("All")}
-            >
-              All Payouts
-            </button>
-
-            <button
-              className={`quick-filter-btn joined ${statusFilter === "joined" ? "active" : ""}`}
-              onClick={() => setStatusFilter("joined")}
-            >
-              Joined ({getCount("joined")})
-            </button>
-
-            <button
-              className={`quick-filter-btn clawback ${statusFilter === "clawback" ? "active" : ""}`}
-              onClick={() => setStatusFilter("clawback")}
-            >
-              Clawback ({getCount("clawback")})
-            </button>
-
-            <button
-              className={`quick-filter-btn invoice-clear ${statusFilter === "invoice_clear" ? "active" : ""}`}
-              onClick={() => setStatusFilter("invoice_clear")}
-            >
-              Invoice Clear ({getCount("invoice_clear")})
-            </button>
-
-            <button
-              className={`quick-filter-btn approved ${statusFilter === "approved" ? "active" : ""}`}
-              onClick={() => setStatusFilter("approved")}
-            >
-              Approved ({getCount("approved")})
-            </button>
-
-            <button
-              className={`quick-filter-btn completely-joined ${statusFilter === "completely_joined" ? "active" : ""}`}
-              onClick={() => setStatusFilter("completely_joined")}
-            >
-              Completely Joined ({getCount("completely_joined")})
-            </button>
-
-            <button
-              className={`quick-filter-btn dropout ${statusFilter === "dropout" ? "active" : ""}`}
-              onClick={() => setStatusFilter("dropout")}
-            >
-              Dropout ({getCount("dropout")})
-            </button>
-
-            <button
-              className={`quick-filter-btn rejected ${statusFilter === "rejected" ? "active" : ""}`}
-              onClick={() => setStatusFilter("rejected")}
-            >
-              Rejected ({getCount("rejected")})
-            </button>
-          </div>
-
           {/* Filters Section */}
           {showFilters && (
             <div className="filters-section">
@@ -364,6 +305,66 @@ export default function EmployeePayout() {
               </div>
             </div>
           )}
+
+          {/* Quick Status Filters */}
+          <div className="quick-filters">
+            <button
+              className={`quick-filter-btn ${statusFilter === "All" ? "active" : ""}`}
+              onClick={() => setStatusFilter("All")}
+            >
+              All Payouts
+            </button>
+
+            <button
+              className={`quick-filter-btn joined ${statusFilter === "joined" ? "active" : ""}`}
+              onClick={() => setStatusFilter("joined")}
+            >
+              Joined ({getCount("joined")})
+            </button>
+
+            <button
+              className={`quick-filter-btn clawback ${statusFilter === "clawback" ? "active" : ""}`}
+              onClick={() => setStatusFilter("clawback")}
+            >
+              Clawback ({getCount("clawback")})
+            </button>
+
+            <button
+              className={`quick-filter-btn invoice-clear ${statusFilter === "invoice_clear" ? "active" : ""}`}
+              onClick={() => setStatusFilter("invoice_clear")}
+            >
+              Invoice Clear ({getCount("invoice_clear")})
+            </button>
+
+            <button
+              className={`quick-filter-btn approved ${statusFilter === "approved" ? "active" : ""}`}
+              onClick={() => setStatusFilter("approved")}
+            >
+              Approved ({getCount("approved")})
+            </button>
+
+            <button
+              className={`quick-filter-btn completely-joined ${statusFilter === "completely_joined" ? "active" : ""}`}
+              onClick={() => setStatusFilter("completely_joined")}
+            >
+              Completely Joined ({getCount("completely_joined")})
+            </button>
+
+            <button
+              className={`quick-filter-btn dropout ${statusFilter === "dropout" ? "active" : ""}`}
+              onClick={() => setStatusFilter("dropout")}
+            >
+              Dropout ({getCount("dropout")})
+            </button>
+
+            <button
+              className={`quick-filter-btn rejected ${statusFilter === "rejected" ? "active" : ""}`}
+              onClick={() => setStatusFilter("rejected")}
+            >
+              Rejected ({getCount("rejected")})
+            </button>
+          </div>
+
 
           {/* Payouts Table */}
           <div className="payouts-table-section">
