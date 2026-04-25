@@ -582,7 +582,7 @@ tr:hover {
   font-size: 14px;
   transition: border-color 0.2s, box-shadow 0.2s;
   background-color: white;
-  color: var(--text-primary);
+  color: var(--text-primary) !important;
 }
 
 .adm-data-form-input:focus,
